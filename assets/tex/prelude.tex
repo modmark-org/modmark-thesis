@@ -1,0 +1,86 @@
+
+% Fonts, magins, pragraph and general settings
+\usepackage[
+    top=3cm,
+    bottom=3cm,
+	inner=3cm,
+    outer=3cm]{geometry}
+
+\usepackage{parskip}
+\usepackage{textcomp}
+\usepackage{lmodern}
+\usepackage{helvet}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+\usepackage{todonotes}
+\usepackage[normalem]{ulem}
+\usepackage{minted}
+\usepackage{svg}
+\usepackage{adjustbox}
+
+% Used for code examples
+\usepackage{listings}
+\definecolor{bgcolor}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{modmark}{
+    backgroundcolor=\color{bgcolor}
+}
+\lstset{style=modmark}
+
+% Used in acknowledgements
+\usepackage{datetime}
+
+% References
+\usepackage{csquotes}
+\usepackage[backend=biber, style=ieee, urldate=comp, block=ragged]{biblatex}
+\setlength\bibitemsep{0.5\baselineskip}
+\DeclareFieldFormat{urldate}{Accessed on:\addspace#1}
+\addbibresource{sources.bib}
+
+
+% Chapter title settings
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\Huge\bfseries\filcenter}
+  {{\fontsize{50pt}{1em}\vspace{-4.2ex}\selectfont \textnormal{\thechapter}}}{1ex}{}[]
+
+% Frontpage background
+\usepackage{eso-pic}
+\newcommand{\backgroundpic}[3]{
+	\put(#1,#2){
+	\parbox[b][\paperheight]{\paperwidth}{
+	\centering
+	\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{#3}}}}
+
+ % Caption settings (aligned left with bold name)
+\usepackage[labelfont=bf, textfont=normal,
+			justification=justified,
+			singlelinecheck=false]{caption}
+
+% Header and footer settings (Select TWOSIDE or ONESIDE layout below)
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\space#1}{}}
+
+% Select one-sided (1) or two-sided (2) page numbering
+\def\layout{2}	% Choose 1 for one-sided or 2 for two-sided layout
+% Conditional expression based on the layout choice
+\ifnum\layout=2	% Two-sided
+    \fancyhf{}
+	\fancyhead[LE,RO]{\nouppercase{ \leftmark}}
+	\fancyfoot[LE,RO]{\thepage}
+	\fancypagestyle{plain}{			% Redefine the plain page style
+	\fancyhf{}
+	\renewcommand{\headrulewidth}{0pt}
+	\fancyfoot[LE,RO]{\thepage}}
+\else			% One-sided
+  	\fancyhf{}
+	\fancyhead[C]{\nouppercase{ \leftmark}}
+	\fancyfoot[C]{\thepage}
+\fi
+
+% Supress warning from Texmaker about headheight
+\setlength{\headheight}{15pt}
