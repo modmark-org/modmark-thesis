@@ -38,15 +38,28 @@ fn transform(from: &str) -> String {
     };
 
     match from {
-        "titlepage" => transform_titlepage(),
+        "cite" => transform_cite(input),
         "__document" => transform_document(input),
+        "__heading" => transform_heading(input),
         _ => panic!("element not supported"),
     }
 }
 
-fn transform_titlepage() -> String {
-    let json = json!({"name": "inline_content", "data": "[textfile] tex/titlepage.tex"}).to_string();
-    format!("[{json}]")
+fn transform_cite(input: Value) -> String {
+    if let Value::String(key) = &input["arguments"]["key"] {
+        let postnote = input["arguments"]["postnote"].as_str().unwrap();
+        let args = if postnote.is_empty() {
+            String::new()
+        } else {
+            format!("[{postnote}]")
+        };
+        let citation = format!("{}{}{}{}{}", "\\cite", args, "{", key, "}");
+        let json = json!({"name": "raw", "data": citation});
+        format!("[{json}]")
+    } else {
+        eprintln!("No citation key was provided!");
+        panic!();
+    }
 }
 
 fn transform_document(doc: Value) -> String {
@@ -75,6 +88,44 @@ fn transform_document(doc: Value) -> String {
     result
 }
 
+fn transform_heading(heading: Value) -> String {
+    let mut result = String::new();
+    result.push('[');
+
+    let Value::String(s) = &heading["arguments"]["level"] else {
+        panic!();
+    };
+    let level = s.parse::<u8>().unwrap();
+
+    if level == 1 {
+        write!(
+            result,
+            r#"{{"name": "raw", "data": "\n\\chapter{{"}},"#,
+        ).unwrap();
+    } else {
+        let adjusted_level = level - 1;
+        if adjusted_level > 3 {
+            eprintln!("Latex only supports headings up to level 3");
+        }
+        let subs = "sub".repeat((adjusted_level - 1) as usize);
+        write!(
+            result,
+            r#"{{"name": "raw", "data": "\n\\{subs}section{{"}},"#,
+        ).unwrap();
+    };
+
+    if let Value::Array(children) = &heading["children"] {
+        for child in children {
+            result.push_str(&serde_json::to_string(child).unwrap());
+            result.push(',');
+        }
+    }
+    write!(result, r#"{{"name": "raw", "data": "}}\n"}}"#,).unwrap();
+    result.push(']');
+
+    result
+}
+
 fn manifest() -> String {
     serde_json::to_string(&json!(
         {
@@ -83,15 +134,37 @@ fn manifest() -> String {
             "description": "",
             "transforms": [
                 {
-                    "from": "titlepage",
+                    "from": "cite",
                     "to": ["latex"],
-                    "arguments": [],
+                    "arguments": [
+                        {
+                            "name": "key",
+                            "description": "The citation key"
+                        },
+                        {
+                            "name": "postnote",
+                            "description": "A note at the end of the citation, such as a page number",
+                            "default": ""
+                        },
+                    ],
                 },
                 {
                     "from": "__document",
                     "to": ["latex"],
                     "arguments": [],
                 },
+                {
+                    "from": "__heading",
+                    "to": ["latex"],
+                    "arguments": [
+                        {
+                            "name": "level",
+                            "description": "The level of the heading",
+                            "default": "1"
+                        }
+                    ],
+                },
+
             ]
         }
     ))

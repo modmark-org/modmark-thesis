@@ -1,21 +1,20 @@
 [config]
 import chalmers-thesis
-import latex hiding __document
+import std:latex hiding __document, __heading
 
 [textfile] tex/titlepage-setup.tex
-[titlepage]()
 [newpage]
-
-[include] include/abstract.mdm
+[textfile] tex/titlepage.tex
 [newpage]
-
-[include] include/acknowledgements.mdm
+[textfile] tex/abstract.tex
 [newpage]
-
+[textfile] tex/acknowledgements.tex
+[newpage]
 [textfile] tex/document-setup.tex
+
 [include] include/introduction.mdm
 [include] include/method.mdm
-[include] include/result.mdm
+[include] include/language.mdm
 [include] include/implementation.mdm
 [include] include/discussion.mdm
 [include] include/conclusion.mdm
