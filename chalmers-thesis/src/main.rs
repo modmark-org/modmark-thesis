@@ -20,15 +20,10 @@ fn main() {
     match action.as_str() {
         "manifest" => print!("{}", &manifest()),
         "transform" => {
-            let from = args.get(1).unwrap();
-            let format = args.get(2).unwrap();
+            let from = &args[1];
+            let to = &args[2];
 
-            if "latex" != format {
-                eprintln!("Output format not supported");
-                return;
-            }
-
-            match transform(from) {
+            match transform(from, to) {
                 Ok(output) => print!("{output}"),
                 Err(error) => handle_error(error),
             }
@@ -43,7 +38,7 @@ fn handle_error(error: Error) {
     }
 }
 
-fn transform(from: &str) -> Result<String, Error> {
+fn transform(from: &str, to: &str) -> Result<String, Error> {
     let input: Value = {
         let mut buffer = String::new();
         io::stdin().read_to_string(&mut buffer).unwrap();
@@ -51,20 +46,33 @@ fn transform(from: &str) -> Result<String, Error> {
     };
 
     match from {
-        "cite" => transform_cite(input),
-        "__document" => transform_document(input),
-        "__heading" => transform_heading(input),
+        "cite" => transform_cite(input, to),
+        "__document" => transform_document(input, to),
+        "__heading" => transform_heading(input, to),
         _ => panic!("element not supported"),
     }
 }
 
-fn transform_cite(input: Value) -> Result<String, Error> {
+fn transform_cite(input: Value, to: &str) -> Result<String, Error> {
     let key = input["data"].as_str().unwrap();
     let postnote = input["arguments"]["postnote"].as_str().unwrap();
 
     // You are required to provide a key
     if key.is_empty() {
         return Err(Error::MissingKey);
+    }
+
+    if to == "html" {
+        let html =
+            format!("<span style=\"background: #0000000d; font-style: italic; border-radius: 1rem; padding: 0.2rem 0.5rem 0.2rem 0.5rem; font-size: 80%;\">{key} {postnote}</span>");
+
+        return Ok(serde_json::to_string(&json!([
+            {
+                "name": "raw",
+                "data": html
+            }
+        ]))
+        .unwrap());
     }
 
     let args = if postnote.is_empty() {
@@ -79,7 +87,7 @@ fn transform_cite(input: Value) -> Result<String, Error> {
     Ok(serde_json::to_string(&json).unwrap())
 }
 
-fn transform_document(doc: Value) -> Result<String, Error> {
+fn transform_document(doc: Value, _to: &str) -> Result<String, Error> {
     let class = "\\documentclass[12pt,a4paper,twoside,openright]{report}\n";
     let prelude = "[textfile] tex/prelude.tex";
     let begin = "\\begin{document}\n";
@@ -110,7 +118,7 @@ fn transform_document(doc: Value) -> Result<String, Error> {
     Ok(result)
 }
 
-fn transform_heading(heading: Value) -> Result<String, Error> {
+fn transform_heading(heading: Value, _to: &str) -> Result<String, Error> {
     let mut result = String::new();
     result.push('[');
 
@@ -157,7 +165,7 @@ fn manifest() -> String {
             "transforms": [
                 {
                     "from": "cite",
-                    "to": ["latex"],
+                    "to": ["latex", "html"],
                     "arguments": [
                         {
                             "name": "postnote",
