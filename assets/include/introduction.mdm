@@ -11,16 +11,16 @@ display digital characters was a natural progression.
 ### Early digital typesetting
 
 One of the earliest systems developed to typeset digital documents was
-Troff [cite Troff](), [cite mcilroy](). It was developed at Bell Labs in the
+Troff [cite](Troff), [cite](mcilroy). It was developed at Bell Labs in the
 early 1970s to achieve compatibility with a new generation of computers.
 While there was a large need for such a typesetting system, Troff had
 its flaws. Most notably, it was built as a layer on Nroff, which in turn
 was built on top of Roff, and all this complexity led to the final
 product being quite complicated. The famous computer scientist Donald
 Knuth said that ''it was a fifth generation, each of which was a patch
-on another one. So it was time to scrap it'' [cite KnuthCitat "p.~43"]().
+on another one. So it was time to scrap it'' [cite "p.~43"](KnuthCitat).
 
-Later in the 1970s, \TeX\  [cite Tex]() was created by Knuth in an attempt
+Later in the 1970s, \TeX\  [cite](Tex) was created by Knuth in an attempt
 to improve on Troff. It was created from scratch, but shares many
 concepts with Troff, such as macros. \TeX\ uses macros as low-level
 building blocks to generate complex code from smaller and simpler code
@@ -29,7 +29,7 @@ of the language with custom macros.
 
 Neither Troff nor \TeX\ see much usage in their pure forms today. There are
 instances where versions of them are used today such as GNU troff in Linux m
-an-pages [cite man7](), but they have largely been replaced by newer
+an-pages [cite](man7), but they have largely been replaced by newer
 alternatives.
 
 ### Markup languages
@@ -48,7 +48,7 @@ chronological order.
 
 #### LaTeX
 
-\LaTeX\ was developed by Leslie Lamport in the 1980s [cite Latex](). It
+\LaTeX\ was developed by Leslie Lamport in the 1980s [cite](Latex). It
 provides a package system on top of the existing \TeX\ macros to give users
 easier control over the document, from granular typesetting to inserting
 images. While this added a layer of convenience, the language is still quite
@@ -57,15 +57,15 @@ verbose in comparison to more recent markup languages.
 #### reStructuredText
 
 In 2001, the first version of reStructuredText, or reST for short, was
-released [cite rest](). Since its release it has been adopted by the Python
+released [cite](rest). Since its release it has been adopted by the Python
 community for language documentation. It features syntactic sugar for
 formatting such as bold and italic, lists and tables. Additionally it allows
 users to write custom blocks in Python to extend the functionality.
 
 #### AsciiDoc
 
-AsciiDoc first arrived just a year after reST [cite AsciiDoc](), with a newer
-implementation from 2013 called AsciiDoctor [cite AsciiDoctor](). It is aimed
+AsciiDoc first arrived just a year after reST [cite](AsciiDoc), with a newer
+implementation from 2013 called AsciiDoctor [cite](AsciiDoctor). It is aimed
 towards technical documentation, and includes a variety of syntactical
 constructions for convenient writing much like reST. The original
 implementation was written in Python, while AsciiDoctor has implementations
@@ -77,13 +77,13 @@ streams.
 #### Markdown
 
 Markdown was released in 2004, just two years after the release of AsciiDoc
-[cite markdown](). It was developed by John Gruber and Aaron Swartz with a
+[cite](markdown). It was developed by John Gruber and Aaron Swartz with a
 heavy focus on readability and being ergonomic. The original specification
 of the language was lacking in detail and contained ambiguities, which
 eventually led to discrepancies between its implementations. A decade later
 an effort was made to remedy this by redefining and clarifying the
 specification, which was released under the name CommonMark
-[cite Commonmark](). While it succeeded at what was intended, it also
+[cite](Commonmark). While it succeeded at what was intended, it also
 introducedcomplexity in both syntax rules and parsing.
 
 In comparison to other markup languages, Markdown is quite limited in
@@ -93,7 +93,7 @@ littleto no support for custom extensions.
 #### Djot
 
 Djot is a much more recent project made by John MacFarlane, who was also
-active in the creation of CommonMark [cite djot](). Originally written in Lua
+active in the creation of CommonMark [cite](djot). Originally written in Lua
 and later rewritten in TypeScript, it aims to clear up the complexity in
 CommonMark while also being more efficient to parse. It expands on Markdown's
 original implementation by including elements such as tables and footnotes.

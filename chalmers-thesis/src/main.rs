@@ -1,9 +1,13 @@
 use serde_json::{from_str, json, Value};
 use std::{
-    fmt::Write,
     env,
+    fmt::Write,
     io::{self, Read},
 };
+
+enum Error {
+    MissingKey,
+}
 
 fn main() {
     let args: Vec<String> = env::args().skip(1).collect();
@@ -24,13 +28,22 @@ fn main() {
                 return;
             }
 
-            print!("{}", transform(from));
+            match transform(from) {
+                Ok(output) => print!("{output}"),
+                Err(error) => handle_error(error),
+            }
         }
         other => eprintln!("Invalid action '{other}'"),
     }
 }
 
-fn transform(from: &str) -> String {
+fn handle_error(error: Error) {
+    match error {
+        Error::MissingKey => eprintln!("Missing citation key."),
+    }
+}
+
+fn transform(from: &str) -> Result<String, Error> {
     let input: Value = {
         let mut buffer = String::new();
         io::stdin().read_to_string(&mut buffer).unwrap();
@@ -45,24 +58,28 @@ fn transform(from: &str) -> String {
     }
 }
 
-fn transform_cite(input: Value) -> String {
-    if let Value::String(key) = &input["arguments"]["key"] {
-        let postnote = input["arguments"]["postnote"].as_str().unwrap();
-        let args = if postnote.is_empty() {
-            String::new()
-        } else {
-            format!("[{postnote}]")
-        };
-        let citation = format!("{}{}{}{}{}", "\\cite", args, "{", key, "}");
-        let json = json!({"name": "raw", "data": citation});
-        format!("[{json}]")
-    } else {
-        eprintln!("No citation key was provided!");
-        panic!();
+fn transform_cite(input: Value) -> Result<String, Error> {
+    let key = input["data"].as_str().unwrap();
+    let postnote = input["arguments"]["postnote"].as_str().unwrap();
+
+    // You are required to provide a key
+    if key.is_empty() {
+        return Err(Error::MissingKey);
     }
+
+    let args = if postnote.is_empty() {
+        String::new()
+    } else {
+        format!("[{postnote}]")
+    };
+
+    let citation = format!("\\cite{args}{{{key}}}");
+    let json = json!([{"name": "raw", "data": citation}]);
+
+    Ok(serde_json::to_string(&json).unwrap())
 }
 
-fn transform_document(doc: Value) -> String {
+fn transform_document(doc: Value) -> Result<String, Error> {
     let class = "\\documentclass[12pt,a4paper,twoside,openright]{report}\n";
     let prelude = "[textfile] tex/prelude.tex";
     let begin = "\\begin{document}\n";
@@ -72,7 +89,12 @@ fn transform_document(doc: Value) -> String {
 
     result.push('[');
     write!(result, "{},", json!({"name": "raw", "data": class})).unwrap();
-    write!(result, "{},", json!({"name": "inline_content", "data": prelude})).unwrap();
+    write!(
+        result,
+        "{},",
+        json!({"name": "inline_content", "data": prelude})
+    )
+    .unwrap();
     write!(result, "{},", json!({"name": "raw", "data": begin})).unwrap();
 
     if let Value::Array(children) = &doc["children"] {
@@ -85,23 +107,22 @@ fn transform_document(doc: Value) -> String {
     write!(result, "{}", json!({"name": "raw", "data": end})).unwrap();
     result.push(']');
 
-    result
+    Ok(result)
 }
 
-fn transform_heading(heading: Value) -> String {
+fn transform_heading(heading: Value) -> Result<String, Error> {
     let mut result = String::new();
     result.push('[');
 
-    let Value::String(s) = &heading["arguments"]["level"] else {
+    let level = {
+        let Value::String(s) = &heading["arguments"]["level"] else {
         panic!();
     };
-    let level = s.parse::<u8>().unwrap();
+        s.parse::<u8>().unwrap()
+    };
 
     if level == 1 {
-        write!(
-            result,
-            r#"{{"name": "raw", "data": "\n\\chapter{{"}},"#,
-        ).unwrap();
+        write!(result, r#"{{"name": "raw", "data": "\n\\chapter{{"}},"#,).unwrap();
     } else {
         let adjusted_level = level - 1;
         if adjusted_level > 3 {
@@ -111,7 +132,8 @@ fn transform_heading(heading: Value) -> String {
         write!(
             result,
             r#"{{"name": "raw", "data": "\n\\{subs}section{{"}},"#,
-        ).unwrap();
+        )
+        .unwrap();
     };
 
     if let Value::Array(children) = &heading["children"] {
@@ -123,7 +145,7 @@ fn transform_heading(heading: Value) -> String {
     write!(result, r#"{{"name": "raw", "data": "}}\n"}}"#,).unwrap();
     result.push(']');
 
-    result
+    Ok(result)
 }
 
 fn manifest() -> String {
@@ -131,16 +153,12 @@ fn manifest() -> String {
         {
             "version": "0.1",
             "name": "chalmers-thesis",
-            "description": "",
+            "description": "A port of the Bachelor's thesis template from Chalmers University of Technology.",
             "transforms": [
                 {
                     "from": "cite",
                     "to": ["latex"],
                     "arguments": [
-                        {
-                            "name": "key",
-                            "description": "The citation key"
-                        },
                         {
                             "name": "postnote",
                             "description": "A note at the end of the citation, such as a page number",
