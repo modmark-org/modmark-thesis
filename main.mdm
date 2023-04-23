@@ -2,15 +2,7 @@
 import chalmers-thesis
 import std:latex hiding __document, __heading
 
-[textfile] tex/titlepage-setup.tex
-[newpage]
-[textfile] tex/titlepage.tex
-[newpage]
-[textfile] tex/abstract.tex
-[newpage]
-[textfile] tex/acknowledgements.tex
-[newpage]
-[textfile] tex/document-setup.tex
+[list-push authors](Eli Adelhult)
 
 [include] include/introduction.mdm
 [include] include/method.mdm

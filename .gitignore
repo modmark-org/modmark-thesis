@@ -3,6 +3,9 @@ chalmers-thesis.wasm
 modmark.exe
 thesis.tex
 thesis.pdf
+coverpage.svg
+guandchalmerslogo.svg
+modmark.svg
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
