@@ -119,6 +119,8 @@ struct DocSettings {
     cover_art_description: Option<String>,
     /// The abstract text
     abstract_content: Option<String>,
+    /// Keywords that are mentioned in the abstract
+    keywords: Option<String>,
     /// The acknowledgement text
     acknowledgements_content: Option<String>,
     /// Used on the titlepage
@@ -152,6 +154,7 @@ impl DocSettings {
             course_examiner: Self::read_const("course_examiner"),
             course_examiner_department: Self::read_const("course_examiner_department"),
             subject: Self::read_const("subject"),
+            keywords: Self::read_const("keywords"),
         }
     }
 
@@ -244,7 +247,8 @@ fn transform_document(doc: Value, _to: &str) -> Result<String, Error> {
     content.push(Value::String(create_titlepage(&settings)));
     content.push(Value::String(create_imprint_page(&settings)));
 
-    // FIXME: add abstract and acknowledgements
+    content.push(Value::String(create_abstract(&settings)));
+    // FIXME: add acknowledgements
 
     // table of contents and start of main content
     content.push(Value::String(
@@ -679,6 +683,93 @@ Telephone +46 31 772 1000 \setlength{\parskip}{0.5cm}
 \includesvg[width=5cm]{modmark}\\
 Typeset using \LaTeX \\
 Gothenburg, Sweden \the\year",
+    );
+
+    content
+}
+
+fn create_abstract(settings: &DocSettings) -> String {
+    let mut content = String::new();
+
+    let Some(abstract_content) = &settings.abstract_content else {
+        // Just return an empty string if there is no abstract defined
+        return content;
+    };
+    /*
+        \oneLineTitle\\
+    \oneLineSubtitle\\
+    NAME1~FAMILYNAME1, NAME2~FAMILYNAME2, NAME3~FAMILYNAME3, NAME4~FAMILYNAME4, NAME5~FAMILYNAME5, NAME6~FAMILYNAME6\\
+
+    Department of Computer Science and Engineering\\
+    Chalmers University of Technology and University of Gothenburg\setlength{\parskip}{0.5cm}
+
+    \thispagestyle{plain}			% Supress header
+    \setlength{\parskip}{0pt plus 1.0pt}
+    \section*{Abstract}
+    % Abstract text about your project. The following text should not appear in your report.
+    This document is \emph{only} a \LaTeX{} template. It is not meant to suggest a particular structure. Also, even if this document is written in English, is is not meant to suggest a report language. You can adopt it to your language of choice. In this document, the bibliography is hand made. However, we suggest that you strongly consider using \textsc{Bib}\TeX{}, to further automate the creation of the bibliography.
+
+    % KEYWORDS (MAXIMUM 10 WORDS)
+    \vfill
+    Keywords: put, here, keywords, describing, areas, the, work, belongs, to
+
+    \newpage				% Create empty back of side
+    \thispagestyle{empty}
+    \mbox{}
+         */
+
+    let title = settings.get_title();
+    content.push_str(&title);
+    content.push_str("\\\\ \n");
+
+    if let Some(subtitle) = &settings.subtitle {
+        content.push_str(&subtitle);
+        content.push_str("\\\\ \n");
+    }
+
+    // authors
+    content.push_str(
+        &settings
+            .authors
+            .iter()
+            .map(|name| name.replace(" ", "~"))
+            .collect::<Vec<_>>()
+            .join(", "),
+    );
+    content.push_str("\\\\ \n\n");
+
+    if let Some(department) = &settings.department {
+        writeln!(&mut content, r"{department} \\").unwrap();
+    }
+    content.push_str(
+        r"
+Chalmers University of Technology and University of Gothenburg\setlength{\parskip}{0.5cm}
+
+\thispagestyle{plain}
+\setlength{\parskip}{0pt plus 1.0pt}
+\section*{Abstract}
+",
+    );
+
+    // FIXME: should be a block content module
+    content.push_str(&abstract_content);
+
+    if let Some(keywords) = &settings.keywords {
+        writeln!(
+            &mut content,
+            r"
+\vfill
+Keywords: {keywords}"
+        )
+        .unwrap();
+    }
+
+    // Finally, add a empty back page
+    content.push_str(
+        r"
+\newpage
+\thispagestyle{empty}
+\mbox{}",
     );
 
     content
