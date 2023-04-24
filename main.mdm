@@ -3,6 +3,11 @@ import chalmers-thesis
 import std:latex hiding __document, __heading
 
 [list-push authors](Eli Adelhult)
+[list-push authors](Gustav Bruhn)
+[list-push authors](Carl Forsinge)
+[list-push authors](Axel Larsson)
+[list-push authors](Hugo Mårdbrink)
+[list-push authors](Jonathan Widén)
 
 
 [include] include/introduction.mdm
