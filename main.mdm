@@ -4,9 +4,10 @@ import std:latex hiding __document, __heading
 
 [list-push authors](Eli Adelhult)
 
+
 [include] include/introduction.mdm
-[include] include/method.mdm
 [include] include/language.mdm
 [include] include/implementation.mdm
-[include] include/discussion.mdm
+[include] include/evaluation.mdm
+[include] include/future.mdm
 [include] include/conclusion.mdm
