@@ -2,7 +2,7 @@
 import chalmers-thesis using __heading, __document
 import std:latex hiding __document, __heading
 
-set title ModMark: A modular document markup language
+set title ModMark: A Modular Document Markup Language
 set subtitle Designing and implementing a markup language utilising WebAssembly
 --------
 
