@@ -358,7 +358,8 @@ fn manifest() -> String {
                         "language": {"type": "const", "access": "read"},
                         "sources": {"type": "const", "access": "read"},
                         "subject": {"type": "const", "access": "read"}
-                    }
+                    },
+                    "type": "parent"
                 },
                 {
                     "from": "__heading",
@@ -370,6 +371,7 @@ fn manifest() -> String {
                             "default": "1"
                         }
                     ],
+                    "type": "parent"
                 },
 
             ]
