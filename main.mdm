@@ -1,9 +1,9 @@
 [config]--------
-import chalmers-thesis
+import chalmers-thesis using __heading, __document
 import std:latex hiding __document, __heading
 
 set title ModMark: A modular document markup language
-set subtitle Designing and implementing a markup language by utilising WebAssembly
+set subtitle Designing and implementing a markup language utilising WebAssembly
 --------
 
 [list-push authors](Eli Adelhult)
@@ -13,10 +13,11 @@ set subtitle Designing and implementing a markup language by utilising WebAssemb
 [list-push authors](Hugo Mårdbrink)
 [list-push authors](Jonathan Widén)
 
-
 [include] include/introduction.mdm
 [include] include/language.mdm
 [include] include/implementation.mdm
 [include] include/evaluation.mdm
-[include] include/future.mdm
 [include] include/conclusion.mdm
+
+# Bibliography
+[bibliography file=sources.bib] 
