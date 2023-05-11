@@ -79,8 +79,7 @@ Machine). Customisation of the language can be done in both implementations
 through macros, which are regular expressions that are substituted during
 compilation. These do not require writing any external code. Asciidoctor also
 has support for extensions [cite]{Asciidoctor_Ext}, which allows developers to
-use programming languages.
-[comment]"FIXME: Change formulation, 'access to programming languages'"
+use programming languages to generate output.
 
 [image
     alt="Code for producing some headings, paragraphs, and a link, in both reST and AsciiDoc"
@@ -113,7 +112,6 @@ design by including elements such as tables and footnotes. Additionally, users
 are able to customise the language by creating custom filters.
 
 ##### Typst
-[comment]"TODO: Fix textcite"
 Later in the same year, Mjäde [cite] typst and Haug [cite] typst2 presented a
 new alternative to [latex]() that they call Typst. The motivation behind
 creating Typst was frustration with the [latex]() macro system and lack of
