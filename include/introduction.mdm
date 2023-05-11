@@ -1,6 +1,7 @@
 # Introduction --- Carl
 
-[comment]"TODO: Do american->english translation"
+[comment]
+Converted to British 11 of may
 
 ## Background
 [label] sec:background
@@ -74,7 +75,7 @@ constructions for convenient writing much like reST. Figure
 [reference]{fig:asciidoc_rest_example} shows a small sample of both AsciiDoc and
 reStructuredText. The original implementation was written in Python, while
 Asciidoctor is implemented in Ruby (and ported to the web and the Java Virtual
-Machine). Customization of the language can be done in both implementations
+Machine). Customisation of the language can be done in both implementations
 through macros, which are regular expressions that are substituted during
 compilation. These do not require writing any external code. Asciidoctor also
 has support for extensions [cite]{Asciidoctor_Ext}, which allows developers to
@@ -166,13 +167,13 @@ have an empty preamble (the section before the document begins).
     ]
 ./figures/latex_vs_markdown.svg
 
-[latex]() has a strong focus on expressiveness and customization, though its
+[latex]() has a strong focus on expressiveness and customisation, though its
 complexity can make it difficult for new users to use it properly. Furthermore,
 over time the [latex]() ecosystem has fallen down the same pitfalls Troff
 originally did, growing harder to maintain and less ergonomic. On the other
 hand, Markdown's simplicity can be limiting for more demanding use cases.
 
-While customization in [latex]() is more accessible than that of [tex](), it
+While customisation in [latex]() is more accessible than that of [tex](), it
 requires users to learn niche design patterns nonetheless. The newer languages
 like AsciiDoc and Djot generally allow users to write extensions in programming
 languages instead. However, these are often limited to the language their
@@ -180,7 +181,7 @@ compiler was written in.
 
 ### Future possibilities using WebAssembly
 
-One can argue that these customizable markup languages would benefit from
+One can argue that these customisable markup languages would benefit from
 supporting more programming languages, as this would increase the reach and
 availability of their ecosystem. A recent technology that is capable of
 approaching this is Web-Assembly, or WASM [cite] wasm for short. WASM is an
@@ -266,7 +267,7 @@ Instead, source code is transcompiled into another popular format, similar to
 Markdown's approach. We chose to focus on HTML and [latex](), because they give
 ModMark ample control of the final output while also being widely used and
 supported. This may seem to contradict the output agnosticism mentioned in
-Section [reference]{sec:aim} as a part of A1, but in practice this means
+Section [reference]{sec:aim} as a part of A1, but in practise this means
 designing the bundled version of the final layer to target those formats. Given
 the modularity of ModMark, this can easily be extended to include other formats.
 
@@ -290,7 +291,7 @@ The rest of the thesis is structured as follows. Chapter [reference] chp:mml
 //The ModMark Language// presents the design of the language, including an
 overview of the syntax and the ideas behind packages. Following that, Chapter
 [reference] chp:implementation //From Concept to Implementation} describes the
-method and implementation used to realize our prototyped language. An evaluation
+method and implementation used to realise our prototyped language. An evaluation
 of the results can be found in Chapter [reference] chp:evaluation
 //Evaluation//, where we discuss how well our aims were achieved. Lastly,
 Chapter [reference] chp:conclusion discusses the current state of our language,
