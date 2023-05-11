@@ -1,1 +1,297 @@
 # Introduction --- Carl
+
+[comment]"TODO: Do american->english translation"
+
+## Background
+[label] sec:background
+Typesetting is the art of composing characters or symbols in a way that matches
+the desired format and conveys the correct meaning. Historically, types were set
+by hand, and later on mechanically to reduce the effort required. While
+mechanical typesetting was a major improvement, the large machines could only
+cast a few characters per second while emitting significant noise and heat
+[cite]{typesetting}. With the digital age, it became natural that typesetting
+would be done by computer systems.
+
+### Early digital typesetting
+One of the earliest systems developed to typeset digital documents was Troff
+[cite]{Troff}, [cite]{mcilroy}. It was developed at Bell Labs in the early 1970s
+to achieve compatibility with a new generation of computers. While there was a
+significant demand for such a typesetting system, especially within the Unix
+community, Troff had its flaws. Most notably, it was built as a layer on Nroff,
+which in turn was built on top of Roff, and all this complexity led to the final
+product being quite complicated. The famous computer scientist Donald Knuth said
+that "it was a fifth generation, each of which was a patch on another one. So it
+was time to scrap it" [cite "p.~43"]{KnuthCitat}.
+
+Later in the 1970s, [tex]() [cite] Tex was created by Knuth in an attempt to
+improve on Troff. It was created from scratch, but shares many concepts with
+Troff, such as macros. [tex]() uses macros as low-level building blocks to
+generate complex code from smaller and simpler code at compilation. This design
+makes it possible to extend the functionality of the language with custom
+macros.
+
+Neither Troff nor [tex]() see much usage in their pure forms today. There are
+instances where versions of them are used today such as GNU troff in Linux
+man-pages [cite]{man7}, but they have largely been replaced by newer
+alternatives.
+
+### Markup languages
+[label] sec:markup-languages
+A term that is often used when discussing typesetting is //markup//. A markup
+language is typically defined to be a language that is used to structure and
+describe the format of text. This definition includes the previously mentioned
+Troff and [tex]() but also languages such as HTML and XML. The aim of these
+languages was not to be easy to use but to be precise. Over time, popularity has
+shifted towards more lightweight markup languages, designed to increase
+readability and convenience rather than focusing on maximum control of output.
+
+[comment]
+%All of these are quite verbose and not well suited for an ergonomic writing experience. Over time, popularity has shifted towards more lightweight markup languages, designed to increase readability and convenience rather than focusing on maximum control of output.
+
+A selection of popular and relevant markup languages are presented below,
+ordered by date of release.
+
+##### [latex]()
+
+Leslie Lamport developed [latex]() (short for Lamport [tex]()) in the 1980s
+[cite]{Latex}. It includes many useful macros that allows users to easier create
+documents adding images, headings etc. without worrying about the low-level
+typesetting primitives. While this added a layer of convenience, the language is
+still quite verbose in comparison to more recent markup languages.
+
+##### reStructuredText
+In 2001, the first version of reStructuredText, or reST for short, was released
+[cite](rest). Since its release it has been adopted by the Python community for
+language documentation. It features syntactic sugar for formatting such as bold
+and italic, lists and tables. Additionally it allows users to write custom
+blocks in Python to extend the functionality.
+
+##### AsciiDoc
+AsciiDoc first arrived just a year after reST [cite]{AsciiDoc}, with a newer
+implementation from 2013 called Asciidoctor [cite]{Asciidoctor}. It is aimed
+towards technical documentation, and includes a variety of syntactical
+constructions for convenient writing much like reST. Figure
+[reference]{fig:asciidoc_rest_example} shows a small sample of both AsciiDoc and
+reStructuredText. The original implementation was written in Python, while
+Asciidoctor is implemented in Ruby (and ported to the web and the Java Virtual
+Machine). Customization of the language can be done in both implementations
+through macros, which are regular expressions that are substituted during
+compilation. These do not require writing any external code. Asciidoctor also
+has support for extensions [cite]{Asciidoctor_Ext}, which allows developers to
+use programming languages.
+[comment]"FIXME: Change formulation, 'access to programming languages'"
+
+[image
+    alt="Code for producing some headings, paragraphs, and a link, in both reST and AsciiDoc"
+    caption="An example of source code for producing two headings, two paragraphs and a link in reStructuredText and AsciiDoc"
+    label=fig:asciidoc_rest_example
+    width=.9
+    ]
+./figures/reST_vs_AsciiDoc.svg
+
+##### Markdown
+Markdown was released in 2004, just two years after the release of AsciiDoc
+[cite]{markdown}. It was developed by John Gruber and Aaron Swartz with a heavy
+focus on readability and being ergonomic. The original specification of the
+language was lacking in detail and contained ambiguities, which eventually led
+to discrepancies between its implementations. A decade later an effort was made
+to remedy this by redefining and clarifying the specification, which was
+released under the name CommonMark [cite]{Commonmark}. While it succeeded at
+what was intended, it also introduced complexity in both syntax rules and
+parsing.
+
+In comparison to other markup languages, Markdown is quite limited in
+functionality. It revolves around convenient syntactical patterns but has
+little to no support for custom extensions.
+
+##### Djot
+In 2022 John MacFarlane, who was active in the creation of CommonMark, presented
+Djot -- a language aimed at fixing the shortcomings of Markdown and the
+complexities in CommonMark [cite]{djot}. It expands on Markdown's original
+design by including elements such as tables and footnotes. Additionally, users
+are able to customise the language by creating custom filters.
+
+##### Typst
+[comment]"TODO: Fix textcite"
+Later in the same year, \textcite{typst} and \textcite{typst2} presented a new
+alternative to [latex]() that they call Typst. The motivation behind creating
+Typst was frustration with the [latex]() macro system and lack of complex
+typesetting in lightweight languages like AsciiDoc. Typst has syntax for styling
+text and creating lists but also supports many common programming language
+features like loops and conditionals [cite]{typst}. It is essentially a way to
+combine variables, code, and ergonomic markup to produce documents.
+
+### Document converters and generators
+Along with the development of markup languages, a number of tools such as
+document converters have emerged. Tools like these are meant to provide yet
+another layer of convenience for the user, and in particular improve the
+accessibility of markup languages.
+
+One of the most popular tools in markup is Pandoc [cite]{pandoc}. Pandoc was
+released in 2006 and created by John MacFarlane. It allows users to write a
+document in one markup language and automatically convert it into other
+languages. In fact, all of the previously presented languages are (to some
+extent) supported by the tool [cite]{pandoc}, [cite]{djot}.
+
+Another tool is Aurelio Jargas' txt2tag [cite]{txt2tags}, which was released in
+2001. It is described as a document generator and functions slightly differently
+from Pandoc. Unlike Pandoc it does not support other markup languages as input.
+Instead, it uses minimal markup that was designed to simplify both
+implementation and usage. The primary features of this minimal markup are
+headers, tags (such as bold and italic), lists, tables and images. From this
+point it works similarly to Pandoc; it can convert the input to a variety of
+markup languages.
+
+### The current state of markup
+Among the languages presented in Section [reference]{sec:markup-languages},
+Markdown and [latex]() are the most popular. Other languages see some usage from
+corporations and communities. For example, AsciiDoc was used to document Git
+[cite]{gitdocs}, and reST is still used for Python's documentation
+[cite]{sphinx}.
+
+However, when it comes to personal use, Markdown and [latex]// are very
+dominant. [latex]// sees wide usage in academic writing, while Markdown is
+common in internet forums and in programming documentation to provide simple
+formatting. When comparing Markdown and [latex](), they quickly appear very
+different. A comparative example for [latex]() and Markdown can be found in
+Figure [reference]{fig:latex_markdown_example}, which illustrates the difference
+in verbosity and capability. It is worth noting that [latex]() documents rarely
+have an empty preamble (the section before the document begins).
+
+[image
+    alt = "Code producing two headings and two paragraphs in LaTeX and ;arkdown"
+    caption = "An example of source code for producing two headings and two paragraphs of text in [latex]// and Markdown."
+    width = 0.9
+    label = fig:latex_markdown_example
+    ]
+./figures/latex_vs_markdown.svg
+
+[latex]() has a strong focus on expressiveness and customization, though its
+complexity can make it difficult for new users to use it properly. Furthermore,
+over time the [latex]() ecosystem has fallen down the same pitfalls Troff
+originally did, growing harder to maintain and less ergonomic. On the other
+hand, Markdown's simplicity can be limiting for more demanding use cases.
+
+While customization in [latex]() is more accessible than that of [tex](), it
+requires users to learn niche design patterns nonetheless. The newer languages
+like AsciiDoc and Djot generally allow users to write extensions in programming
+languages instead. However, these are often limited to the language their
+compiler was written in.
+
+### Future possibilities using WebAssembly
+
+One can argue that these customizable markup languages would benefit from
+supporting more programming languages, as this would increase the reach and
+availability of their ecosystem. A recent technology that is capable of
+approaching this is Web-Assembly, or WASM [cite] wasm for short. WASM is an
+instruction format for a virtual machine that is embedded in all modern web
+browsers. Many programming languages support WASM as a compilation target,
+including C, C++, Swift and Rust. Using a virtual machine allows for
+interoperability between different languages and makes it easier to distribute
+binaries that run close to native speed in all platforms supported by the
+browser.
+
+However, WASM has also shown to be useful outside of browsers. Running WASM
+without browsers can be achieved using runtimes such as Wasmer [cite] Wasmer and
+Wasmtime [cite]{Wasmtime}. These runtimes can be embedded in other applications
+to offer a portable way of running arbitrary code in a sandboxed environment.
+In addition to this, these runtimes implement WebAssembly System Interface
+(WASI) to provide an interface to the underlying system [cite]{WASI}. This
+enhances the capabilities of the program to allow for disk I/0, environment
+variables and more.
+
+Web-Assembly presents an opportunity for markup languages to support many
+programming languages and to be platform independent. This is crucial not only
+to reach more users but also to ease development. Furthermore, this becomes even
+more important in ecosystems like [latex](), where contributions from users are
+key to improving the language.
+
+## Aim
+[label] sec:aim
+We aim to design and implement a declarative markup language named ModMark. The
+language should be suited for both note-taking and academic writing.
+
+There is already a plethora of existing languages with the same goal in mind,
+but we explore a different set of trade-offs. The hope is to find a good middle
+ground between lightweight markup languages, such as Markdown, and more complex
+typesetting systems, such as [latex]().
+
+The following bullet points summarise the three main design goals of ModMark.
+
+[list]----
+* **[if latex]"[raw]!\hypertarget{aim:A1}{A1}!"[if !latex]"A1". Expressive and
+    modular**
+    The language intends to be more expressive and extendable than Markdown and
+    Djot by providing module expressions that offer a general syntax to extend
+    the language with extra functionality. For instance, if a user wants to
+    include citations, plots or figures in their document they can use this
+    general syntax to import and use third-party implementations of these
+    features. This is in contrast to Markdown where every feature is built-in
+    and has concrete syntax. To put even more control in the hands of the user,
+    ModMark also aims to support nested structures in a similar fashion to
+    [latex]().
+
+    Continuing in the spirit of modularity, fundamental parts of ModMark’s
+    compiler should be designed to be agnostic of the output file format.
+
+* **[if latex]"[raw]!\hypertarget{aim:A2}{A2}!"[if !latex]"A2". Simple**
+    The [tex]!! family of systems (and similar systems like Typst) solve the
+    problem of expressiveness and portability by making the document language
+    itself powerful, even Turing complete. Our language will hopefully be easier
+    to understand and require less programming knowledge since users will only
+    need to interface with modules instead of writing actual programs inside of
+    the document. Also, the syntax of ModMark should be lightweight and familiar
+    to users of Markdown or Djot.
+
+* **[if latex]"[raw]\!hypertarget{aim:A3}{A3}!"[if !latex]"A3". Portable and
+    developer-friendly**
+    AsciiDoc, Djot and a few other languages offer similar expressive
+    capabilities using an embedded language, compiler plugins or macros.
+    However, this leaves package developers tied to using a specific programming
+    language. Another option, used by for example Pandoc is inter-opting with
+    any program via the shell, but this risks losing portability. Our language
+    aims at being platform independent and yet offer developers greater
+    flexibility. This will be attempted by embedding a sandboxed WebAssembly
+    virtual machine.
+----
+
+## Scope
+Successfully implementing ModMark includes both designing the language and
+developing a functioning environment for it. However, we had to impose certain
+limitations on the project in order for it to fit within the time frame of a
+Bachelor's thesis.
+
+Firstly, ModMark does not directly control the resulting layout and typesetting.
+Instead, source code is transcompiled into another popular format, similar to
+Markdown's approach. We chose to focus on HTML and [latex](), because they give
+ModMark ample control of the final output while also being widely used and
+supported. This may seem to contradict the output agnosticism mentioned in
+Section [reference]{sec:aim} as a part of A1, but in practice this means
+designing the bundled version of the final layer to target those formats. Given
+the modularity of ModMark, this can easily be extended to include other formats.
+
+There are also limitations in regards to the types of document that are possible
+to produce. A main goal for the project was the ability to write this thesis in
+ModMark. This naturally drew focus towards elements such as figures and
+references. Overall the project has aimed to target web documentation and
+report-like documents, which covers only a fraction of the possible types of
+output. Although, the modularity of the language allows for more document types.
+
+During the course of the project there has also been a trade-off between
+developing the language itself and developing surrounding tools. The tools are
+essential for testing and demonstrating the language, but can on the other hand
+steal development time. We decided to create a web page and a command-line
+interface relatively early in the development process. The implementations of
+these are sufficient for the group to perform testing and debugging, but lack
+polished user experience design.
+
+## Outline
+The rest of the thesis is structured as follows. Chapter [reference] chp:mml
+//The ModMark Language// presents the design of the language, including an
+overview of the syntax and the ideas behind packages. Following that, Chapter
+[reference] chp:implementation //From Concept to Implementation} describes the
+method and implementation used to realize our prototyped language. An evaluation
+of the results can be found in Chapter [reference] chp:evaluation
+//Evaluation//, where we discuss how well our aims were achieved. Lastly,
+Chapter [reference] chp:conclusion discusses the current state of our language,
+conclusions and potential improvements as well as further reading.

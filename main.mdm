@@ -54,4 +54,4 @@ Markup languages, WebAssembly, WASI
 [include] include/conclusion.mdm
 
 # Bibliography
-[bibliography file=sources.bib] 
+[bibliography file=sources.bib]
