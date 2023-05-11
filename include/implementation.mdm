@@ -1,11 +1,12 @@
 # From Concept to Implementation -- Jonathan
 [label] chp:implementation
 
-[comment]"TODO: We need to use american->brittish converter for this entire chapter"
+[comment]
+Converted to British 11 of may
 
 For ModMark to be practical to use, there must be a way of translating documents
- written in the language into other more commonly used formats such as HTML or
- [latex]... This is what a compiler is used for.
+written in the language into other more commonly used formats such as HTML or
+[latex]... This is what a compiler is used for.
 
 To translate ModMark into other formats, we implemented a compiler using the
 Rust programming language. We also utilised the Wasmer [cite] Wasmer WebAssembly
@@ -33,30 +34,32 @@ development. These three parts consisted of a parser for the language
 (Sec. [reference][sec:scheduling] -- [reference][sec:transforming]), and tooling
 for using the language in the command-line (Sec. [reference][sec:cli]) as well
 as the web (Sec. [reference][sec:playground]). All of these systems were in
-place after five weeks and we could move to a more iterative and less restrictive workflow.
+place after five weeks and we could move to a more iterative and less
+restrictive workflow.
 
 Our workflow was based on GitHub's [cite] github issues and pull request system.
-Our git repository is hosted under a GitHub organization named ModMark. There
+Our git repository is hosted under a GitHub organisation named ModMark. There
 is an established set of conventions for commit message style and branch
 naming to avoid confusion. Whenever a bug was encountered or a new feature was
 discussed an issue describing the bug or feature would be created so that there
 is a clear list of tasks that are available.
 
-We held weekly meetings to prioritize and coordinate the workload, usually by
+We held weekly meetings to prioritise and coordinate the workload, usually by
 assigning group members to certain issues. When an issue was completed a pull
 request was opened so that other members could review the code. After being
-approved the branch was rebased into the main branch. Rebasing was chosen instead
-of merging to get a clean commit history without merge commits.
+approved the branch was rebased into the main branch. Rebasing was chosen
+instead of merging to get a clean commit history without merge commits.
 
 ## Parsing
 [label] sec:parser
-The first step of a compilation is parsing. Parsing is the process of transforming
-the original source text into a so-called abstract syntax tree (AST). In practice,
-this process means distinguishing different parts of the source text and storing
-them in data structures that contain relevant information. Structuring the
-information in such a tree makes it easier for the succeeding compilation steps
-to further transform and then evaluate the document. Figure [reference] fig:source_to_ast
-shows an example of a simple ModMark document parsed into an AST.
+The first step of a compilation is parsing. Parsing is the process of
+transforming the original source text into a so-called abstract syntax tree
+(AST). In practise, this process means distinguishing different parts of the
+source text and storing them in data structures that contain relevant
+information. Structuring the information in such a tree makes it easier for the
+succeeding compilation steps to further transform and then evaluate the
+document. Figure [reference] fig:source_to_ast shows an example of a simple
+ModMark document parsed into an AST.
 
 
 [image
@@ -219,7 +222,7 @@ package instead is a WASM file, the compiler needs to run it in a WASM runtime.
 Since programs using the WebAssembly System Interface (WASI) behaves very much
 like command-line applications, ModMark supplies the element name and the target
 output format as arguments to the program, and passes the rest of the element
-serialized as a JSON string to ``stdin``.
+serialised as a JSON string to ``stdin``.
 
 Once the package has received information about the element, it executes the
 transform and generates a number of new elements as output. The elements are
@@ -234,7 +237,7 @@ browser. The ModMark compiler uses Wasmer, which has its own interpreter which
 is used in combination with a compiler back-end, Cranelift and LLVM being the
 most note-worthy. Currently, our compiler uses Cranelift which is a Rust
 compiler framework often used in the WASM ecosystem, it is generally found to
-have faster compile-speeds than LLVM but less optimized output
+have faster compile-speeds than LLVM but less optimised output
 [cite]{cranelift_vs_llvm}.
 
 An advantage of Wasmer over other options is that it also can use the browser's
@@ -275,7 +278,15 @@ getting started with package development.
 % Might be great to still include! Especially twhere we clearify that this is more of
 % proof-of-concept rather then a finished product for end-users.
 %Tooling is the software that is developed alongside the language to ease the user and developer experience. Modern languages, especially those with support for some sort of modification, are usually subject to tools that ease package management. If this is not implemented natively, third parties usually take over to improve the package experience. The climate for document writing has also shifted to real-time collaborative websites. However, this is a tool better suited for future development due to the scope of the project. Although, the modularity of the project would aid the future development of a real-time collaborative website.
-Aside from the command-line interface there is also a web playground (seen in Figure \ref{fig:playground}) that allows users to easily test ModMark without having to download anything. The playground uses the same compiler as the rest of the project but is built to WebAssembly and comes with accompanying auto generated JavaScript bindings. Two versions of the playground has been built during the project, one only using ordinary JavaScript and a later effort has been put in making a more full featured version using the popular React library.
+
+Aside from the command-line interface there is also a web playground
+(seen in Figure [reference]{fig:playground}) that allows users to easily test
+ModMark without having to download anything. The playground uses the same
+compiler as the rest of the project but is built to WebAssembly and comes with
+accompanying auto generated JavaScript bindings. Two versions of the playground
+has been built during the project, one only using ordinary JavaScript and a
+later effort has been put in making a more full featured version using the
+popular React library.
 
 [image
     alt = "A screenshot of the web playground with a reproduction of the Wikipedia article about Ada Lovelace."
@@ -339,7 +350,7 @@ package manager where to find the desired packages. See Figure
 ./figures/imports.svg
 
 ## Testing, continuous integration and deployment
-Continuous integration (CI) is the practice of continuously running integration
+Continuous integration (CI) is the practise of continuously running integration
 tasks on code which is in development. Grady Booch [cite "p. 314"] CI describes
 that CI is essential for testing, which should be a continuous activity during
 development.
@@ -362,7 +373,7 @@ project includes the following test suites:
     languages and with different environment variables, simulating different
     variables provided by the ModMark compiler. There are currently
     [comment]"TODO: Update this number"
-    137 tests for the standard packages, which ensures that the packages are
+    142 tests for the standard packages, which ensures that the packages are
     working correctly and gives valid, parsable and correct output for those
     test cases. In addition to this, there are package tests checking the Rust
     toolchain configuration for each package, ensuring that the toolchain is
@@ -378,7 +389,7 @@ project includes the following test suites:
 %There are also tests for many of the included standard packages. The package tests contains example input to the package and the expected result of the package. When testing the packages, which are command-line programs written in Rust, the packages are compiled and all the test cases are passed to them one by one. The result of passing the test case to the package is compared to the expected result, and if they match, the test passes. This ensures that any changes to the packages does not break the intended functionality
 
 In addition to CI, a related term is continuous deployment (CD) which is the
-practice of continuously release deployments of code which is in development.
+practise of continuously release deployments of code which is in development.
 The continuous deployment part of this project includes building and publishing
 the playground, see Section [reference]{sec:playground}. When changes to the
 published version of the code are made, GitHub Actions compiles the code into a
