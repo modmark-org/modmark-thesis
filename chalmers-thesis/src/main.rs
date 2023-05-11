@@ -8,6 +8,7 @@ use std::{
 
 enum Error {
     MissingKey,
+    ConsumedInput,
     HeadingLevel(u8),
 }
 
@@ -40,6 +41,7 @@ fn handle_error(error: Error) {
         Error::HeadingLevel(level) => {
             eprintln!("Invalid heading level '{level}'.")
         }
+        Error::ConsumedInput => eprintln!("This module should not consume any input."),
     }
 }
 
@@ -54,7 +56,30 @@ fn transform(from: &str, to: &str) -> Result<String, Error> {
         "cite" => transform_cite(input, to),
         "__document" => transform_document(input, to),
         "__heading" => transform_heading(input, to),
+        "tex" => transform_latex_command("tex", input, to),
+        "latex" => transform_latex_command("latex", input, to),
         _ => panic!("element not supported"),
+    }
+}
+
+/// Transform latex macros like \LaTeX and \TeX
+/// and fallback to just rendering plain text if using another
+/// output format
+fn transform_latex_command(command: &str, input: Value, to: &str) -> Result<String, Error> {
+    if let Value::String(s) = &input["data"] {
+        // ensure that the input is empty
+        if !s.is_empty() {
+            return Err(Error::ConsumedInput);
+        }
+
+        Ok(serde_json::to_string(&match to {
+            "html" => json!([command]),
+            "latex" => json!([format!(r"\{command}")]),
+            _ => unreachable!("Unsupported format"),
+        })
+        .unwrap())
+    } else {
+        Err(Error::ConsumedInput)
     }
 }
 
@@ -373,6 +398,16 @@ fn manifest() -> String {
                     ],
                     "type": "parent"
                 },
+                {
+                    "from": "latex",
+                    "to": ["latex", "html"],
+                    "arguments": [],
+                },
+                {
+                    "from": "tex",
+                    "to": ["latex", "html"],
+                    "arguments": [],
+                }
 
             ]
         }
