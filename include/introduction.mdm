@@ -114,13 +114,13 @@ are able to customise the language by creating custom filters.
 
 ##### Typst
 [comment]"TODO: Fix textcite"
-Later in the same year, \textcite{typst} and \textcite{typst2} presented a new
-alternative to [latex]() that they call Typst. The motivation behind creating
-Typst was frustration with the [latex]() macro system and lack of complex
-typesetting in lightweight languages like AsciiDoc. Typst has syntax for styling
-text and creating lists but also supports many common programming language
-features like loops and conditionals [cite]{typst}. It is essentially a way to
-combine variables, code, and ergonomic markup to produce documents.
+Later in the same year, Mjäde [cite] typst and Haug [cite] typst2 presented a
+new alternative to [latex]() that they call Typst. The motivation behind
+creating Typst was frustration with the [latex]() macro system and lack of
+complex typesetting in lightweight languages like AsciiDoc. Typst has syntax for
+styling text and creating lists but also supports many common programming
+language features like loops and conditionals [cite]{typst}. It is essentially a
+way to combine variables, code, and ergonomic markup to produce documents.
 
 ### Document converters and generators
 Along with the development of markup languages, a number of tools such as
