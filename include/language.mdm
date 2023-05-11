@@ -2,28 +2,56 @@
 [label] chp:mml
 
 
-We present ModMark --- a new document markup language with a strong focus on modularity. It offers a lightweight syntax for common writing tasks such as headings, emphasised text and maths equations. Additionally, it provides a package system which allows the language to be extended with new features depending on the users needs.
+We present ModMark --- a new document markup language with a strong focus on
+modularity. It offers a lightweight syntax for common writing tasks such as
+headings, emphasised text and maths equations. Additionally, it provides a
+package system which allows the language to be extended with new features
+depending on the users needs.
 
-Packages are independent WebAssembly programs that, amongst other things, add support for additional //modules//. Modules are a way of using a general syntax to include other elements in a document, such as images and code. They can also be used for more complicated elements that required a nested structure, such as tables and lists.
+Packages are independent WebAssembly programs that, amongst other things, add
+support for additional //modules//. Modules are a way of using a general syntax
+to include other elements in a document, such as images and code. They can also
+be used for more complicated elements that required a nested structure, such as
+tables and lists.
 
-ModMark is designed to be transcompiled into other, more common,  formats such as HTML or \LaTeX. However, take note of the fact that the language itself is entirely agnostic of the output format. Due to the fact that the module system underpins the entire language, support for a new output format can be added by providing a new package that supports the transformation.
+ModMark is designed to be transcompiled into other, more common,  formats such
+as HTML or \LaTeX. However, take note of the fact that the language itself is
+entirely agnostic of the output format. Due to the fact that the module system
+underpins the entire language, support for a new output format can be added by
+providing a new package that supports the transformation.
 
-A short example of a document written in ModMark can be seen in Figure [reference]fig:modmark_example . The rest of this chapter will explain the syntax and semantics of the ModMark language, and gives an introduction to some of the included packages.
+A short example of a document written in ModMark can be seen in Figure
+[reference]fig:modmark_example . The rest of this chapter will explain the
+syntax and semantics of the ModMark language, and gives an introduction to some
+of the included packages.
 
 
-[image caption="The same example document as in Figure \ref{fig:latex_markdown_example} but written in ModMark. It demonstrates a few syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags and (4) module expressions." label="fig:modmark_example" width=0.65]
+[image caption="The same example document as in Figure
+\ref{fig:latex_markdown_example} but written in ModMark. It demonstrates a few
+syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags
+and (4) module expressions." label="fig:modmark_example" width=0.65]
 figures/modmark_example.svg
 
 
 
 ## Headings
 
-The first line of a paragraph may be started by one or more hash signs ``#`` to declare that line as a heading. The number of hash signs used represents the level of the heading. If a paragraph, for example, starts with the line ``## Heading``, it will become a heading at level 2.
+The first line of a paragraph may be started by one or more hash signs ``#`` to
+declare that line as a heading. The number of hash signs used represents the
+level of the heading. If a paragraph, for example, starts with the line ``##
+Heading``, it will become a heading at level 2.
 
-When evaluating the document, the content of the heading is delegated to a package which declares that it may transform a heading to the desired output format. The headings will be transformed at the discretion of that package, and the limit of how many heading levels are allowed depends solely on that package. For example, the \LaTeX\ package supports three levels of headings by outputting ``\section{}``,``\subsection{}`` and ``\subsubsection{}``, while the HTML package supports six levels by outputting ``<h1>`` to ``<h6>``.
+When evaluating the document, the content of the heading is delegated to a
+package which declares that it may transform a heading to the desired output
+format. The headings will be transformed at the discretion of that package, and
+the limit of how many heading levels are allowed depends solely on that package.
+For example, the \LaTeX\ package supports three levels of headings by outputting
+``\section{}``,``\subsection{}`` and ``\subsubsection{}``, while the HTML
+package supports six levels by outputting ``<h1>`` to ``<h6>``.
 
 
-To recreate the beginning of Chapter [reference] chp:mml of this thesis in ModMark, one could write this:
+To recreate the beginning of Chapter [reference] chp:mml of this thesis in
+ModMark, one could write this:
 
 [code lang=markdown]{{
 # The ModMark Language
@@ -35,10 +63,23 @@ The first line of a paragraph may be started
 by one or more hash signs ...
 }}
 
-## Tags
-Tags are used to style text which is done by encasing content between a opening tag and closing tag. This allows formatted text to be expressed with similar simplicity to how it may be expressed in Markdown. Examples of such tags are ``**`` which makes the content bold, and ``//`` which makes the content italic.
+## Tags Tags are used to style text which is done by encasing content between a
+opening tag and closing tag. This allows formatted text to be expressed with
+similar simplicity to how it may be expressed in Markdown. Examples of such tags
+are ``**`` which makes the content bold, and ``//`` which makes the content
+italic.
 
-Nesting tags, or using one tag within another, makes sense in some cases. For example, you may want to have some of your bold text italic as well, and the language allows for writing ``**bold //bold and italic//**`` to achieve such behaviour. In some other cases, it does not make as much sense. Encasing content in ``$$`` will output it as math, but it does not make sense that ``**`` inside that tag would be treated as bold text. It is much more likely that those characters would refer to a mathematical operation than to apply formatting to the encasing content. For this case, some tags may allow nesting, meaning that their content will be checked for additional tags, while some tags do not allow for nesting. The complete set of tags built-in to ModMark is listed in Table [reference] mm:tags , including their output and whether they allow for nesting. 
+Nesting tags, or using one tag within another, makes sense in some cases. For
+example, you may want to have some of your bold text italic as well, and the
+language allows for writing ``**bold //bold and italic//**`` to achieve such
+behaviour. In some other cases, it does not make as much sense. Encasing content
+in ``$$`` will output it as math, but it does not make sense that ``**`` inside
+that tag would be treated as bold text. It is much more likely that those
+characters would refer to a mathematical operation than to apply formatting to
+the encasing content. For this case, some tags may allow nesting, meaning that
+their content will be checked for additional tags, while some tags do not allow
+for nesting. The complete set of tags built-in to ModMark is listed in Table
+[reference] mm:tags , including their output and whether they allow for nesting. 
 
 
 [table caption="The tags built-in to ModMark" label="mm:tags"]{{
@@ -70,16 +111,22 @@ Nesting tags, or using one tag within another, makes sense in some cases. For ex
         \verb|``verbatim``|      & \verb|verbatim|               & no \\ \hline
         \verb|Math: $$x^2+y^2$$| & Math: $x^2+y^2$               & no \\ \hline
     \end{tabular}
-\end{table}
-}}}
-Similarly to headings, tags are also delegated to a package capable of transforming those tags to the desired output format. The end result for a bold tag may be ``<strong>`` for HTML or ``\textbf`` for \LaTeX. This also means that not all tags may be supported in all output languages, depending on if the package declares that it may handle that tag or not.
+\end{table} }}} Similarly to headings, tags are also delegated to a package
+capable of transforming those tags to the desired output format. The end result
+for a bold tag may be ``<strong>`` for HTML or ``\textbf`` for \LaTeX. This also
+means that not all tags may be supported in all output languages, depending on
+if the package declares that it may handle that tag or not.
 
 
 
 ## Smart punctuation
 [label] sec:smart_punc
 
-Smart punctuation is a feature of ModMark which replaces some characters or sequence of characters to some other character that may be more appropriate. For example, a sequence of three dots ``...`` gets replaced with the ellipsis character ..., and a sequence of two dashes ``--`` gets replaced with the endash character --. This makes it easier to write correct typographical characters.
+Smart punctuation is a feature of ModMark which replaces some characters or
+sequence of characters to some other character that may be more appropriate. For
+example, a sequence of three dots ``...`` gets replaced with the ellipsis
+character ..., and a sequence of two dashes ``--`` gets replaced with the endash
+character --. This makes it easier to write correct typographical characters.
 
 The full list of smart punctuation features available in ModMark is the following:
 
@@ -97,11 +144,21 @@ a "\\" to revert to normal punctuation.
 
 ## Modules
 
-Module expressions allow users to include any arbitrary element in their documents. Modules capture some input text in its raw form and then transform it to some output. The expression consists of a name, optional arguments, and a body of text for the module to capture. Modules may be used both inline from within a paragraph or by itself, spanning multiple lines.
+Module expressions allow users to include any arbitrary element in their
+documents. Modules capture some input text in its raw form and then transform it
+to some output. The expression consists of a name, optional arguments, and a
+body of text for the module to capture. Modules may be used both inline from
+within a paragraph or by itself, spanning multiple lines.
 
-Inline modules are written with its name within square brackets, followed by the text to be captured. Text is captured up until the next space or line break. The expression ``\[link] https://modmark.org/`` is an expression for the ``link`` module, containing the text ``https://modmark.org/``. This will, in turn, use a package containing the ``link`` module to turn the expression to an output.
+Inline modules are written with its name within square brackets, followed by the
+text to be captured. Text is captured up until the next space or line break. The
+expression ``\[link] https://modmark.org/`` is an expression for the ``link``
+module, containing the text ``https://modmark.org/``. This will, in turn, use a
+package containing the ``link`` module to turn the expression to an output.
 
-Modules outside of paragraphs, so-called multiline modules, are written as if they were their own paragraph, with at least one empty row preceding and following it. Here is an example of such an expression:
+Modules outside of paragraphs, so-called multiline modules, are written as if
+they were their own paragraph, with at least one empty row preceding and
+following it. Here is an example of such an expression:
 
 [code]{{
 \[poem]
@@ -111,11 +168,28 @@ unexpected '{'
 on line 32.
 }}
 
-Module expressions by default capture texts until some boundary, which for inline modules is a space or a newline, and for multiline modules is an empty line. The text is then passed to the package which defines that module, and that package is free to arbitrarily transform the content. That means that it is possible to write many different kinds of modules. For example, a ``code`` module which renders code and keeps its text as-is, or a ``table`` module which wants to split the input text to different cells, possibly allow tags and modules within them.
+Module expressions by default capture texts until some boundary, which for
+inline modules is a space or a newline, and for multiline modules is an empty
+line. The text is then passed to the package which defines that module, and that
+package is free to arbitrarily transform the content. That means that it is
+possible to write many different kinds of modules. For example, a ``code``
+module which renders code and keeps its text as-is, or a ``table`` module which
+wants to split the input text to different cells, possibly allow tags and
+modules within them.
 
-To make a module expression capture more text than it would by default, you may use //custom delimiters//. When you use a custom delimiter, the module expression captures text until the matching closing delimiter. To use a custom delimiter, you should put it right after the closing square bracket containing the module name. Any non-alphanumeric character may be used as delimiter, and brackets use their matching other bracket as delimiter. This means that the expression ``\[math] x^2 + y^2`` used inline would only capture ``x^2``, since there is a space following it, but ``\[math](x^2 + y^2)`` would capture the entire mathematical expression.
+To make a module expression capture more text than it would by default, you may
+use //custom delimiters//. When you use a custom delimiter, the module
+expression captures text until the matching closing delimiter. To use a custom
+delimiter, you should put it right after the closing square bracket containing
+the module name. Any non-alphanumeric character may be used as delimiter, and
+brackets use their matching other bracket as delimiter. This means that the
+expression ``\[math] x^2 + y^2`` used inline would only capture ``x^2``, since
+there is a space following it, but ``\[math](x^2 + y^2)`` would capture the
+entire mathematical expression.
 
-For inline modules, only one character may be used as delimiter, but for multiline modules, any number of characters may be used. To capture the entire code in this example, the delimiter ``{[(`` is used:
+For inline modules, only one character may be used as delimiter, but for
+multiline modules, any number of characters may be used. To capture the entire
+code in this example, the delimiter ``{[(`` is used:
 
 [code rust]{{[(
 [code]{[(
@@ -127,13 +201,36 @@ fn print_elems(arr: &\[u8]) {
 )]}
 )]}}
 
-There are a couple of noteworthy points in this example. First of all, since this expression uses a custom delimiter, it captures text which includes a newline. Second of all, the code itself uses a lot of brackets in combination, such as ``])`` and ``]}``, but since the custom delimiter can be of any length, one could always find a delimiter that does not collide with the content that is captured, and thus any content can be captured regardless of what it actually contains. Using either ``([`` or ``{[`` as delimiters would match closing delimiters inside of the captured content itself, but the combination ``)]}`` does not occur anywhere in the code.
+There are a couple of noteworthy points in this example. First of all, since
+this expression uses a custom delimiter, it captures text which includes a
+newline. Second of all, the code itself uses a lot of brackets in combination,
+such as ``])`` and ``]}``, but since the custom delimiter can be of any length,
+one could always find a delimiter that does not collide with the content that is
+captured, and thus any content can be captured regardless of what it actually
+contains. Using either ``([`` or ``{[`` as delimiters would match closing
+delimiters inside of the captured content itself, but the combination ``)]}``
+does not occur anywhere in the code.
 
-In addition to the module name and captured text, modules may also take arguments passed to them. When a module is defined by a package, the package also defines if it takes any arguments and whether or not they are optional. Arguments are passed to the module inside of the square brackets, and may or may not include the name of the argument. If an argument is unnamed it works as a positional argument, and these can not appear after named arguments. If the ``code`` module would take an argument ``lang``, both ``\[code rust]`` and ``\[code lang=rust]`` would pass the value ``rust `` as the argument ``lang`` to the module.
+In addition to the module name and captured text, modules may also take
+arguments passed to them. When a module is defined by a package, the package
+also defines if it takes any arguments and whether or not they are optional.
+Arguments are passed to the module inside of the square brackets, and may or may
+not include the name of the argument. If an argument is unnamed it works as a
+positional argument, and these can not appear after named arguments. If the
+``code`` module would take an argument ``lang``, both ``\[code rust]`` and
+``\[code lang=rust]`` would pass the value ``rust `` as the argument ``lang`` to
+the module.
 
-## Packages
+## Packages 
 [label] sec:packages
-A //package// is a WebAssembly program that adds additional features to your document. They add support for transforming modules, document templates or tags into one or more output formats. When a user is in need of specific feature or want to add support for a new output format they can import a package that support those transforms. Packages are imported using a special ``\[config]` module found once at the very top of a file. For example, here is the source code for importing a package named ``prettify`` and then using a module with the same name.
+ A //package// is a WebAssembly program that
+adds additional features to your document. They add support for transforming
+modules, document templates or tags into one or more output formats. When a user
+is in need of specific feature or want to add support for a new output format
+they can import a package that support those transforms. Packages are imported
+using a special ``\[config]` module found once at the very top of a file. For
+example, here is the source code for importing a package named ``prettify`` and
+then using a module with the same name.
 
 [code]{{
 \[config]
