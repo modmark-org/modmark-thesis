@@ -105,6 +105,10 @@ contains the Rust code that describes the element tree and Figure
 [reference] fig:weather for an example conversion from a document to an element
 tree.
 
+[if latex]
+[raw]
+\begin{figure}[H]
+
 [code rs]
 enum Element {
     Parent {
@@ -124,9 +128,18 @@ enum Element {
     Raw(String),
 }
 
-__A Rust enum (a sum type) describing the element tree.__
+[if latex]
+[raw]
+\caption{A Rust enum (a sum type) describing the element tree.}
+
 [label] fig:element
-[comment]"TODO I don't think this works as intended. Floating label?"
+
+[if latex]([raw].\end{figure}.)
+
+[if !latex]
+A Rust enum (a sum type) describing the element tree.
+
+[comment]"TODO Maybe remove this hack"
 
 [image
     alt = "Text about a weather updated being parsed to an AST and converted to an element tree"
@@ -192,7 +205,7 @@ sorted.
 
 [image
     alt = "A table of content followed by three headings, which are converted to one node for each, with dependencies drawn inbetween them"
-    caption = "A example of a DAG. Note that all dependencies (edges) in this example are caused by list push operations to a \textit{headings} variable. Push operations are required to be performed in the same order as they appear in the source text and this is why the headings depend on each other too."
+    caption = "A example of a DAG. Note that all dependencies (edges) in this example are caused by list push operations to a //headings// variable. Push operations are required to be performed in the same order as they appear in the source text and this is why the headings depend on each other too."
     width = 0.8
     label = fig:dag
     ]
