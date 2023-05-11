@@ -557,12 +557,12 @@ fn create_titlepage(settings: &DocSettings) -> String {
     \includesvg[width=0.25\pdfpagewidth]{{guandchalmerslogo}}
 \end{{figure}} \vspace{{5mm}}	
 	
-    {department}\\
+    {department}
 	\textsc{{Chalmers University of Technology}} \\
 	\textsc{{University of Gothenburg}} \\
 	Gothenburg, Sweden \the\year \\
 \end{{center}}",
-        department = &settings.department.to_owned().unwrap_or_default()
+        department = format!("{}\\", &settings.department.to_owned().unwrap_or_default()),
     ));
 
     content
@@ -695,28 +695,6 @@ fn create_abstract(settings: &DocSettings) -> String {
         // Just return an empty string if there is no abstract defined
         return content;
     };
-    /*
-        \oneLineTitle\\
-    \oneLineSubtitle\\
-    NAME1~FAMILYNAME1, NAME2~FAMILYNAME2, NAME3~FAMILYNAME3, NAME4~FAMILYNAME4, NAME5~FAMILYNAME5, NAME6~FAMILYNAME6\\
-
-    Department of Computer Science and Engineering\\
-    Chalmers University of Technology and University of Gothenburg\setlength{\parskip}{0.5cm}
-
-    \thispagestyle{plain}			% Supress header
-    \setlength{\parskip}{0pt plus 1.0pt}
-    \section*{Abstract}
-    % Abstract text about your project. The following text should not appear in your report.
-    This document is \emph{only} a \LaTeX{} template. It is not meant to suggest a particular structure. Also, even if this document is written in English, is is not meant to suggest a report language. You can adopt it to your language of choice. In this document, the bibliography is hand made. However, we suggest that you strongly consider using \textsc{Bib}\TeX{}, to further automate the creation of the bibliography.
-
-    % KEYWORDS (MAXIMUM 10 WORDS)
-    \vfill
-    Keywords: put, here, keywords, describing, areas, the, work, belongs, to
-
-    \newpage				% Create empty back of side
-    \thispagestyle{empty}
-    \mbox{}
-         */
 
     let title = settings.get_title();
     content.push_str(&title);
