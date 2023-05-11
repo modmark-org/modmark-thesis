@@ -14,7 +14,7 @@ set subtitle Designing and implementing a markup language utilising WebAssembly
 [list-push authors](Jonathan Widén)
 
 
-[const-decl abstract]-----
+[const-decl abstract]
 We present ModMark --- a new modular document markup language that aims to provide
 a balance between the simplicity of Markdown and the power of [latex]().
 It can be used both in an online playground and via the command-line.
@@ -26,10 +26,9 @@ a straightforward and intuitive syntax. Furthermore, the modularity of ModMark a
 enables users to write packages that add support for any output format they desire.
 The language is ergonomic enough to use for notes while also powerful enough
 to produce this bachelor's thesis.
------
 
-[const-decl sammanfattning]-----
-Vi presenterar ModMark -- ett nytt modulärt markup-språk vars mål är att ge en balans
+[const-decl sammanfattning]
+Vi presenterar ModMark -- ett nytt modulärt marktestar skrivaup-språk vars mål är att ge en balans
 mellan enkelheten i Markdown och kraften av [latex](). Det kan användas både i en online
 miljö och via kommandotolken. ModMark nyttjar teknikerna WebAssembly och WebAssembly System Interface,
 vilket möjliggör för ett högt utökbart markup-språk som kan anpassas för att passa specifika användningsfall.
@@ -38,7 +37,12 @@ dokument för att förbättra funktionaliteten, samtidigt som man behåller en e
 möjliggör ModMarks modularitet även användare att skriva paket som lägger till stöd för det utdataformat de vill ha.
 Språket är tillräckligt ergonomiskt för att användas för anteckningar samtidigt som det är tillräckligt
 kraftfullt för att producera denna kandidatuppsats.
------
+
+
+[const-decl acknowledgements]
+We would like to express our sincere gratitude to our supervisor, Magnus Myreen, for his support
+and guidance throughout the entire project. We would particularly like to acknowledge his consistent
+feedback, which has improved both the quality of this thesis and the technical aspects of our work.
 
 [const-decl keywords]
 Markup languages, WebAssembly, WASI

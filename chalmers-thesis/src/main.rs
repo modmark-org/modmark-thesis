@@ -277,7 +277,7 @@ fn transform_document(doc: Value, _to: &str) -> Result<String, Error> {
 
     content.append(&mut create_abstract(&settings));
 
-    // FIXME: add acknowledgements
+    content.append(&mut create_acknowledgements(&settings));
 
     // table of contents and start of main content
     content.push(Value::String(
@@ -726,6 +726,48 @@ Telephone +46 31 772 1000 \setlength{\parskip}{0.5cm}
 Typeset using \LaTeX \\
 Gothenburg, Sweden \the\year",
     );
+
+    content
+}
+
+fn create_acknowledgements(settings: &DocSettings) -> Vec<Value> {
+    let mut content = Vec::new();
+    let Some(acknowledgements) = settings.acknowledgements_content.to_owned() else {
+        return content;
+    };
+
+    content.push(Value::String(
+        "\\newpage\n\\thispagestyle{plain}\n\n\\section*{Acknowledgements}".to_string(),
+    ));
+
+    content.push(json!({"name": "block_content", "data": acknowledgements, "args": {}}));
+
+    content.push(Value::String(
+        r"\vspace{1.5cm}
+\hfill
+\begin{flushright}"
+            .to_string(),
+    ));
+
+    content.push(Value::String(
+        settings
+            .authors
+            .iter()
+            .map(|name| name.replace(" ", "~"))
+            .collect::<Vec<_>>()
+            .join(", "),
+    ));
+
+    content.push(Value::String(
+        r"
+Gothenburg, \monthname \space \the\year
+\end{flushright}
+    
+\newpage				% Create empty back of side
+\thispagestyle{empty}
+\mbox{}"
+            .to_string(),
+    ));
 
     content
 }
