@@ -56,8 +56,8 @@ fn transform(from: &str, to: &str) -> Result<String, Error> {
         "cite" => transform_cite(input, to),
         "__document" => transform_document(input, to),
         "__heading" => transform_heading(input, to),
-        "tex" => transform_latex_command("tex", input, to),
-        "latex" => transform_latex_command("latex", input, to),
+        "tex" => transform_latex_command("TeX", input, to),
+        "latex" => transform_latex_command("LaTeX", input, to),
         _ => panic!("element not supported"),
     }
 }
@@ -74,7 +74,7 @@ fn transform_latex_command(command: &str, input: Value, to: &str) -> Result<Stri
 
         Ok(serde_json::to_string(&match to {
             "html" => json!([command]),
-            "latex" => json!([format!(r"\{command}")]),
+            "latex" => json!([format!(r"\{command}{{}}")]),
             _ => unreachable!("Unsupported format"),
         })
         .unwrap())
@@ -144,6 +144,8 @@ struct DocSettings {
     cover_art_description: Option<String>,
     /// The abstract text
     abstract_content: Option<String>,
+    /// Sammanfattning (swedish abstract)
+    sammanfattning: Option<String>,
     /// Keywords that are mentioned in the abstract
     keywords: Option<String>,
     /// The acknowledgement text
@@ -174,6 +176,7 @@ impl DocSettings {
             cover_art: Self::read_const("cover_art"),
             cover_art_description: Self::read_const("cover_art_description"),
             abstract_content: Self::read_const("abstract"),
+            sammanfattning: Self::read_const("sammanfattning"),
             acknowledgements_content: Self::read_const("acknowledgements"),
             sources: Self::read_const("sources"),
             course_examiner: Self::read_const("course_examiner"),
@@ -272,7 +275,8 @@ fn transform_document(doc: Value, _to: &str) -> Result<String, Error> {
     content.push(Value::String(create_titlepage(&settings)));
     content.push(Value::String(create_imprint_page(&settings)));
 
-    content.push(Value::String(create_abstract(&settings)));
+    content.append(&mut create_abstract(&settings));
+
     // FIXME: add acknowledgements
 
     // table of contents and start of main content
@@ -378,11 +382,13 @@ fn manifest() -> String {
                         "course_examiner_department": {"type": "const", "access": "read"},
                         "cover_art": {"type": "const", "access": "read"},
                         "cover_art_description": {"type": "const", "access": "read"},
-                        "abstract_content": {"type": "const", "access": "read"},
-                        "acknowledgements_content": {"type": "const", "access": "read"},
+                        "abstract": {"type": "const", "access": "read"},
+                        "acknowledgements": {"type": "const", "access": "read"},
                         "language": {"type": "const", "access": "read"},
                         "sources": {"type": "const", "access": "read"},
-                        "subject": {"type": "const", "access": "read"}
+                        "subject": {"type": "const", "access": "read"},
+                        "keywords": {"type": "const", "access": "read"},
+                        "sammanfattning": {"type": "const", "access": "read"}
                     },
                     "type": "parent"
                 },
@@ -407,8 +413,7 @@ fn manifest() -> String {
                     "from": "tex",
                     "to": ["latex", "html"],
                     "arguments": [],
-                }
-
+                },
             ]
         }
     ))
@@ -725,67 +730,79 @@ Gothenburg, Sweden \the\year",
     content
 }
 
-fn create_abstract(settings: &DocSettings) -> String {
-    let mut content = String::new();
+fn create_abstract(settings: &DocSettings) -> Vec<Value> {
+    let mut content = Vec::new();
 
     let Some(abstract_content) = &settings.abstract_content else {
         // Just return an empty string if there is no abstract defined
         return content;
     };
-
-    let title = settings.get_title();
-    content.push_str(&title);
-    content.push_str("\\\\ \n");
+    content.push(Value::String("\\newpage\n".to_string()));
+    content.push(Value::String(format!(
+        "\\textbf{{{}}}",
+        settings.get_title()
+    )));
+    content.push(Value::String("\\\\ \n".to_string()));
 
     if let Some(subtitle) = &settings.subtitle {
-        content.push_str(&subtitle);
-        content.push_str("\\\\ \n");
+        content.push(Value::String(format!("{subtitle}\\\\ \n")));
     }
 
     // authors
-    content.push_str(
-        &settings
+    content.push(Value::String(
+        "\n\n\\parbox{0.8\\textwidth}{\n\\begin{flushleft}".to_string(),
+    ));
+    content.push(Value::String(
+        settings
             .authors
             .iter()
-            .map(|name| name.replace(" ", "~"))
+            .map(|name| name.replace(" ", "~").to_uppercase())
             .collect::<Vec<_>>()
             .join(", "),
-    );
-    content.push_str("\\\\ \n\n");
+    ));
+
+    content.push(Value::String("\n\\end{flushleft}\n} \\\\ \n\n".to_string()));
 
     if let Some(department) = &settings.department {
-        writeln!(&mut content, r"{department} \\").unwrap();
+        content.push(Value::String(format!(r"{department} \\")));
     }
-    content.push_str(
+
+    content.push(Value::String(
         r"
 Chalmers University of Technology and University of Gothenburg\setlength{\parskip}{0.5cm}
 
 \thispagestyle{plain}
 \setlength{\parskip}{0pt plus 1.0pt}
 \section*{Abstract}
-",
-    );
+"
+        .to_string(),
+    ));
 
-    // FIXME: should be a block content module
-    content.push_str(&abstract_content);
+    // Add the contents of the abstract
+    content.push(json!({"name": "block_content", "data": abstract_content, "args": {}}));
+
+    // If there is an abstract in swedish add that too
+    if let Some(sammanfattning) = &settings.sammanfattning {
+        content.push(Value::String("\\section*{Sammanfattning}".to_string()));
+        content.push(json!({"name": "block_content", "data": sammanfattning, "args": {}}));
+    }
 
     if let Some(keywords) = &settings.keywords {
-        writeln!(
-            &mut content,
+        content.push(Value::String(format!(
             r"
-\vfill
-Keywords: {keywords}"
-        )
-        .unwrap();
+    \vfill
+    Keywords: {keywords}"
+        )));
     }
 
     // Finally, add a empty back page
-    content.push_str(
+    content.push(Value::String(
         r"
 \newpage
 \thispagestyle{empty}
-\mbox{}",
-    );
+\mbox{}"
+            .to_string(),
+    ));
 
     content
 }
