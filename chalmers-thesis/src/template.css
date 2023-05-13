@@ -28,7 +28,7 @@ dd {
 
 :root {
     --color-dark: #252525;
-    --color-light: #fafafa;
+    --color-light: #fdfdfd;
     --color-primary: #0f8b8d;
     --size-step-0: clamp(1rem, calc(0.96rem + 0.22vw), 1.13rem);
     --size-step-1: clamp(1.25rem, calc(1.16rem + 0.43vw), 1.5rem);
