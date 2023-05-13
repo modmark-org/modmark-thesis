@@ -1,5 +1,5 @@
 [comment]{
-Fixa footnote, ksk vill reffa till underrubrikerna?
+ksk vill reffa till underrubrikerna?
 }
 
 # Conclusion
@@ -11,7 +11,7 @@ The fact that the online playground and CLI run on exactly the same code demonst
 The process of implementing and designing ModMark has also highlighted some of the current limitations of WASM and WASI. As mentioned in Section [reference](sec:a3eval) some of the most popular languages like Python and JavaScript do not have good support for WASM due to their large runtimes. As previously mentioned there are proposals that will hopefully alleviate this issue but it is clear that WASM and WASI are still new technologies and the ecosystem will continue to change rapidly. If this project was to be done in a few years time it is likely that there would be new approaches available.
 
 ## Future work
-ModMark will continue to be developed beyond the scope of this bachelor's thesis project. The compiler is released as free and open source software\footnote{Licensed under the Apache License 2.0.} and we welcome new contributors. Due to the modular nature of the language most missing features can be implemented in the form of third-party packages. However, there are some noteworthy topics closely tied to the language design or compiler implementation of ModMark that could be further explored too.
+ModMark will continue to be developed beyond the scope of this bachelor's thesis project. The compiler is released as free and open source software [note]{Licensed under the Apache License 2.0.} and we welcome new contributors. Due to the modular nature of the language most missing features can be implemented in the form of third-party packages. However, there are some noteworthy topics closely tied to the language design or compiler implementation of ModMark that could be further explored too.
 
 ### Incremental compilation
 A potential downside of the modular design of ModMark in combination with the fact that packages are evaluated in WebAssembly virtual machines is slow compilation speeds. In order to improve the speed at which a document is transcompiled, incremental parsing and incremental compilation techniques could be further investigated.

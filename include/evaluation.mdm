@@ -64,7 +64,7 @@ more full featured typesetting systems such as [tex]() and Typst.
 Simplicity is highly subjective and very hard to evaluate in an objective manner.
 However, since ModMark aims to strike a balance between the simplicity of Markdown
 and the expressiveness of [latex]() we will offer a non-exhaustive comparison of
-syntax and features for common writing tasks in the three languages [comment](TODO fix footnote)\[footnote]{Note that there are many dialects of Markdown that offer different features, such as GitHub flavoured Markdown, John Grubers original Perl script and Pandoc Markdown. This comparison will use the CommonMark specification [cite](Commonmark).}. 
+syntax and features for common writing tasks in the three languages [note]{Note that there are many dialects of Markdown that offer different features, such as GitHub flavoured Markdown, John Grubers original Perl script and Pandoc Markdown. This comparison will use the CommonMark specification [cite](Commonmark).}. 
 
 ##### Headings
 Headings in ModMark are very similar to Markdown with some subtle differences.
