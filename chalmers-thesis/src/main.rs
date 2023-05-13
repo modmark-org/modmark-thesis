@@ -878,9 +878,8 @@ fn create_coverpage(settings: &DocSettings) -> String {
     
     % Cover art		
     \begin{{figure}}[H]
-        \centering
-        \vspace{{1cm}} 
-        \includegraphics[width=0.9\linewidth]{{{cover_art}}}
+        \centering 
+        \includegraphics[width=\linewidth]{{{cover_art}}}
     \end{{figure}}"#,
         )
         .unwrap();
@@ -910,7 +909,7 @@ fn create_coverpage(settings: &DocSettings) -> String {
         writeln!(
             &mut content,
             r#"
-    {{\Large {subtitle}}}\\[0.5cm]"#
+    {{\Large {subtitle}}}\\[0.3cm]"#
         )
         .unwrap();
     }
@@ -924,7 +923,7 @@ fn create_coverpage(settings: &DocSettings) -> String {
     if let Some(subject) = &settings.subject {
         write!(&mut content, r#" in {subject}"#).unwrap();
     }
-    content.push_str(r" \setlength{\parskip}{1cm}");
+    content.push_str(r" \setlength{\parskip}{0.5cm}");
     content.push_str("\n\n");
 
     // Names of authors
@@ -1067,7 +1066,7 @@ fn create_imprint_page(settings: &DocSettings) -> String {
         &settings
             .authors
             .iter()
-            .map(|name| name.replace(" ", "~"))
+            .map(|name| name.replace(" ", "~").to_uppercase())
             .collect::<Vec<_>>()
             .join(", "),
     );
@@ -1083,7 +1082,7 @@ fn create_imprint_page(settings: &DocSettings) -> String {
 
         writeln!(
             &mut content,
-            "Supervisor (handledare): {supervisor}, {department}"
+            "Supervisor (handledare): {supervisor}, {department}\\\\"
         )
         .unwrap();
     }
@@ -1094,7 +1093,11 @@ fn create_imprint_page(settings: &DocSettings) -> String {
             .to_owned()
             .unwrap_or_default();
 
-        writeln!(&mut content, "{course_examiner}, {department}").unwrap();
+        writeln!(
+            &mut content,
+            "Examiners: {course_examiner}, {department}\\\\"
+        )
+        .unwrap();
     }
 
     if let Some(examiner) = &settings.examiner {
@@ -1102,7 +1105,7 @@ fn create_imprint_page(settings: &DocSettings) -> String {
 
         writeln!(
             &mut content,
-            "Graded by teacher (rättande lärare): {examiner}, {department}"
+            "Graded by teacher (rättande lärare): {examiner}, {department}\\\\"
         )
         .unwrap();
     }
@@ -1212,7 +1215,7 @@ fn create_abstract(settings: &DocSettings) -> Vec<Value> {
         settings
             .authors
             .iter()
-            .map(|name| name.replace(" ", "~").to_uppercase())
+            .map(|name| name.replace(" ", "~"))
             .collect::<Vec<_>>()
             .join(", "),
     ));
