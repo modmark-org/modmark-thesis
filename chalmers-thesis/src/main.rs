@@ -181,6 +181,7 @@ fn transform_label(input: Value, to: &str) -> Result<String, Error> {
 fn transform_reference(input: Value, to: &str) -> Result<String, Error> {
     match to {
         "html" => {
+
             let label = input["data"].as_str().unwrap();
             let mut escaped_label = label.replace('"', "%22");
             escaped_label.insert(0, '#');
@@ -212,8 +213,11 @@ fn transform_reference(input: Value, to: &str) -> Result<String, Error> {
                             sec_counts[i] = 0;
                         }
                         sec_counts[level - 1] += 1;
-                        fig_count = 0;
-                        tab_count = 0;
+                        if item == "h1" {
+                            fig_count = 0;
+                            tab_count = 0;
+                        }
+
                         prev = "h";
                     }
                     _ => {
