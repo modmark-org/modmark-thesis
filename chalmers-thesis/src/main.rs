@@ -732,6 +732,9 @@ fn manifest() -> String {
                             "default": "1"
                         }
                     ],
+                    "variables": {
+                        "structure": {"type": "list", "access": "push"},
+                    },
                     "type": "parent"
                 },
                 {
