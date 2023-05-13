@@ -192,13 +192,13 @@ fn transform_heading(heading: Value, to: &str) -> Result<String, Error> {
 
     match to {
         "latex" => {
-            let (command, closing) = match level {
-                1 => ("\\chapter{", "}"),
-                2 => ("\\section{", "}"),
-                3 => ("\\subsection{", "}"),
-                4 => ("\\subsubsection{", "}"),
-                5 => ("\\paragraph{\\underline{", "}}"),
-                6 => ("\\subparagraph{", "}"),
+            let command = match level {
+                1 => "\\chapter{",
+                2 => "\\section{",
+                3 => "\\subsection{",
+                4 => "\\subsubsection{",
+                5 => "\\paragraph{",
+                6 => "\\subparagraph{",
                 _ => return Err(Error::HeadingLevel(level)),
             };
 
@@ -208,7 +208,7 @@ fn transform_heading(heading: Value, to: &str) -> Result<String, Error> {
                     list.push(child.clone());
                 }
             }
-            list.push(Value::String(closing.into()));
+            list.push(Value::String("}".into()));
         }
         "html" => {
             let key = format!("h{level}");
