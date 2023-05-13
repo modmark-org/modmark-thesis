@@ -322,7 +322,7 @@ upload files such as images to use in their document.
     alt = "A list of packages and transforms contained within, that is loaded in the playground"
     caption = "A screenshot of the documentation view in the playground."
     width = 1
-    label = fig:playground
+    label = fig:docs
     ]
 ./figures/docs.png
 
