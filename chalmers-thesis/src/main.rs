@@ -81,13 +81,7 @@ fn transform_fancy_image(input: Value, _to: &str) -> Result<String, Error> {
 
     let module_invoc = format!(
         "[image \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"](((\n{}\n)))",
-        alt,
-        caption,
-        label,
-        width,
-        embed,
-        cap_align,
-        data,
+        alt, caption, label, width, embed, cap_align, data,
     );
 
     let label_entry = format!("label/{}", label);
@@ -113,14 +107,7 @@ fn transform_fancy_table(input: Value, _to: &str) -> Result<String, Error> {
 
     let module_invoc = format!(
         "[table \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"](((\n{}\n)))",
-        caption,
-        label,
-        header,
-        alignment,
-        borders,
-        delimiter,
-        strip,
-        data,
+        caption, label, header, alignment, borders, delimiter, strip, data,
     );
 
     let label_entry = format!("label/{}", label);
@@ -143,17 +130,14 @@ fn transform_fancy_big_table(input: Value, _to: &str) -> Result<String, Error> {
     let borders = input["arguments"]["borders"].as_str().unwrap();
     let col_delimiter = input["arguments"]["column-delimiter"].as_str().unwrap();
 
-    let row_delimiter = input["arguments"]["row-delimiter"].as_str().unwrap().to_string();
+    let row_delimiter = input["arguments"]["row-delimiter"]
+        .as_str()
+        .unwrap()
+        .to_string();
 
     let module_invoc = format!(
         "[big-table \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"](((\n{}\n)))",
-        caption,
-        label,
-        alignment,
-        borders,
-        col_delimiter,
-        row_delimiter,
-        data,
+        caption, label, alignment, borders, col_delimiter, row_delimiter, data,
     );
 
     let label_entry = format!("label/{}", label);
@@ -217,40 +201,37 @@ fn transform_reference(input: Value, to: &str) -> Result<String, Error> {
                     "fig" => {
                         fig_count += 1;
                         prev = "fig";
-                    },
+                    }
                     "tab" => {
                         tab_count += 1;
                         prev = "tab";
-                    },
+                    }
                     "h1" | "h2" | "h3" | "h4" | "h5" => {
                         let level = item[1..].parse::<usize>().unwrap();
                         for i in level..sec_counts.len() {
                             sec_counts[i] = 0;
                         }
-                        sec_counts[level-1] += 1;
+                        sec_counts[level - 1] += 1;
                         fig_count = 0;
                         tab_count = 0;
                         prev = "h";
                     }
                     _ => {
                         if Some(label) == item.strip_prefix("label/") {
-
                             display = match prev {
                                 "fig" => format!("{}.{}", sec_counts[0], fig_count),
                                 "tab" => format!("{}.{}", sec_counts[0], tab_count),
-                                "h" => {
-                                    sec_counts
-                                        .iter()
-                                        .filter(|&&c| c != 0)
-                                        .map(|c| c.to_string())
-                                        .collect::<Vec<String>>()
-                                        .join(".")
-                                }
+                                "h" => sec_counts
+                                    .iter()
+                                    .filter(|&&c| c != 0)
+                                    .map(|c| c.to_string())
+                                    .collect::<Vec<String>>()
+                                    .join("."),
                                 _ => String::new(),
                             };
-                            break
+                            break;
                         }
-                    },
+                    }
                 }
             }
 
@@ -330,14 +311,47 @@ fn transform_note(input: Value, to: &str) -> Result<String, Error> {
     Ok(serde_json::to_string(&result).unwrap())
 }
 
-fn transform_note_label(input: Value, _to: &str) -> Result<String, Error> {
-    let result = json!({
-        "name": "__text",
-        "data": input["arguments"]["id"],
-        "arguments": {},
-    });
+fn transform_note_label(input: Value, to: &str) -> Result<String, Error> {
+    let Value::Number(id) = &input["arguments"]["id"] else {
+        unreachable!()
+    };
+    let id = id.as_u64().unwrap();
 
-    Ok(serde_json::to_string(&result).unwrap())
+    let notes: Vec<Value> = {
+        let var = env::var("notes").unwrap_or_else(|_| "[]".to_string());
+        let array: Value = serde_json::from_str(&var).unwrap();
+
+        array
+            .as_array()
+            .unwrap()
+            .into_iter()
+            .map(|note| serde_json::from_str(note.as_str().unwrap()).unwrap())
+            .collect()
+    };
+
+    // Find the correct note
+    let number = 1 + notes
+        .into_iter()
+        .enumerate()
+        .find(|(_, data)| {
+            if let Value::Number(note_id) = &data["id"] {
+                note_id.as_u64().unwrap() == id
+            } else {
+                false
+            }
+        })
+        .map(|(index, _)| index)
+        .unwrap();
+
+    match to {
+        "html" => {
+            let result = json!([format!(r##"<a href="#note:{id}"><sup>{number}</sup></a>"##),]);
+
+            Ok(serde_json::to_string(&result).unwrap())
+        }
+
+        _ => unreachable!("unsupported format"),
+    }
 }
 
 /// Transform latex macros like \LaTeX and \TeX
@@ -602,7 +616,6 @@ fn transform_heading(heading: Value, to: &str) -> Result<String, Error> {
         s.parse::<u8>().unwrap()
     };
 
-
     match to {
         "latex" => {
             let (command, closing) = match level {
@@ -622,11 +635,12 @@ fn transform_heading(heading: Value, to: &str) -> Result<String, Error> {
                 }
             }
             list.push(Value::String(closing.into()));
-
         }
         "html" => {
             let key = format!("h{level}");
-            list.push(json!({"name": "list-push", "arguments": {"name": "structure"}, "data": key}));
+            list.push(
+                json!({"name": "list-push", "arguments": {"name": "structure"}, "data": key}),
+            );
 
             list.push(Value::String(format!("<h{level}>")));
             if let Value::Array(children) = &heading["children"] {
@@ -671,7 +685,7 @@ fn manifest() -> String {
                 },
                 {
                     "from": "note-label",
-                    "to": ["latex", "html"],
+                    "to": ["html"],
                     "description": "Do not use this module. It is generated when using [note].",
                     "arguments": [
                         {"name": "id", "description": "The id of the note", "type": "u64"}
@@ -704,7 +718,7 @@ fn manifest() -> String {
                         "sources": {"type": "const", "access": "read"},
                         "subject": {"type": "const", "access": "read"},
                         "keywords": {"type": "const", "access": "read"},
-                        "sammanfattning": {"type": "const", "access": "read"}
+                        "sammanfattning": {"type": "const", "access": "read"},
                     },
                     "type": "parent"
                 },
