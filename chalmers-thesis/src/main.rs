@@ -58,8 +58,67 @@ fn transform(from: &str, to: &str) -> Result<String, Error> {
         "__heading" => transform_heading(input, to),
         "tex" => transform_latex_command("TeX", input, to),
         "latex" => transform_latex_command("LaTeX", input, to),
+        "note" => transform_note(input, to),
+        "note-label" => transform_note_label(input, to),
         _ => panic!("element not supported"),
     }
+}
+
+fn transform_note(input: Value, to: &str) -> Result<String, Error> {
+    let result = match to {
+        // It's very easy when using latex, just add a \footnote{...}
+        "latex" => {
+            let mut result = Vec::new();
+            result.push(json!(r"\footnote{"));
+            result.push(json!({
+                "name": "inline_content",
+                "data": input["data"],
+                "args": {}
+            }));
+            result.push(json!("}"));
+            result
+        }
+        // When outputing html we store every note in the "notes" variable
+        // tied to a randomized id and also create a new [note-label] that
+        // reads from that list once it's done.
+        // NOTE: a simpler alternate approach would of been
+        // just reading from the list while we are pushing to it instead of using the [note-label] as a proxy,
+        // but that is currently not supported by ModMark.
+        "html" => {
+            let mut result = Vec::new();
+
+            let id = rand::random::<u64>();
+            let payload = json!({
+                "id": id,
+                "note": input["data"]
+            });
+
+            result.push(json!({
+                "name": "list-push",
+                "arguments": {"name": "notes"},
+                "data": serde_json::to_string(&payload).unwrap()
+            }));
+
+            result.push(json!({
+                "name": "note-label",
+                "arguments": {"id": id},
+                "data": "",
+            }));
+            result
+        }
+        _ => unreachable!("unsupported format"),
+    };
+    Ok(serde_json::to_string(&result).unwrap())
+}
+
+fn transform_note_label(input: Value, to: &str) -> Result<String, Error> {
+    let result = json!({
+        "name": "__text",
+        "data": input["arguments"]["id"],
+        "arguments": {},
+    });
+
+    Ok(serde_json::to_string(&result).unwrap())
 }
 
 /// Transform latex macros like \LaTeX and \TeX
@@ -363,6 +422,26 @@ fn manifest() -> String {
                             "default": ""
                         },
                     ],
+                },
+                {
+                    "from": "note",
+                    "to": ["latex", "html"],
+                    "description": "Add a note.",
+                    "arguments": [],
+                    "variables": {
+                        "notes": {"type": "list", "access": "push"}
+                    },
+                },
+                {
+                    "from": "note-label",
+                    "to": ["latex", "html"],
+                    "description": "Do not use this module. It is generated when using [note].",
+                    "arguments": [
+                        {"name": "id", "description": "The id of the note", "type": "u64"}
+                    ],
+                    "variables": {
+                        "notes": {"type": "list", "access": "read"}
+                    },
                 },
                 {
                     "from": "__document",
