@@ -23,26 +23,7 @@ pub(crate) fn transform_document_html(mut input: Value) -> Result<String, Error>
 <meta charset="UTF-8">
 "#
     )];
-    /*
-     <div class="cover">
-      <img src="figures/cover.jpg" />
-      <h1 class="title">
-        ModMark: A Modular Markup Language
-      </h1>
-      <div class="subtitle">Designing and implementing a markup language utilising WebAssembly</div>
-      <ul class="authors">
-        <li>Eli Adelhult</li>
-        <li>Gustav Bruhn</li>
-        <li>Eli Adelhult</li>
-        <li>Gustav Bruhn</li>
-        <li>Eli Adelhult</li>
-        <li>Gustav Bruhn</li>
-      </ul>
-    </div>
-    <div class="abstract">
 
-    </div>
-    */
     // Add imports
     let mut imports = {
         let var = env::var("imports").unwrap_or("[]".to_string());
@@ -123,6 +104,24 @@ pub(crate) fn transform_document_html(mut input: Value) -> Result<String, Error>
         } else {
             unreachable!("Children is not a list");
         }
+    }
+
+    // Footnotes
+    let notes = DocSettings::get_notes();
+    if !notes.is_empty() {
+        result.push(raw!(r#"<div class="footnotes">"#));
+        result.push(raw!("<h2>Footnotes</h2>"));
+        result.push(raw!("<ol>"));
+        for data in notes.iter() {
+            let note = data["note"].as_str().unwrap();
+            let id = data["id"].as_u64().unwrap();
+
+            result.push(raw!(format!(
+                r##"<li><a id="note:{id}"></a>{note} <a href="#note-backlink:{id}">(back)</a></li>"##
+            )));
+        }
+        result.push(raw!("</ol>"));
+        result.push(raw!("</div>"));
     }
 
     result.push(raw!("</article></body></html>"));
