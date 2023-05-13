@@ -52,7 +52,7 @@ readability and convenience rather than focusing on maximum control of output.
 A selection of popular and relevant markup languages are presented below,
 ordered by date of release.
 
-##### [latex]()
+##### ==[latex]()==
 
 Leslie Lamport developed [latex]() (short for Lamport [tex]()) in the 1980s
 [cite]{Latex}. It includes many useful macros that allows users to easier create
@@ -60,14 +60,14 @@ documents adding images, headings etc. without worrying about the low-level
 typesetting primitives. While this added a layer of convenience, the language is
 still quite verbose in comparison to more recent markup languages.
 
-##### reStructuredText
+##### ==reStructuredText==
 In 2001, the first version of reStructuredText, or reST for short, was released
 [cite](rest). Since its release it has been adopted by the Python community for
 language documentation. It features syntactic sugar for formatting such as bold
 and italic, lists and tables. Additionally it allows users to write custom
 blocks in Python to extend the functionality.
 
-##### AsciiDoc
+##### ==AsciiDoc==
 AsciiDoc first arrived just a year after reST [cite]{AsciiDoc}, with a newer
 implementation from 2013 called Asciidoctor [cite]{Asciidoctor}. It is aimed
 towards technical documentation, and includes a variety of syntactical
@@ -89,7 +89,7 @@ use programming languages to generate output.
     ]
 ./figures/reST_vs_AsciiDoc.svg
 
-##### Markdown
+##### ==Markdown==
 Markdown was released in 2004, just two years after the release of AsciiDoc
 [cite]{markdown}. It was developed by John Gruber and Aaron Swartz with a heavy
 focus on readability and being ergonomic. The original specification of the
@@ -104,14 +104,14 @@ In comparison to other markup languages, Markdown is quite limited in
 functionality. It revolves around convenient syntactical patterns but has
 little to no support for custom extensions.
 
-##### Djot
+##### ==Djot==
 In 2022 John MacFarlane, who was active in the creation of CommonMark, presented
 Djot -- a language aimed at fixing the shortcomings of Markdown and the
 complexities in CommonMark [cite]{djot}. It expands on Markdown's original
 design by including elements such as tables and footnotes. Additionally, users
 are able to customise the language by creating custom filters.
 
-##### Typst
+##### ==Typst==
 Later in the same year, Mjäde [cite] typst and Haug [cite] typst2 presented a
 new alternative to [latex]() that they call Typst. The motivation behind
 creating Typst was frustration with the [latex]() macro system and lack of
