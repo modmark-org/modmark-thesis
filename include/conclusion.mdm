@@ -25,7 +25,7 @@ Good compiler diagnostics that help users when they encounter issues is essentia
 
 [latex](), despite its popularity, produces error messages that are arguably complex and unhelpful to inexperienced users [cite](typst). On the other hand, Typst and programming languages like Elm [cite](elm) and Rust [cite](rust_errors) has made more recent attempts at providing helpful error messages that reference the source code and attempt to explain the error. An example of this is found in Figure [reference](fig:elm_error).
 
-[image
+[fancy-image
     alt = "An error message produced by the elm compiler. It describes how the user forgot to end their line with double quotes."
     caption = "An example of a error message produced by the compiler for the Elm programming language."
     width = .8

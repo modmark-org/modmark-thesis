@@ -17,7 +17,7 @@ This chapter presents the development process, technical details and relevant
  related tooling. Figure [reference] fig:overview gives an overview of the
  compilation process which is explained in the rest of this chapter.
 
-[image
+[fancy-image
     alt = "A block diagram describing how source text passes through the parser and then to the scheduler whereupon different packages iterate on the document until it is completed."
     caption = "A high-level overview of the compilation pipeline showing how source text is transformed through multiple intermediate formats, iteratively evaluated in packages and then finally results in some output text in another other format (such as HTML or [latex]())."
     width = 1.1
@@ -62,7 +62,7 @@ document. Figure [reference] fig:sourceToAst shows an example of a simple
 ModMark document parsed into an AST.
 
 
-[image
+[fancy-image
     alt = "A heading and some text being converted to an AST tree."
     caption = "Some example source text being parsed into an AST."
     width = 0.75
@@ -141,7 +141,7 @@ A Rust enum (a sum type) describing the element tree.
 
 [comment]"TODO Maybe remove this hack"
 
-[image
+[fancy-image
     alt = "Text about a weather updated being parsed to an AST and converted to an element tree"
     caption = "Some source text that has first been parsed into a AST and then converted into a element tree."
     width = 0.7
@@ -188,7 +188,7 @@ external packages are run using WASI in a similar fashion to command-line
 applications, it is also possible to read the variables as if they were ordinary
 OS environment variables.
 
-[image
+[fancy-image
     alt = "A table of the data types set, list and constant, and their associated operations, that is set-add, set-read, list-push, list-read, const-decl and const-read"
     caption = "The six modules used to write and read to variables. The different types and operations they offer affect the dependencies between elements."
     width = 0.6
@@ -203,7 +203,7 @@ example of such a graph can be seen in Figure [reference]{fig:dag}. To decide in
 which order to transform the elements, the DAG can then simply be topologically
 sorted.
 
-[image
+[fancy-image
     alt = "A table of content followed by three headings, which are converted to one node for each, with dependencies drawn inbetween them"
     caption = "A example of a DAG. Note that all dependencies (edges) in this example are caused by list push operations to a //headings// variable. Push operations are required to be performed in the same order as they appear in the source text and this is why the headings depend on each other too."
     width = 0.8
@@ -301,7 +301,7 @@ has been built during the project, one only using ordinary JavaScript and a
 later effort has been put in making a more full featured version using the
 popular React library.
 
-[image
+[fancy-image
     alt = "A screenshot of the web playground with a reproduction of the Wikipedia article about Ada Lovelace."
     caption = "A screenshot of the web playground with a reproduction of the Wikipedia article about Ada Lovelace."
     width = 1
@@ -318,7 +318,7 @@ a example of this can be found in Figure [reference]{fig:docs}. Finally, there
 is virtual file system with an accompanying file browser that allows users to
 upload files such as images to use in their document.
 
-[image
+[fancy-image
     alt = "A list of packages and transforms contained within, that is loaded in the playground"
     caption = "A screenshot of the documentation view in the playground."
     width = 1
@@ -354,7 +354,7 @@ uses a so-called //specifier// as prefix to the path in order to inform the
 package manager where to find the desired packages. See Figure
 [reference] fig:imports for an example.
 
-[image
+[fancy-image
     alt = "Packages loaded firstly from a local file, then from an URL, then from the catalog, and lastly from the standard packages"
     caption = "A config module with import statements with different paths. The specifier is highlighted in purple."
     width = 0.7

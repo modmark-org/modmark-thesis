@@ -81,7 +81,7 @@ compilation. These do not require writing any external code. Asciidoctor also
 has support for extensions [cite]{Asciidoctor_Ext}, which allows developers to
 use programming languages to generate output.
 
-[image
+[fancy-image
     alt="Code for producing some headings, paragraphs, and a link, in both reST and AsciiDoc"
     caption="An example of source code for producing two headings, two paragraphs and a link in reStructuredText and AsciiDoc"
     label=fig:asciidoc_rest_example
@@ -157,8 +157,8 @@ Figure [reference]{fig:latexMarkdownExample}, which illustrates the difference
 in verbosity and capability. It is worth noting that [latex]() documents rarely
 have an empty preamble (the section before the document begins).
 
-[image
-    alt = "Code producing two headings and two paragraphs in LaTeX and ;arkdown"
+[fancy-image
+    alt = "Code producing two headings and two paragraphs in LaTeX and Markdown"
     caption = "An example of source code for producing two headings and two paragraphs of text in [latex]// and Markdown."
     width = 0.9
     label = fig:latexMarkdownExample

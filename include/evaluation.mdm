@@ -15,19 +15,19 @@ compiler is functioning as intended, and that the language itself is expressive
 and powerful. Nonetheless, it is important to acknowledge that both the design
 and implementation of ModMark are not without their shortcomings. The remainder
 of this chapter will investigate to which extent the design ideals outlined in
-Section [reference "1.2"](sec:aim) were realised. 
+Section [reference](sec:aim) were realised. 
 
 ## Expressiveness (A1)
 Aim A1 is to make ModMark expressive enough to bridge the gap between lightweight
 languages and powerful typesetting systems like [latex](). We also stated that the
 language should be output agnostic. While the former is more subjective, the latter
-is a core property of the compiler presented in Chapter [reference "3"](chp:implementation). 
+is a core property of the compiler presented in Chapter [reference](chp:implementation). 
 
 The majority of ModMark's expressiveness comes from its packages and modules. It
 relies on these to provide functionality that is necessary to produce the desired
 document. The set of packages that is included in the standard bundle of ModMark
 goes a long way in enabling most kinds of writing. As was presented in Section
-[reference "2.5"](sec:packages), they support figures, tables, and even a standalone bibliography
+[reference](sec:packages), they support figures, tables, and even a standalone bibliography
 and citation system. This is adequate for most parts of a typical academic report.
 However, the standard packages may not be enough when conforming to certain report standards.
 Sections such as cover page and title page are more cumbersome to reproduce in ModMark
@@ -41,12 +41,12 @@ new functionality if needed. Granted, the extendability of the language only bec
 factor once there is a healthy ecosystem of packages.
 
 Furthermore, part of our goals towards expressiveness was to make ModMark agnostic
-of output format. In Chapter [reference "3"](chp:implementation), we presented the design and
+of output format. In Chapter [reference](chp:implementation), we presented the design and
 implementation of a compiler that achieves this. Additionally, both the CLI and web
 playground were designed to be output agnostic, by allowing the user to specify the
 output format. Although, because HTML and [latex]() were prioritised in development
-they were also given additional functionality (see Section [reference "3.6"]{sec:cli} and
-[reference "3.7"]{sec:playground}). In that sense, while the compiler is truly output agnostic,
+they were also given additional functionality (see Section [reference]{sec:cli} and
+[reference]{sec:playground}). In that sense, while the compiler is truly output agnostic,
 the full ModMark suite is not. 
 
 The decision to make ModMark output agnostic has served us well in development. It eased
@@ -70,9 +70,9 @@ syntax and features for common writing tasks in the three languages [comment](TO
 Headings in ModMark are very similar to Markdown with some subtle differences.
 No whitespace character after the hash sign is needed like in Markdown and the
 alternate syntax that uses equal signs or hyphens is not supported.
-See Table [reference "4.1"]{tab:headings} for a comparison. [comment](TODO ugly table/code, also broken in latex)
+See Table [reference]{tab:headings} for a comparison. [comment](TODO ugly table/code, also broken in latex)
 
-[big-table caption="Comparing the syntax for headings." label="tab:headings"]{{
+[fancy-big-table caption="Comparing the syntax for headings." label="tab:headings"]{{
 CommonMark
 [next-column]
 ModMark
@@ -137,7 +137,7 @@ to avoid confusion or ambiguity in situations with nested tags or prefixes
 
 [comment](TODO ugly table/code, also broken in latex)
 
-[big-table caption="Comparing the syntax for common inline text formatting options. Notice that HTML is used for the situations where Markdown does not provide any concrete syntax." label="tab:tags"]{{
+[fancy-big-table caption="Comparing the syntax for common inline text formatting options. Notice that HTML is used for the situations where Markdown does not provide any concrete syntax." label="tab:tags"]{{
 CommonMark
 [next-column]
 ModMark
@@ -178,6 +178,7 @@ This will not be part of the code block since
 ))
 
 ## Portability and package development (A3)
+[label](sec:a3eval)
 One of the central ideas of ModMark is portability; a document written on one
 computer should still produce the same result if compiled on another computer,
 regardless of what packages are used. A3 formulates this as

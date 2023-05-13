@@ -60,7 +60,226 @@ fn transform(from: &str, to: &str) -> Result<String, Error> {
         "latex" => transform_latex_command("LaTeX", input, to),
         "note" => transform_note(input, to),
         "note-label" => transform_note_label(input, to),
+        "label" => transform_label(input, to),
+        "reference" => transform_reference(input, to),
+        "fancy-image" => transform_fancy_image(input, to),
+        "fancy-table" => transform_fancy_table(input, to),
+        "fancy-big-table" => transform_fancy_big_table(input, to),
         _ => panic!("element not supported"),
+    }
+}
+
+fn transform_fancy_image(input: Value, _to: &str) -> Result<String, Error> {
+    let data = input["data"].as_str().unwrap();
+
+    let alt = input["arguments"]["alt"].as_str().unwrap();
+    let width = input["arguments"]["width"].as_f64().unwrap().to_string();
+    let caption = input["arguments"]["caption"].as_str().unwrap();
+    let cap_align = input["arguments"]["caption-alignment"].as_str().unwrap();
+    let label = input["arguments"]["label"].as_str().unwrap();
+    let embed = input["arguments"]["embed"].as_str().unwrap();
+
+    let module_invoc = format!(
+        "[image \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"](((\n{}\n)))",
+        alt,
+        caption,
+        label,
+        width,
+        embed,
+        cap_align,
+        data,
+    );
+
+    let label_entry = format!("label/{}", label);
+    let json = json!([
+        {"name": "list-push", "arguments": {"name": "structure"}, "data": "fig"},
+        {"name": "list-push", "arguments": {"name": "structure"}, "data": label_entry},
+        {"name": "block_content", "data": module_invoc},
+    ]);
+
+    Ok(serde_json::to_string(&json).unwrap())
+}
+
+fn transform_fancy_table(input: Value, _to: &str) -> Result<String, Error> {
+    let data = input["data"].as_str().unwrap();
+
+    let caption = input["arguments"]["caption"].as_str().unwrap();
+    let label = input["arguments"]["label"].as_str().unwrap();
+    let header = input["arguments"]["header"].as_str().unwrap();
+    let alignment = input["arguments"]["alignment"].as_str().unwrap();
+    let borders = input["arguments"]["borders"].as_str().unwrap();
+    let delimiter = input["arguments"]["delimiter"].as_str().unwrap();
+    let strip = input["arguments"]["strip_whitespace"].as_str().unwrap();
+
+    let module_invoc = format!(
+        "[table \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"](((\n{}\n)))",
+        caption,
+        label,
+        header,
+        alignment,
+        borders,
+        delimiter,
+        strip,
+        data,
+    );
+
+    let label_entry = format!("label/{}", label);
+    let json = json!([
+        {"name": "list-push", "arguments": {"name": "structure"}, "data": "tab"},
+        {"name": "list-push", "arguments": {"name": "structure"}, "data": label_entry},
+        {"name": "block_content", "data": module_invoc},
+    ]);
+
+    Ok(serde_json::to_string(&json).unwrap())
+}
+
+fn transform_fancy_big_table(input: Value, _to: &str) -> Result<String, Error> {
+    let data = input["data"].as_str().unwrap();
+
+    let caption = input["arguments"]["caption"].as_str().unwrap();
+    let label = input["arguments"]["label"].as_str().unwrap();
+    let alignment = input["arguments"]["alignment"].as_str().unwrap();
+
+    let borders = input["arguments"]["borders"].as_str().unwrap();
+    let col_delimiter = input["arguments"]["column-delimiter"].as_str().unwrap();
+
+    let row_delimiter = input["arguments"]["row-delimiter"].as_str().unwrap().to_string();
+
+    let module_invoc = format!(
+        "[big-table \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"](((\n{}\n)))",
+        caption,
+        label,
+        alignment,
+        borders,
+        col_delimiter,
+        row_delimiter,
+        data,
+    );
+
+    let label_entry = format!("label/{}", label);
+    let json = json!([
+        {"name": "list-push", "arguments": {"name": "structure"}, "data": "tab"},
+        {"name": "list-push", "arguments": {"name": "structure"}, "data": label_entry},
+        {"name": "block_content", "data": module_invoc},
+    ]);
+
+    Ok(serde_json::to_string(&json).unwrap())
+}
+
+fn transform_label(input: Value, to: &str) -> Result<String, Error> {
+    let label = input["data"].as_str().unwrap();
+
+    let json = match to {
+        "html" => {
+            let escaped_label = label.replace('"', "%22");
+            let label_tag = format!(r#"<span id="{escaped_label}">"#);
+            let label_entry = format!("label/{}", label);
+            let output = format!("{label_tag}</span>");
+            json!([
+                {"name": "list-push", "arguments": {"name": "structure"}, "data": label_entry},
+                output
+            ])
+        }
+        "latex" => {
+            let escaped_label = label.replace('"', "%22");
+
+            let output = format!(r#"\label{{{}}}"#, escaped_label);
+            json!([output])
+        }
+        _ => {
+            json!([])
+        }
+    };
+
+    Ok(serde_json::to_string(&json).unwrap())
+}
+
+fn transform_reference(input: Value, to: &str) -> Result<String, Error> {
+    match to {
+        "html" => {
+            let label = input["data"].as_str().unwrap();
+            let mut escaped_label = label.replace('"', "%22");
+            escaped_label.insert(0, '#');
+
+            let structure: Vec<String> = {
+                let var = env::var("structure").unwrap_or("[]".to_string());
+                from_str(&var).unwrap()
+            };
+
+            let mut fig_count = 0;
+            let mut tab_count = 0;
+            let mut sec_counts = vec![0; 5];
+            let mut prev = "h";
+            let mut display = String::new();
+
+            for item in &structure {
+                match item.as_str() {
+                    "fig" => {
+                        fig_count += 1;
+                        prev = "fig";
+                    },
+                    "tab" => {
+                        tab_count += 1;
+                        prev = "tab";
+                    },
+                    "h1" | "h2" | "h3" | "h4" | "h5" => {
+                        let level = item[1..].parse::<usize>().unwrap();
+                        for i in level..sec_counts.len() {
+                            sec_counts[i] = 0;
+                        }
+                        sec_counts[level-1] += 1;
+                        fig_count = 0;
+                        tab_count = 0;
+                        prev = "h";
+                    }
+                    _ => {
+                        if Some(label) == item.strip_prefix("label/") {
+
+                            display = match prev {
+                                "fig" => format!("{}.{}", sec_counts[0], fig_count),
+                                "tab" => format!("{}.{}", sec_counts[0], tab_count),
+                                "h" => {
+                                    sec_counts
+                                        .iter()
+                                        .filter(|&&c| c != 0)
+                                        .map(|c| c.to_string())
+                                        .collect::<Vec<String>>()
+                                        .join(".")
+                                }
+                                _ => String::new(),
+                            };
+                            break
+                        }
+                    },
+                }
+            }
+
+            let label_tag = format!(r#"<a href="{escaped_label}">"#);
+
+            let json = json!([
+                {"name": "raw", "data": label_tag},
+                {"name": "raw", "data": display},
+                {"name": "raw", "data":  "</a>"},
+            ]);
+
+            Ok(serde_json::to_string(&json).unwrap())
+        }
+        "latex" => {
+            let label = input["data"].as_str().unwrap();
+            let escaped_label = label.replace('"', "%22");
+
+            let label_tag = format!(r#"\ref{{{}}}"#, escaped_label);
+
+            let json = json!([
+                {"name": "raw", "data": label_tag},
+            ]);
+
+            Ok(serde_json::to_string(&json).unwrap())
+        }
+        other => {
+            eprintln!("Cannot convert ref to {other}");
+            Ok(String::from("[]"))
+        }
     }
 }
 
@@ -111,7 +330,7 @@ fn transform_note(input: Value, to: &str) -> Result<String, Error> {
     Ok(serde_json::to_string(&result).unwrap())
 }
 
-fn transform_note_label(input: Value, to: &str) -> Result<String, Error> {
+fn transform_note_label(input: Value, _to: &str) -> Result<String, Error> {
     let result = json!({
         "name": "__text",
         "data": input["arguments"]["id"],
@@ -374,7 +593,7 @@ fn transform_document(doc: Value, _to: &str) -> Result<String, Error> {
     Ok(serde_json::to_string(&content).unwrap())
 }
 
-fn transform_heading(heading: Value, _to: &str) -> Result<String, Error> {
+fn transform_heading(heading: Value, to: &str) -> Result<String, Error> {
     let mut list: Vec<Value> = vec![];
     let level = {
         let Value::String(s) = &heading["arguments"]["level"] else {
@@ -383,24 +602,42 @@ fn transform_heading(heading: Value, _to: &str) -> Result<String, Error> {
         s.parse::<u8>().unwrap()
     };
 
-    let (command, closing) = match level {
-        1 => ("\\chapter{", "}"),
-        2 => ("\\section{", "}"),
-        3 => ("\\subsection{", "}"),
-        4 => ("\\subsubsection{", "}"),
-        5 => ("\\paragraph{\\underline{", "}}"),
-        6 => ("\\subparagraph{", "}"),
-        _ => return Err(Error::HeadingLevel(level)),
-    };
 
-    list.push(Value::String(command.into()));
+    match to {
+        "latex" => {
+            let (command, closing) = match level {
+                1 => ("\\chapter{", "}"),
+                2 => ("\\section{", "}"),
+                3 => ("\\subsection{", "}"),
+                4 => ("\\subsubsection{", "}"),
+                5 => ("\\paragraph{\\underline{", "}}"),
+                6 => ("\\subparagraph{", "}"),
+                _ => return Err(Error::HeadingLevel(level)),
+            };
 
-    if let Value::Array(children) = &heading["children"] {
-        for child in children {
-            list.push(child.clone());
+            list.push(Value::String(command.into()));
+            if let Value::Array(children) = &heading["children"] {
+                for child in children {
+                    list.push(child.clone());
+                }
+            }
+            list.push(Value::String(closing.into()));
+
         }
+        "html" => {
+            let key = format!("h{level}");
+            list.push(json!({"name": "list-push", "arguments": {"name": "structure"}, "data": key}));
+
+            list.push(Value::String(format!("<h{level}>")));
+            if let Value::Array(children) = &heading["children"] {
+                for child in children {
+                    list.push(child.clone());
+                }
+            }
+            list.push(Value::String(format!("</h{level}>")));
+        }
+        _ => {}
     }
-    list.push(Value::String(closing.into()));
 
     Ok(serde_json::to_string(&Value::Array(list)).unwrap())
 }
@@ -473,7 +710,7 @@ fn manifest() -> String {
                 },
                 {
                     "from": "__heading",
-                    "to": ["latex"],
+                    "to": ["latex", "html"],
                     "arguments": [
                         {
                             "name": "level",
@@ -493,6 +730,90 @@ fn manifest() -> String {
                     "to": ["latex", "html"],
                     "arguments": [],
                 },
+                {
+                    "from": "fancy-image",
+                    "to": ["html", "latex"],
+                    "type": "multiline-module",
+                    "arguments": [
+                        {"name": "alt", "default": "", "description": "Alternative text for the image"},
+                        {
+                            "name": "caption",
+                            "default": "",
+                            "description": "The caption for the image."
+                        },
+                        {
+                            "name": "label",
+                            "default": "",
+                            "description": "The label to use for the image, to be able to refer to it from the document."
+                        },
+                        {
+                            "name": "width",
+                            "default": 1.0,
+                            "type": "f64",
+                            "description":
+                                "\
+                                The width of the image resulting image. \
+                                For LaTeX this is ratio to the document's text area width. \
+                                For HTML this is ratio to the width of the surrounding figure tag (created automatically).\
+                                "
+                        },
+                        {
+                            "name": "embed", "default": "false", "type": ["true", "false"], "description": "Decides if the provided image should be embedded in the HTML document."
+                        },
+                        {
+                            "name": "caption-alignment", "default": "center", "type": ["left", "center", "right"], "description": "The alignment of the image caption."
+                        },
+                    ],
+                    "variables": {
+                        "structure": {"type": "list", "access": "push"},
+                        "imports": {"type": "set", "access": "add"}
+                    }
+                },
+                {
+                    "from": "fancy-table",
+                    "to": ["html", "latex"],
+                    "arguments": [
+                        {"name": "caption", "default": "", "description": "The caption for the table"},
+                        {"name": "label", "default":"", "description": "The label to use for the table, to be able to refer to it from the document"},
+                        {"name": "header", "default": "none", "type": ["none", "bold"], "description": "Style to apply to heading, none/bold"},
+                        {"name": "alignment", "default": "left", "description": "Horizontal alignment in cells, left/center/right or l/c/r for each column"},
+                        {"name": "borders", "default": "all", "type": ["all", "horizontal", "vertical", "outer", "none"], "description": "Which borders to draw"},
+                        {"name": "delimiter", "default": "|", "description": "The delimiter between cells"},
+                        {"name": "strip_whitespace", "default": "true", "type": ["true", "false"], "description": "true/false to strip/don't strip whitespace in cells"}
+                    ],
+                    "unknown-content": true,
+                    "description": "Makes a table. Use one row for each row in the table, and separate the columns by the delimiter (default = |)"
+                },
+                {
+                    "from": "fancy-big-table",
+                    "to": ["html", "latex"],
+                    "arguments": [
+                        {"name": "caption", "default": "", "description": "The caption for the table"},
+                        {"name": "label", "default":"", "description": "The label to use for the table, to be able to refer to it from the document"},
+                        {"name": "alignment", "default": "left", "description": "Horizontal alignment in cells, left/center/right or l/c/r for each column"},
+                        {"name": "borders", "default": "all", "type": ["all", "horizontal", "vertical", "outer", "none"], "description": "Which borders to draw"},
+                        {"name": "column-delimiter", "default": "[next-column]", "description": "The delimiter between columns"},
+                        {"name": "row-delimiter", "default": "[next-row]", "description": "The delimiter between rows"},
+                    ],
+                    "unknown-content": true,
+                    "description": "Large variant of the table, which accepts block content. Write the content of each cell on multiple lines, and use column-delimiter between cells on the same row. Then, use row-delimiter between rows."
+                },
+                {
+                    "from": "label",
+                    "to": ["html", "latex"],
+                    "arguments": [],
+                    "variables": {
+                        "structure": {"type": "list", "access": "push"},
+                    }
+                },
+                {
+                    "from": "reference",
+                    "to": ["html", "latex"],
+                    "arguments": [],
+                    "variables": {
+                        "structure": {"type": "list", "access": "read"}
+                    }
+                }
             ]
         }
     ))

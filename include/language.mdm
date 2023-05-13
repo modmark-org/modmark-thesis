@@ -21,7 +21,7 @@ underpins the entire language, support for a new output format can be added by
 providing a new package that supports the transformation.
 
 A short example of a document written in ModMark can be seen in Figure
-[reference modmark_example](fig:modmarkExample). The rest of this chapter will explain the
+[reference](fig:modmarkExample). The rest of this chapter will explain the
 syntax and semantics of the ModMark language, and gives an introduction to some
 of the included packages.
 
@@ -29,7 +29,7 @@ of the included packages.
 TODO: the label here does not work because the _ is escaped so it becomes 
 \label{fig:modmark\_example}.
 
-[image caption="The same example document as in Figure [reference latexMarkdownExample]{fig:latexMarkdownExample} but written in ModMark. It demonstrates a few syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags and (4) module expressions." label="fig:modmarkExample" width=0.65]
+[fancy-image caption="The same example document as in Figure [reference]{fig:latexMarkdownExample} but written in ModMark. It demonstrates a few syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags and (4) module expressions." label="fig:modmarkExample" width=0.65]
 figures/modmark_example.svg
 
 
@@ -50,7 +50,7 @@ For example, the [latex]() package supports three levels of headings by outputti
 package supports six levels by outputting ``<h1>`` to ``<h6>``.
 
 
-To recreate the beginning of Chapter [reference "todo"](chp:mml) of this thesis in
+To recreate the beginning of Chapter [reference](chp:mml) of this thesis in
 ModMark, one could write this:
 
 [code lang=markdown]{{
@@ -80,10 +80,10 @@ characters would refer to a mathematical operation than to apply formatting to
 the encasing content. For this case, some tags may allow nesting, meaning that
 their content will be checked for additional tags, while some tags do not allow
 for nesting. The complete set of tags built-in to ModMark is listed in Table
-[reference "todo"](mm:tags), including their output and whether they allow for nesting. 
+[reference](mm:tags), including their output and whether they allow for nesting. 
 
 
-[table caption="The tags built-in to ModMark" label="mm:tags"]{{
+[fancy-table caption="The tags built-in to ModMark" label="mm:tags"]{{
 **Source**|**Output**|**Allows nested tags**
 ``**bold**``|**bold**|yes
 ``//italic//``|//italic//|yes
