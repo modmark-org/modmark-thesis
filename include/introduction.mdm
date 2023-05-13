@@ -153,7 +153,7 @@ dominant. [latex]// sees wide usage in academic writing, while Markdown is
 common in internet forums and in programming documentation to provide simple
 formatting. When comparing Markdown and [latex](), they quickly appear very
 different. A comparative example for [latex]() and Markdown can be found in
-Figure [reference]{fig:latex_markdown_example}, which illustrates the difference
+Figure [reference]{fig:latexMarkdownExample}, which illustrates the difference
 in verbosity and capability. It is worth noting that [latex]() documents rarely
 have an empty preamble (the section before the document begins).
 
@@ -161,7 +161,7 @@ have an empty preamble (the section before the document begins).
     alt = "Code producing two headings and two paragraphs in LaTeX and ;arkdown"
     caption = "An example of source code for producing two headings and two paragraphs of text in [latex]// and Markdown."
     width = 0.9
-    label = fig:latex_markdown_example
+    label = fig:latexMarkdownExample
     ]
 ./figures/latex_vs_markdown.svg
 

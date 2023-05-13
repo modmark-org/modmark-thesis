@@ -21,7 +21,7 @@ underpins the entire language, support for a new output format can be added by
 providing a new package that supports the transformation.
 
 A short example of a document written in ModMark can be seen in Figure
-[reference "todo"](fig:modmark_example). The rest of this chapter will explain the
+[reference modmark_example](fig:modmarkExample). The rest of this chapter will explain the
 syntax and semantics of the ModMark language, and gives an introduction to some
 of the included packages.
 
@@ -29,7 +29,7 @@ of the included packages.
 TODO: the label here does not work because the _ is escaped so it becomes 
 \label{fig:modmark\_example}.
 
-[image caption="The same example document as in Figure [reference todo]{fig:latex_markdown_example} but written in ModMark. It demonstrates a few syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags and (4) module expressions." label="fig:modmark_example" width=0.65]
+[image caption="The same example document as in Figure [reference latexMarkdownExample]{fig:latexMarkdownExample} but written in ModMark. It demonstrates a few syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags and (4) module expressions." label="fig:modmarkExample" width=0.65]
 figures/modmark_example.svg
 
 
