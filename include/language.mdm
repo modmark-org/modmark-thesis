@@ -63,7 +63,8 @@ The first line of a paragraph may be started
 by one or more hash signs ...
 }}
 
-## Tags Tags are used to style text which is done by encasing content between a
+## Tags
+Tags are used to style text which is done by encasing content between a
 opening tag and closing tag. This allows formatted text to be expressed with
 similar simplicity to how it may be expressed in Markdown. Examples of such tags
 are ``**`` which makes the content bold, and ``//`` which makes the content
