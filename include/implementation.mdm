@@ -58,7 +58,7 @@ transforming the original source text into a so-called abstract syntax tree
 source text and storing them in data structures that contain relevant
 information. Structuring the information in such a tree makes it easier for the
 succeeding compilation steps to further transform and then evaluate the
-document. Figure [reference] fig:source_to_ast shows an example of a simple
+document. Figure [reference] fig:sourceToAst shows an example of a simple
 ModMark document parsed into an AST.
 
 
@@ -66,7 +66,7 @@ ModMark document parsed into an AST.
     alt = "A heading and some text being converted to an AST tree."
     caption = "Some example source text being parsed into an AST."
     width = 0.75
-    label = fig:source_to_ast
+    label = fig:sourceToAst
     ]
 ./figures/source_to_AST.svg
 
