@@ -116,8 +116,10 @@ pub(crate) fn transform_document_html(mut input: Value) -> Result<String, Error>
             let note = data["note"].as_str().unwrap();
             let id = data["id"].as_u64().unwrap();
 
+            result.push(raw!(format!(r##"<li><a id="note:{id}"></a>"##)));
+            result.push(json!({"name": "inline_content", "data": note, "args": {}}));
             result.push(raw!(format!(
-                r##"<li><a id="note:{id}"></a>{note} <a href="#note-backlink:{id}">(back)</a></li>"##
+                r##" <a href="#note-backlink:{id}">(back)</a></li>"##
             )));
         }
         result.push(raw!("</ol>"));
