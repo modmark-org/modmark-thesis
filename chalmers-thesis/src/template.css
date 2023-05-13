@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+*::selection {
+    background: var(--color-dark);
+    color: var(--color-light);
+}
+
+:root {
+    --color-dark: #252525;
+    --color-light: #fafafa;
+    --color-primary: #0f8b8d;
+    --size-step-0: clamp(1rem, calc(0.96rem + 0.22vw), 1.13rem);
+    --size-step-1: clamp(1.25rem, calc(1.16rem + 0.43vw), 1.5rem);
+    --size-step-2: clamp(1.56rem, calc(1.41rem + 0.76vw), 2rem);
+    --size-step-3: clamp(1.95rem, calc(1.71rem + 1.24vw), 2.66rem);
+    --size-step-4: clamp(2.44rem, calc(2.05rem + 1.93vw), 3.55rem);
+}
+
+body {
+    background: var(--color-light);
+    color: var(--color-dark);
+    padding: 2em;
+    padding-top: 0;
+    font-family: 'Lora', serif;
+    font-size: var(--size-step-0);
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    line-height: 1.7;
+}
+
+p {
+    text-align: justify;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+h1 {
+    text-align: center;
+    font-size: var(--size-step-3);
+    max-width: 20ch;
+}
+
+h2 {
+    font-size: var(--size-step-2);
+    max-width: 28ch;
+}
+
+h3 {
+    font-size: var(--size-step-1);
+    max-width: 28ch;
+}
+
+h4,
+h5,
+h6 {
+    font-size: 1rem;
+}
+
+.cover {
+    border-bottom: dashed 2px #dfdfdf;
+    padding-bottom: 4rem;
+}
+
+.cover .title {
+    margin-top: 1.5rem;
+    text-align: left;
+    max-width: 100%;
+    font-size: var(--size-step-3);
+    margin-bottom: 0.5rem;
+}
+
+.cover .subtitle {
+    max-width: 40ch;
+}
+
+.cover .authors {
+    margin: 0;
+    margin-top: 1rem;
+    padding: 0;
+    font-style: italic;
+    list-style: none;
+}
+
+.preamble h2 {
+    position: relative;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.preamble {
+    border-bottom: dashed 2px #dfdfdf;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+}
+
+
+ul,
+ol {
+    padding-inline-start: 1em;
+}
+
+blockquote {
+    padding-inline-start: 1em;
+    border-inline-start: 0.3em solid;
+    font-style: italic;
+    font-size: var(--size-step-1);
+    max-width: 50ch;
+}
+
+html:focus-within {
+    scroll-behavior: smooth;
+}
+
+article {
+    margin-inline: auto;
+    max-width: 70ch;
+}
+
+article>*+* {
+    margin-block-start: var(--flow-space, 1em);
+    max-width: 70ch;
+}
+
+:is(h1, h2, h3, h4, h5, h6 blockquote) {
+    --flow-space: 1.5em;
+}
+
+:is(h1, h2, h3, h4, h5, h6)+* {
+    --flow-space: 0.5em;
+}
+
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+img,
+picture {
+    max-width: 100%;
+    display: block;
+}
+
+figure,
+table,
+pre {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e4e4e4;
+}
+
+tbody tr:nth-child(even) {
+    background: #e4e4e4;
+}
