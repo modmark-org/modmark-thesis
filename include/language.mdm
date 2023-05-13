@@ -83,17 +83,19 @@ for nesting. The complete set of tags built-in to ModMark is listed in Table
 [reference](mm:tags), including their output and whether they allow for nesting. 
 
 
-[fancy-table caption="The tags built-in to ModMark" label="mm:tags"]{{
-**Source**|**Output**|**Allows nested tags**
-``**bold**``|**bold**|yes
-``//italic//``|//italic//|yes
-``__subscript__``|__subscript__|yes
-``^^superscript^^``|^^superscript^^|yes
-``==underlined==``|==underlined==|yes
-``~~strikethrough~~``|~~strikethrough~~|yes
-````verbatim````|``verbatim``|no
-``Math: $$x^2+y^2$$``|Math: $$x^2+y^2$$|no
-}}
+[fancy-table
+    caption="The tags built-in to ModMark"
+    label="mm:tags"
+]{{
+**Source**           | **Output**        | **Allows nested tags**
+``**bold**``         | **bold**          | yes
+``//italic//``       | //italic//        | yes
+``__subscript__``    | __subscript__     | yes
+``^^superscript^^``  | ^^superscript^^   | yes
+``==underlined==``   | ==underlined==    | yes
+``~~strikethrough~~``| ~~strikethrough~~ | yes
+````verbatim````     | ``verbatim``      | no
+``Math: $$x^2+y^2$$``| Math: $$x^2+y^2$$ | no}}
 
 [comment]{{{
 \begin{table}[!ht]
