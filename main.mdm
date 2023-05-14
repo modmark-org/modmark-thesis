@@ -73,4 +73,7 @@ Markup languages, WebAssembly, WASI
 Note that bibliography (according to the overleaf version) should not
 have a chapter number, like "6. Bibliography"
 
+[if html]
+# Bibliography
+
 [better-bib file=sources.bib]
