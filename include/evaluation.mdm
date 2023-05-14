@@ -70,12 +70,12 @@ syntax and features for common writing tasks in the three languages[note]{Note t
 Headings in ModMark are very similar to Markdown with some subtle differences.
 No whitespace character after the hash sign is needed like in Markdown and the
 alternate syntax that uses equal signs or hyphens is not supported.
-See Table [reference]{tab:headings} for a comparison.
+See Figure [reference]{fig:headings} for a comparison.
 
 [fancy-image
     alt="A table comparing the syntax for headings in ModMark, Markdown and LaTeX."
     caption="Comparing the syntax for headings."
-    label="tab:headings"
+    label="fig:headings"
 ]
 ./figures/headings_evaluation.svg
 
