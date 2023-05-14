@@ -18,7 +18,7 @@ of this chapter will investigate to which extent the design ideals outlined in
 Section [reference](sec:aim) were realised. 
 
 ## Expressiveness (A1)
-Aim A1 is to make ModMark expressive enough to bridge the gap between lightweight
+[link "Aim A1"] aim:A1 is to make ModMark expressive enough to bridge the gap between lightweight
 languages and powerful typesetting systems like [latex](). We also stated that the
 language should be output agnostic. While the former is more subjective, the latter
 is a core property of the compiler presented in Chapter [reference](chp:implementation). 
@@ -57,7 +57,7 @@ for a new format is relatively small in size and complexity and thus it is possi
 individual users to add new output formats.  
 
 ## Simplicity and syntax (A2)
-Another aim A2 in designing ModMark is simplicity. The language is intended to offer
+Another aim [link "A2"]aim:A2 in designing ModMark is simplicity. The language is intended to offer
 an ergonomic lightweight syntax and also be easier to understand in comparison to
 more full featured typesetting systems such as [tex]() and Typst.
 
@@ -181,7 +181,7 @@ This will not be part of the code block since
 [label](sec:a3eval)
 One of the central ideas of ModMark is portability; a document written on one
 computer should still produce the same result if compiled on another computer,
-regardless of what packages are used. A3 formulates this as
+regardless of what packages are used. [link A3] aim:A3 formulates this as
 a concrete requirement, the same aim also states that the solution should offer
 package developers a lot of flexibility. At the core of our solution for
 A3 is the Wasmer WebAssembly runtime. It supports the major

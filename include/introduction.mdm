@@ -218,8 +218,7 @@ typesetting systems, such as [latex]().
 The following bullet points summarise the three main design goals of ModMark.
 
 [list]----
-* **[if latex]"[raw]!\hypertarget{aim:A1}{A1}!"[if !latex]"A1". Expressive and
-    modular**
+* **[target aim:A1]"A1". Expressive and modular**
     The language intends to be more expressive and extendable than Markdown and
     Djot by providing module expressions that offer a general syntax to extend
     the language with extra functionality. For instance, if a user wants to
@@ -233,7 +232,7 @@ The following bullet points summarise the three main design goals of ModMark.
     Continuing in the spirit of modularity, fundamental parts of ModMark’s
     compiler should be designed to be agnostic of the output file format.
 
-* **[if latex]"[raw]!\hypertarget{aim:A2}{A2}!"[if !latex]"A2". Simple**
+* **[target aim:A2]"A2". Simple**
     The [tex]!! family of systems (and similar systems like Typst) solve the
     problem of expressiveness and portability by making the document language
     itself powerful, even Turing complete. Our language will hopefully be easier
@@ -242,8 +241,7 @@ The following bullet points summarise the three main design goals of ModMark.
     the document. Also, the syntax of ModMark should be lightweight and familiar
     to users of Markdown or Djot.
 
-* **[if latex]"[raw]\!hypertarget{aim:A3}{A3}!"[if !latex]"A3". Portable and
-    developer-friendly**
+* **[target aim:A3]"A3". Portable and developer-friendly**
     AsciiDoc, Djot and a few other languages offer similar expressive
     capabilities using an embedded language, compiler plugins or macros.
     However, this leaves package developers tied to using a specific programming
