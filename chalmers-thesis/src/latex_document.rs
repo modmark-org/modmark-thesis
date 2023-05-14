@@ -145,7 +145,9 @@ fn create_coverpage(settings: &DocSettings) -> String {
     % Cover text
     \mbox{}
     \vfill
-    \renewcommand{\familydefault}{\sfdefault} \normalfont % Set cover page font"#,
+    \renewcommand{\familydefault}{\sfdefault} \normalfont % Set cover page font
+    \begin{minipage}{0.8\linewidth}
+    "#,
     );
 
     // Main title
@@ -154,7 +156,9 @@ fn create_coverpage(settings: &DocSettings) -> String {
     writeln!(
         &mut content,
         r#"
-    \textbf{{\Huge {title}}}"#
+    \Huge\textbf{{{title}}}
+    
+    "#
     )
     .unwrap();
 
@@ -163,10 +167,12 @@ fn create_coverpage(settings: &DocSettings) -> String {
         writeln!(
             &mut content,
             r#"
-    {{\Large {subtitle}}}\\[0.3cm]"#
+    \Large {subtitle}"#
         )
         .unwrap();
     }
+
+    content.push_str(r"\end{minipage} \\[0.5cm]");
 
     // Subject line
     content.push_str(
@@ -177,7 +183,7 @@ fn create_coverpage(settings: &DocSettings) -> String {
     if let Some(subject) = &settings.subject {
         write!(&mut content, r#" in {subject}"#).unwrap();
     }
-    content.push_str(r" \setlength{\parskip}{0.5cm}");
+    content.push_str(r" \setlength{\parskip}{1cm}");
     content.push_str("\n\n");
 
     // Names of authors
