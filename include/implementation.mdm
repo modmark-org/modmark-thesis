@@ -132,13 +132,17 @@ enum Element {
 [raw]
 \caption{A Rust enum (a sum type) describing the element tree.}
 
+[list-push structure] fig
+
 [label] fig:element
 
 [if latex]([raw].\end{figure}.)
 
-[if !latex]
-A Rust enum (a sum type) describing the element tree.
-
+[if !latex]{{
+[center max_width=70%]{
+**Figure [element-number](fig:element):** A Rust enum (a sum type) describing the element tree.
+}
+}}
 [comment]"TODO Maybe remove this hack"
 
 [fancy-image

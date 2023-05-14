@@ -1,3 +1,5 @@
+#![recursion_limit = "256"]
+
 use serde_json::{from_str, json, Value};
 use std::{
     env,
@@ -68,6 +70,7 @@ fn transform(from: &str, to: &str) -> Result<String, Error> {
         "fancy-image" => transform_fancy_image(input, to),
         "fancy-table" => transform_fancy_table(input, to),
         "fancy-big-table" => transform_fancy_big_table(input, to),
+        "element-number" => transform_element_number(input, to),
         _ => panic!("element not supported"),
     }
 }
@@ -82,9 +85,11 @@ fn transform_fancy_image(input: Value, _to: &str) -> Result<String, Error> {
     let label = input["arguments"]["label"].as_str().unwrap();
     let embed = input["arguments"]["embed"].as_str().unwrap();
 
+    // making use of the fact that caption becomes inline-content in [image]
+    let numbered_caption = format!("**Figure [element-number]({label}):** {caption}");
     let module_invoc = format!(
         "[image \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"](((\n{}\n)))",
-        alt, caption, label, width, embed, cap_align, data,
+        alt, numbered_caption, label, width, embed, cap_align, data,
     );
 
     let label_entry = format!("label/{}", label);
@@ -108,9 +113,11 @@ fn transform_fancy_table(input: Value, _to: &str) -> Result<String, Error> {
     let delimiter = input["arguments"]["delimiter"].as_str().unwrap();
     let strip = input["arguments"]["strip_whitespace"].as_str().unwrap();
 
+    // making use of the fact that caption becomes inline-content in [table]
+    let numbered_caption = format!("**Table [element-number]({label}):** {caption}");
     let module_invoc = format!(
         "[table \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"](((\n{}\n)))",
-        caption, label, header, alignment, borders, delimiter, strip, data,
+        numbered_caption, label, header, alignment, borders, delimiter, strip, data,
     );
 
     let label_entry = format!("label/{}", label);
@@ -237,64 +244,12 @@ fn transform_reference(input: Value, to: &str) -> Result<String, Error> {
             let mut escaped_label = label.replace('"', "%22");
             escaped_label.insert(0, '#');
 
-            let structure: Vec<String> = {
-                let var = env::var("structure").unwrap_or("[]".to_string());
-                from_str(&var).unwrap()
-            };
-
-            let mut fig_count = 0;
-            let mut tab_count = 0;
-            let mut sec_counts = vec![0; 5];
-            let mut prev = "h";
-            let mut display = String::new();
-
-            for item in &structure {
-                match item.as_str() {
-                    "fig" => {
-                        fig_count += 1;
-                        prev = "fig";
-                    }
-                    "tab" => {
-                        tab_count += 1;
-                        prev = "tab";
-                    }
-                    "h1" | "h2" | "h3" | "h4" | "h5" => {
-                        let level = item[1..].parse::<usize>().unwrap();
-                        for i in level..sec_counts.len() {
-                            sec_counts[i] = 0;
-                        }
-                        sec_counts[level - 1] += 1;
-                        if item == "h1" {
-                            fig_count = 0;
-                            tab_count = 0;
-                        }
-
-                        prev = "h";
-                    }
-                    _ => {
-                        if Some(label) == item.strip_prefix("label/") {
-                            display = match prev {
-                                "fig" => format!("{}.{}", sec_counts[0], fig_count),
-                                "tab" => format!("{}.{}", sec_counts[0], tab_count),
-                                "h" => sec_counts
-                                    .iter()
-                                    .filter(|&&c| c != 0)
-                                    .map(|c| c.to_string())
-                                    .collect::<Vec<String>>()
-                                    .join("."),
-                                _ => String::new(),
-                            };
-                            break;
-                        }
-                    }
-                }
-            }
-
             let label_tag = format!(r#"<a href="{escaped_label}">"#);
+            let elem_num_invoc = format!("[element-number]({label})");
 
             let json = json!([
                 {"name": "raw", "data": label_tag},
-                {"name": "raw", "data": display},
+                {"name": "inline_content", "data": elem_num_invoc},
                 {"name": "raw", "data":  "</a>"},
             ]);
 
@@ -317,6 +272,65 @@ fn transform_reference(input: Value, to: &str) -> Result<String, Error> {
             Ok(String::from("[]"))
         }
     }
+}
+
+fn transform_element_number(input: Value, _to: &str) -> Result<String, Error> {
+    let label = input["data"].as_str().unwrap();
+    let mut fig_count = 0;
+    let mut tab_count = 0;
+    let mut sec_counts = vec![0; 5];
+    let mut prev = "h";
+    let mut number = String::new();
+
+    let structure: Vec<String> = {
+        let var = env::var("structure").unwrap_or("[]".to_string());
+        from_str(&var).unwrap()
+    };
+
+    for item in &structure {
+        match item.as_str() {
+            "fig" => {
+                fig_count += 1;
+                prev = "fig";
+            }
+            "tab" => {
+                tab_count += 1;
+                prev = "tab";
+            }
+            "h1" | "h2" | "h3" | "h4" | "h5" => {
+                let level = item[1..].parse::<usize>().unwrap();
+                for i in level..sec_counts.len() {
+                    sec_counts[i] = 0;
+                }
+                sec_counts[level - 1] += 1;
+                if item == "h1" {
+                    fig_count = 0;
+                    tab_count = 0;
+                }
+
+                prev = "h";
+            }
+            _ => {
+                if Some(label) == item.strip_prefix("label/") {
+                    number = match prev {
+                        "fig" => format!("{}.{}", sec_counts[0], fig_count),
+                        "tab" => format!("{}.{}", sec_counts[0], tab_count),
+                        "h" => sec_counts
+                            .iter()
+                            .filter(|&&c| c != 0)
+                            .map(|c| c.to_string())
+                            .collect::<Vec<String>>()
+                            .join("."),
+                        _ => String::new(),
+                    };
+                    break;
+                }
+            }
+        }
+    }
+
+    let json = json!(number);
+    Ok(format!("[{json}]"))
 }
 
 fn transform_note(input: Value, to: &str) -> Result<String, Error> {
@@ -758,7 +772,15 @@ fn manifest() -> String {
                     "variables": {
                         "structure": {"type": "list", "access": "read"}
                     }
-                }
+                },
+                {
+                    "from": "element-number",
+                    "to": ["any"],
+                    "arguments": [],
+                    "variables": {
+                        "structure": {"type": "list", "access": "read"}
+                    }
+                },
             ]
         }
     ))
