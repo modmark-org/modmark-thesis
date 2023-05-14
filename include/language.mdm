@@ -168,7 +168,7 @@ Modules outside of paragraphs, so-called multiline modules, are written as if
 they were their own paragraph, with at least one empty row preceding and
 following it. Here is an example of such an expression:
 
-[code]{{
+[code theme=github]{{
 [poem]
 Roses are red,
 violets are blue,
