@@ -182,7 +182,7 @@ compiler was written in.
 One can argue that these customisable markup languages would benefit from
 supporting more programming languages, as this would increase the reach and
 availability of their ecosystem. A recent technology that is capable of
-approaching this is Web-Assembly, or WASM [cite] wasm for short. WASM is an
+approaching this is WebAssembly, or WASM [cite] wasm for short. WASM is an
 instruction format for a virtual machine that is embedded in all modern web
 browsers. Many programming languages support WASM as a compilation target,
 including C, C++, Swift and Rust. Using a virtual machine allows for
@@ -199,7 +199,7 @@ In addition to this, these runtimes implement WebAssembly System Interface
 enhances the capabilities of the program to allow for disk I/0, environment
 variables and more.
 
-Web-Assembly presents an opportunity for markup languages to support many
+WebAssembly presents an opportunity for markup languages to support many
 programming languages and to be platform independent. This is crucial not only
 to reach more users but also to ease development. Furthermore, this becomes even
 more important in ecosystems like [latex](), where contributions from users are
