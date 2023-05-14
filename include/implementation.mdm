@@ -109,7 +109,7 @@ tree.
 [raw]
 \begin{figure}[H]
 
-[code rs]
+[code rs theme=github]
 enum Element {
     Parent {
         name: String,
@@ -156,7 +156,7 @@ format. However, simply recursively evaluating each element starting from the
 root is not sufficient. Consider the following example of a document that
 includes a table of contents.
 
-[code markdown]/
+[code markdown theme=github]/
 [table-of-contents]
 
 # Introduction

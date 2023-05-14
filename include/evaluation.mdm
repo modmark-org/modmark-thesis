@@ -124,7 +124,7 @@ handle nested structures examples such as this may confuse users:
 [comment](TODO ugly multiline verbatim)
 [comment](TODO förklara exemplet lite mer)
 
-[code txt bg="FFFFFF" theme="ocean_light"]((
+[code txt theme="github"]((
 [center]
 [code]{
 Some code

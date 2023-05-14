@@ -57,7 +57,7 @@ package supports six levels by outputting ``<h1>`` to ``<h6>``.
 To recreate the beginning of Chapter [reference](chp:mml) of this thesis in
 ModMark, one could write this:
 
-[code lang=markdown]{{
+[code lang=markdown theme=github]{{
 # The ModMark Language
 We present ModMark --- a new document markup
 language with a strong focus on modularity ...
@@ -199,7 +199,7 @@ For inline modules, only one character may be used as delimiter, but for
 multiline modules, any number of characters may be used. To capture the entire
 code in this example, the delimiter ``{[(`` is used:
 
-[code rust]{{[(
+[code rust theme=github]-----
 [code]{[(
 fn first_elem(arr: &[u8]) -> u8 {arr[0]}
 
@@ -207,7 +207,7 @@ fn print_elems(arr: &[u8]) {
     arr.into_iter().for_each(|i| println!("{i}"))
 }
 )]}
-)]}}
+-----
 
 There are a couple of noteworthy points in this example. First of all, since
 this expression uses a custom delimiter, it captures text which includes a
@@ -240,7 +240,7 @@ using a special ``\[config]`` module found once at the very top of a file. For
 example, here is the source code for importing a package named ``prettify`` and
 then using a module with the same name.
 
-[code]{{
+[code theme=github]{{
 [config]
 import prettify
 
