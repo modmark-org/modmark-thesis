@@ -148,8 +148,8 @@ corporations and communities. For example, AsciiDoc was used to document Git
 [cite]{gitdocs}, and reST is still used for Python's documentation
 [cite]{sphinx}.
 
-However, when it comes to personal use, Markdown and [latex]// are very
-dominant. [latex]// sees wide usage in academic writing, while Markdown is
+However, when it comes to personal use, Markdown and [latex]() are very
+dominant. [latex]() sees wide usage in academic writing, while Markdown is
 common in internet forums and in programming documentation to provide simple
 formatting. When comparing Markdown and [latex](), they quickly appear very
 different. A comparative example for [latex]() and Markdown can be found in
@@ -233,7 +233,7 @@ The following bullet points summarise the three main design goals of ModMark.
     compiler should be designed to be agnostic of the output file format.
 
 * **[target aim:A2]"A2". Simple** [newline]()
-    The [tex]!! family of systems (and similar systems like Typst) solve the
+    The [tex]() family of systems (and similar systems like Typst) solve the
     problem of expressiveness and portability by making the document language
     itself powerful, even Turing complete. Our language will hopefully be easier
     to understand and require less programming knowledge since users will only

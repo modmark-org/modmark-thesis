@@ -6,7 +6,7 @@ Converted to British 11 of may
 
 For ModMark to be practical to use, there must be a way of translating documents
 written in the language into other more commonly used formats such as HTML or
-[latex]... This is what a compiler is used for.
+[latex](). This is what a compiler is used for.
 
 To translate ModMark into other formats, we implemented a compiler using the
 Rust programming language. We also utilised the Wasmer [cite] Wasmer WebAssembly
@@ -311,7 +311,7 @@ popular React library.
 
 The playground has many features that have been helpful when developing ModMark.
 The text written in the playground can of course be converted to any output
-like HTML and [latex]//, but there is also an option to see the AST
+like HTML and [latex](), but there is also an option to see the AST
 representation of the text which can be very helpful when debugging. The
 playground also has support for auto generating documentation for any package,
 a example of this can be found in Figure [reference]{fig:docs}. Finally, there
@@ -335,7 +335,7 @@ needed to evaluate and render documents.
 
 ## Package manager
 Modularity is a key feature of ModMark, and as such, it is crucial for users to
-have an easy way to manage third-party packages. In the [tex]// ecosystem for
+have an easy way to manage third-party packages. In the [tex]() ecosystem for
 example, packages are typically obtained through CTAN [cite] ctan (short for
 "the comprehensive [tex]() archive network"). However, users are often left to
 download either huge distribution of all common packages or manage packages

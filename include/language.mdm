@@ -101,24 +101,6 @@ for nesting. The complete set of tags built-in to ModMark is listed in Table
 ````verbatim````     | ``verbatim``      | no
 ``Math: $$x^2+y^2$$``| Math: $$x^2+y^2$$ | no}}
 
-[comment]{{{
-\begin{table}[!ht]
-    \centering
-    \caption{The tags built-in to ModMark}
-    \label{mm:tags}
-    \begin{tabular}{|c|c|c|}
-    \hline
-        \textbf{Source}          & \textbf{Output} & \textbf{Allows nested tags} \\ \hline
-        \verb|**bold**|          & \textbf{bold}                 & yes \\ \hline
-        \verb|//italic//|        & \textit{italic}               & yes \\ \hline
-        \verb|__subscript__|     & \textsubscript{subscript}     & yes \\ \hline
-        \verb|^^superscript^^|   & \textsuperscript{superscript} & yes \\ \hline
-        \verb|==underlined==|    & \underline{underlined}        & yes \\ \hline
-        \verb|~~strikethrough~~| & \sout{strikethrough}          & yes \\ \hline
-        \verb|``verbatim``|      & \verb|verbatim|               & no \\ \hline
-        \verb|Math: $$x^2+y^2$$| & Math: $x^2+y^2$               & no \\ \hline
-    \end{tabular}
-\end{table} }}}
 Similarly to headings, tags are also delegated to a package
 capable of transforming those tags to the desired output format. The end result
 for a bold tag may be ``<strong>`` for HTML or ``\\textbf`` for [latex](). This also

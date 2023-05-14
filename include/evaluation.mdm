@@ -59,7 +59,7 @@ individual users to add new output formats.
 ## Simplicity and syntax (A2)
 Another aim [link "A2"]aim:A2 in designing ModMark is simplicity. The language is intended to offer
 an ergonomic lightweight syntax and also be easier to understand in comparison to
-more full featured typesetting systems such as [tex]() and Typst.
+more full featured typesetting systems such as [latex]() and Typst.
 
 Simplicity is highly subjective and very hard to evaluate in an objective manner.
 However, since ModMark aims to strike a balance between the simplicity of Markdown
@@ -93,7 +93,7 @@ expressing those concepts.
 
 A potential downside of ModMark's approach is that the list of characters with
 special behaviour that users need to know about gets larger than for instance
-[tex]() where, almost, everything in text mode follows the convention of an
+[latex]() where, almost, everything in text mode follows the convention of an
 command prefixed with a backslash. It is also possible to argue that ModMark
 is needlessly verbose by always requiring four characters for tags but it helps
 to avoid confusion or ambiguity in situations with nested tags or prefixes
@@ -185,7 +185,7 @@ can arguably be solved by providing bindings that convert the input provided by 
 WASI API into an easier-to-use API suited for a particular language.
 
 When comparing the portability to other languages, ModMark appears as a good option
-nonetheless. Systems like [tex]() and Typst solve the issue of portability by having
+nonetheless. Systems like [tex](), [latex](), and Typst solve the issue of portability by having
 a fully Turing complete language that lets developers write packages directly in
 the document language itself. Another common approach is embedding a scripting language
 such as Lua that is used to create extensions. A notable downside to these approaches
