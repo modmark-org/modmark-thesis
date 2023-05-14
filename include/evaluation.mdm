@@ -66,7 +66,7 @@ However, since ModMark aims to strike a balance between the simplicity of Markdo
 and the expressiveness of [latex]() we will offer a non-exhaustive comparison of
 syntax and features for common writing tasks in the three languages[note]{Note that there are many dialects of Markdown that offer different features, such as GitHub flavoured Markdown, John Grubers original Perl script and Pandoc Markdown. This comparison will use the CommonMark specification [cite](Commonmark).}. 
 
-##### Headings
+##### ==Headings==
 Headings in ModMark are very similar to Markdown with some subtle differences.
 No whitespace character after the hash sign is needed like in Markdown and the
 alternate syntax that uses equal signs or hyphens is not supported.
@@ -79,7 +79,7 @@ See Figure [reference]{fig:headings} for a comparison.
 ]
 ./figures/headings_evaluation.svg
 
-##### Styling text
+##### ==Styling text==
 ModMark follows Markdown's convention of using non-alphanumerical characters as
 tags to surround text that should be displayed in another format such as
 ``**bold**`` or ``//italic//``. See Figure [reference]{fig:tags} for a full 
@@ -108,7 +108,7 @@ to avoid confusion or ambiguity in situations with nested tags or prefixes
 ./figures/tags_evaluation.svg
 
 
-##### Modules
+##### ==Modules==
 Markdown has no syntax for user-provided features and only offer concrete syntax
 for a few more common elements such as images and links. [latex]() and ModMark
 on the other hand has a syntax that may be used for any arbitrary feature:
