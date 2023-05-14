@@ -13,16 +13,17 @@ macro_rules! raw {
 
 pub(crate) fn transform_document_html(mut input: Value) -> Result<String, Error> {
     let settings = DocSettings::from_env();
+    let title = settings.get_title();
 
-    let mut result = vec![raw!(
+    let mut result = vec![raw!(format!(
         r#"
 <!DOCTYPE html>
 <html>
 <head>
-<title>Document</title>
+<title>{title}</title>
 <meta charset="UTF-8">
 "#
-    )];
+    ))];
 
     // Add imports
     let mut imports = {
@@ -49,7 +50,6 @@ pub(crate) fn transform_document_html(mut input: Value) -> Result<String, Error>
     }
 
     // title
-    let title = settings.get_title();
     result.push(raw!(format!(r#"<h1 class="title">{title}</h1>"#)));
 
     if let Some(subtitle) = settings.subtitle {
