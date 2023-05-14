@@ -63,6 +63,8 @@ fn transform(from: &str, to: &str) -> Result<String, Error> {
         "__heading" => transform_heading(input, to),
         "tex" => transform_latex_command("TeX", input, to),
         "latex" => transform_latex_command("LaTeX", input, to),
+        "Tex" => transform_latex_command("TeX", input, to),
+        "Latex" => transform_latex_command("LaTeX", input, to),
         "note" => transform_note(input, to),
         "note-label" => transform_note_label(input, to),
         "label" => transform_label(input, to),
@@ -686,6 +688,16 @@ fn manifest() -> String {
                 },
                 {
                     "from": "tex",
+                    "to": ["latex", "html"],
+                    "arguments": [],
+                },
+                {
+                    "from": "Latex",
+                    "to": ["latex", "html"],
+                    "arguments": [],
+                },
+                {
+                    "from": "Tex",
                     "to": ["latex", "html"],
                     "arguments": [],
                 },
