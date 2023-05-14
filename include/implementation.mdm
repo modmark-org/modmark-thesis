@@ -20,7 +20,7 @@ This chapter presents the development process, technical details and relevant
 [fancy-image
     alt = "A block diagram describing how source text passes through the parser and then to the scheduler whereupon different packages iterate on the document until it is completed."
     caption = "A high-level overview of the compilation pipeline showing how source text is transformed through multiple intermediate formats, iteratively evaluated in packages and then finally results in some output text in another other format (such as HTML or [latex]())."
-    width = 1.1
+    width = 1
     label = fig:overview
     ]
 ./figures/overview.svg
