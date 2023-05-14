@@ -77,21 +77,24 @@ fn transform(from: &str, to: &str) -> Result<String, Error> {
     }
 }
 
-fn transform_fancy_image(input: Value, _to: &str) -> Result<String, Error> {
+fn transform_fancy_image(input: Value, to: &str) -> Result<String, Error> {
     let data = input["data"].as_str().unwrap();
 
     let alt = input["arguments"]["alt"].as_str().unwrap();
     let width = input["arguments"]["width"].as_f64().unwrap().to_string();
-    let caption = input["arguments"]["caption"].as_str().unwrap();
+    let mut caption = input["arguments"]["caption"].as_str().unwrap().to_string();
     let cap_align = input["arguments"]["caption-alignment"].as_str().unwrap();
     let label = input["arguments"]["label"].as_str().unwrap();
     let embed = input["arguments"]["embed"].as_str().unwrap();
 
     // making use of the fact that caption becomes inline-content in [image]
-    let numbered_caption = format!("**Figure [element-number]({label}):** {caption}");
+    if to == "html" {
+        caption = format!("**Figure [element-number]({label}):** {caption}");
+    }
+
     let module_invoc = format!(
         "[image \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"](((\n{}\n)))",
-        alt, numbered_caption, label, width, embed, cap_align, data,
+        alt, caption, label, width, embed, cap_align, data,
     );
 
     let label_entry = format!("label/{}", label);
@@ -104,10 +107,10 @@ fn transform_fancy_image(input: Value, _to: &str) -> Result<String, Error> {
     Ok(serde_json::to_string(&json).unwrap())
 }
 
-fn transform_fancy_table(input: Value, _to: &str) -> Result<String, Error> {
+fn transform_fancy_table(input: Value, to: &str) -> Result<String, Error> {
     let data = input["data"].as_str().unwrap();
 
-    let caption = input["arguments"]["caption"].as_str().unwrap();
+    let mut caption = input["arguments"]["caption"].as_str().unwrap().to_string();
     let label = input["arguments"]["label"].as_str().unwrap();
     let header = input["arguments"]["header"].as_str().unwrap();
     let alignment = input["arguments"]["alignment"].as_str().unwrap();
@@ -116,10 +119,13 @@ fn transform_fancy_table(input: Value, _to: &str) -> Result<String, Error> {
     let strip = input["arguments"]["strip_whitespace"].as_str().unwrap();
 
     // making use of the fact that caption becomes inline-content in [table]
-    let numbered_caption = format!("**Table [element-number]({label}):** {caption}");
+    if to == "html" {
+        caption = format!("**Table [element-number]({label}):** {caption}");
+    }
+
     let module_invoc = format!(
         "[table \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"](((\n{}\n)))",
-        numbered_caption, label, header, alignment, borders, delimiter, strip, data,
+        caption, label, header, alignment, borders, delimiter, strip, data,
     );
 
     let label_entry = format!("label/{}", label);
@@ -132,10 +138,10 @@ fn transform_fancy_table(input: Value, _to: &str) -> Result<String, Error> {
     Ok(serde_json::to_string(&json).unwrap())
 }
 
-fn transform_fancy_big_table(input: Value, _to: &str) -> Result<String, Error> {
+fn transform_fancy_big_table(input: Value, to: &str) -> Result<String, Error> {
     let data = input["data"].as_str().unwrap();
 
-    let caption = input["arguments"]["caption"].as_str().unwrap();
+    let mut caption = input["arguments"]["caption"].as_str().unwrap().to_string();
     let label = input["arguments"]["label"].as_str().unwrap();
     let alignment = input["arguments"]["alignment"].as_str().unwrap();
 
@@ -146,6 +152,10 @@ fn transform_fancy_big_table(input: Value, _to: &str) -> Result<String, Error> {
         .as_str()
         .unwrap()
         .to_string();
+
+    if to == "html" {
+        caption = format!("**Table [element-number]({label}):** {caption}");
+    }
 
     let module_invoc = format!(
         "[big-table \"{}\" \"{}\" \"{}\" \"{}\" \"{}\" \"{}\"](((\n{}\n)))",
