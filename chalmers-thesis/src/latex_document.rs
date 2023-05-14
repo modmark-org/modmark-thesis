@@ -27,7 +27,7 @@ pub(crate) fn transform_document_latex(input: Value) -> Result<String, Error> {
 
     // Declare the document class
     content.push(Value::String(
-        "\\documentclass[12pt,a4paper,twoside,openright]{report}\n".into(),
+        "\\documentclass[12pt,a4paper,twoside,openright]{report}\n\\usepackage[T1]{fontenc}\n\\usepackage{lmodern}\n\\usepackage{helvet}\n".into(),
     ));
 
     // Add all the imports seperated by newlines
@@ -95,9 +95,6 @@ fn get_template_imports() -> HashSet<String> {
     ["\\usepackage[top=3cm,bottom=3cm,inner=3cm,outer=3cm]{geometry}".to_string(),
     "\\usepackage{parskip}".to_string(),
     "\\usepackage{textcomp}".to_string(),
-    "\\usepackage{lmodern}".to_string(),
-    "\\usepackage{helvet}".to_string(),
-    "\\usepackage[T1]{fontenc}".to_string(),
     "\\usepackage[utf8]{inputenc}".to_string(),
     "\\usepackage[english]{babel}".to_string(),
     "\\usepackage{graphicx}".to_string(),
