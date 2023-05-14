@@ -97,7 +97,7 @@ special behaviour that users need to know about gets larger than for instance
 command prefixed with a backslash. It is also possible to argue that ModMark
 is needlessly verbose by always requiring four characters for tags but it helps
 to avoid confusion or ambiguity in situations with nested tags or prefixes
-``**__a__**example``, which most Markdown implementations simply do not support.
+(``**__a__**example``), which most Markdown implementations simply do not support.
 
 
 [fancy-image
