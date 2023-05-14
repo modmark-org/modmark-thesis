@@ -245,7 +245,7 @@ The following bullet points summarise the three main design goals of ModMark.
     AsciiDoc, Djot and a few other languages offer similar expressive
     capabilities using an embedded language, compiler plugins or macros.
     However, this leaves package developers tied to using a specific programming
-    language. Another option, used by for example Pandoc is inter-opting with
+    language. Another option, used by Pandoc for example, is inter-opting with
     any program via the shell, but this risks losing portability. Our language
     aims at being platform independent and yet offer developers greater
     flexibility. This will be attempted by embedding a sandboxed WebAssembly
