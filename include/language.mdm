@@ -29,7 +29,11 @@ of the included packages.
 TODO: the label here does not work because the _ is escaped so it becomes 
 \label{fig:modmark\_example}.
 
-[fancy-image caption="The same example document as in Figure [reference]{fig:latexMarkdownExample} but written in ModMark. It demonstrates a few syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags and (4) module expressions." label="fig:modmarkExample" width=0.65]
+[fancy-image
+    alt="A short example of ModMark's syntax"
+    caption="The same example document as in Figure [reference]{fig:latexMarkdownExample} but written in ModMark. It demonstrates a few syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags and (4) module expressions." label="fig:modmarkExample"
+    width=0.65
+]
 figures/modmark_example.svg
 
 
