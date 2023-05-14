@@ -29,7 +29,11 @@ of the included packages.
 TODO: the label here does not work because the _ is escaped so it becomes 
 \label{fig:modmark\_example}.
 
-[fancy-image caption="The same example document as in Figure [reference]{fig:latexMarkdownExample} but written in ModMark. It demonstrates a few syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags and (4) module expressions." label="fig:modmarkExample" width=0.65]
+[fancy-image
+    alt="A short example of ModMark's syntax"
+    caption="The same example document as in Figure [reference]{fig:latexMarkdownExample} but written in ModMark. It demonstrates a few syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags and (4) module expressions." label="fig:modmarkExample"
+    width=0.65
+]
 figures/modmark_example.svg
 
 
@@ -53,7 +57,7 @@ package supports six levels by outputting ``<h1>`` to ``<h6>``.
 To recreate the beginning of Chapter [reference](chp:mml) of this thesis in
 ModMark, one could write this:
 
-[code lang=markdown]{{
+[code lang=markdown theme=github]{{
 # The ModMark Language
 We present ModMark --- a new document markup
 language with a strong focus on modularity ...
@@ -97,24 +101,6 @@ for nesting. The complete set of tags built-in to ModMark is listed in Table
 ````verbatim````     | ``verbatim``      | no
 ``Math: $$x^2+y^2$$``| Math: $$x^2+y^2$$ | no}}
 
-[comment]{{{
-\begin{table}[!ht]
-    \centering
-    \caption{The tags built-in to ModMark}
-    \label{mm:tags}
-    \begin{tabular}{|c|c|c|}
-    \hline
-        \textbf{Source}          & \textbf{Output} & \textbf{Allows nested tags} \\ \hline
-        \verb|**bold**|          & \textbf{bold}                 & yes \\ \hline
-        \verb|//italic//|        & \textit{italic}               & yes \\ \hline
-        \verb|__subscript__|     & \textsubscript{subscript}     & yes \\ \hline
-        \verb|^^superscript^^|   & \textsuperscript{superscript} & yes \\ \hline
-        \verb|==underlined==|    & \underline{underlined}        & yes \\ \hline
-        \verb|~~strikethrough~~| & \sout{strikethrough}          & yes \\ \hline
-        \verb|``verbatim``|      & \verb|verbatim|               & no \\ \hline
-        \verb|Math: $$x^2+y^2$$| & Math: $x^2+y^2$               & no \\ \hline
-    \end{tabular}
-\end{table} }}}
 Similarly to headings, tags are also delegated to a package
 capable of transforming those tags to the desired output format. The end result
 for a bold tag may be ``<strong>`` for HTML or ``\\textbf`` for [latex](). This also
@@ -164,7 +150,7 @@ Modules outside of paragraphs, so-called multiline modules, are written as if
 they were their own paragraph, with at least one empty row preceding and
 following it. Here is an example of such an expression:
 
-[code]{{
+[code theme=github]{{
 [poem]
 Roses are red,
 violets are blue,
@@ -195,7 +181,7 @@ For inline modules, only one character may be used as delimiter, but for
 multiline modules, any number of characters may be used. To capture the entire
 code in this example, the delimiter ``{[(`` is used:
 
-[code rust]{{[(
+[code rust theme=github]-----
 [code]{[(
 fn first_elem(arr: &[u8]) -> u8 {arr[0]}
 
@@ -203,7 +189,7 @@ fn print_elems(arr: &[u8]) {
     arr.into_iter().for_each(|i| println!("{i}"))
 }
 )]}
-)]}}
+-----
 
 There are a couple of noteworthy points in this example. First of all, since
 this expression uses a custom delimiter, it captures text which includes a
@@ -236,7 +222,7 @@ using a special ``\[config]`` module found once at the very top of a file. For
 example, here is the source code for importing a package named ``prettify`` and
 then using a module with the same name.
 
-[code]{{
+[code theme=github]{{
 [config]
 import prettify
 

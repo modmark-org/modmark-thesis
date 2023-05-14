@@ -6,7 +6,7 @@ Converted to British 11 of may
 
 For ModMark to be practical to use, there must be a way of translating documents
 written in the language into other more commonly used formats such as HTML or
-[latex]... This is what a compiler is used for.
+[latex](). This is what a compiler is used for.
 
 To translate ModMark into other formats, we implemented a compiler using the
 Rust programming language. We also utilised the Wasmer [cite] Wasmer WebAssembly
@@ -20,26 +20,24 @@ This chapter presents the development process, technical details and relevant
 [fancy-image
     alt = "A block diagram describing how source text passes through the parser and then to the scheduler whereupon different packages iterate on the document until it is completed."
     caption = "A high-level overview of the compilation pipeline showing how source text is transformed through multiple intermediate formats, iteratively evaluated in packages and then finally results in some output text in another other format (such as HTML or [latex]())."
-    width = 1.1
+    width = 1
     label = fig:overview
     ]
 ./figures/overview.svg
 
 ## Development workflow
 
-Before starting development, key areas needed to be recognised for project
-direction. Three critical parts within the system were identified for
-development. These three parts consisted of a parser for the language
+At the start of development three key areas of the system were identified.
+These three consisted of a parser for the language
 (Sec. [reference][sec:parser]), a core runtime for evaluating the parsed tree
 (Sec. [reference][sec:scheduling] -- [reference][sec:transforming]), and tooling
-for using the language in the command-line (Sec. [reference][sec:cli]) as well
-as the web (Sec. [reference][sec:playground]). All of these systems were in
+for using the language via the command-line (Sec. [reference][sec:cli]) as well
+as in the browser (Sec. [reference][sec:playground]). All of these systems were in
 place after five weeks and we could move to a more iterative and less
 restrictive workflow.
 
-Our workflow was based on GitHub's [cite] github issues and pull request system.
-Our git repository is hosted under a GitHub organisation named ModMark. There
-is an established set of conventions for commit message style and branch
+Our workflow was based on GitHub's [cite](github) issues and pull request system. We
+established a set of conventions for commit messages and branch
 naming to avoid confusion. Whenever a bug was encountered or a new feature was
 discussed an issue describing the bug or feature would be created so that there
 is a clear list of tasks that are available.
@@ -49,6 +47,39 @@ assigning group members to certain issues. When an issue was completed a pull
 request was opened so that other members could review the code. After being
 approved the branch was rebased into the main branch. Rebasing was chosen
 instead of merging to get a clean commit history without merge commits.
+
+Table [reference](tab:loc) lists all subsystems developed during the project along with
+the total amount of code. While the number of lines of code is not always an
+accurate metric for measuring the size and complexity of a project,
+it can provide a helpful overview. The following sections will describe these
+systems in greater detail. 
+
+[fancy-table
+    header=bold
+    caption="Summary of the total lines of code (LOC) in the project."
+    alignment="llrr"
+    label="tab:loc"
+]
+Subsystem                    | Language      | Files   | LOC
+Parser                  | Rust          | 7       | 2 292
+Core                    | Rust          | 12      | 4 335
+Standard packages       | Rust          | 16      | 4 581
+Parser tests            | ---           | 22      | 1 205   
+Parser test runner      | Rust          | 119     | 145
+Standard package tests  | JSON          | 128     | 4 581
+Pkg test runner         | Rust          | 1       | 414
+CLI                     | Rust          | 4       | 932
+VS Code extension       | YAML          | 1       | 93
+Chalmers-thesis package | Rust          | 3       | 1 450
+Website                 | TypeScript    | 10      | 1 757
+                        | Rust          | 2       | 541
+                        | JavaScript    | 1       | 94
+Demo packages           | Zig           | 2       | 188
+                        | Go            | 2       | 280
+                        | Swift         | 3       | 268
+                        | AssemblyScript| 1       | 180
+                        | C++           | 1       | 147
+**Total**               |               | **335** | **23 483**    
 
 ## Parsing
 [label] sec:parser
@@ -109,7 +140,7 @@ tree.
 [raw]
 \begin{figure}[H]
 
-[code rs]
+[code rs theme=github]
 enum Element {
     Parent {
         name: String,
@@ -132,13 +163,17 @@ enum Element {
 [raw]
 \caption{A Rust enum (a sum type) describing the element tree.}
 
+[list-push structure] fig
+
 [label] fig:element
 
 [if latex]([raw].\end{figure}.)
 
-[if !latex]
-A Rust enum (a sum type) describing the element tree.
-
+[if !latex]{{
+[center max_width=70%]{
+**Figure [element-number](fig:element):** A Rust enum (a sum type) describing the element tree.
+}
+}}
 [comment]"TODO Maybe remove this hack"
 
 [fancy-image
@@ -156,7 +191,7 @@ format. However, simply recursively evaluating each element starting from the
 root is not sufficient. Consider the following example of a document that
 includes a table of contents.
 
-[code markdown]/
+[code markdown theme=github]/
 [table-of-contents]
 
 # Introduction
@@ -311,7 +346,7 @@ popular React library.
 
 The playground has many features that have been helpful when developing ModMark.
 The text written in the playground can of course be converted to any output
-like HTML and [latex]//, but there is also an option to see the AST
+like HTML and [latex](), but there is also an option to see the AST
 representation of the text which can be very helpful when debugging. The
 playground also has support for auto generating documentation for any package,
 a example of this can be found in Figure [reference]{fig:docs}. Finally, there
@@ -335,7 +370,7 @@ needed to evaluate and render documents.
 
 ## Package manager
 Modularity is a key feature of ModMark, and as such, it is crucial for users to
-have an easy way to manage third-party packages. In the [tex]// ecosystem for
+have an easy way to manage third-party packages. In the [tex]() ecosystem for
 example, packages are typically obtained through CTAN [cite] ctan (short for
 "the comprehensive [tex]() archive network"). However, users are often left to
 download either huge distribution of all common packages or manage packages

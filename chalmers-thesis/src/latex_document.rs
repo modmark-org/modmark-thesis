@@ -27,7 +27,7 @@ pub(crate) fn transform_document_latex(input: Value) -> Result<String, Error> {
 
     // Declare the document class
     content.push(Value::String(
-        "\\documentclass[12pt,a4paper,twoside,openright]{report}\n".into(),
+        "\\documentclass[12pt,a4paper,twoside,openright]{report}\n\\usepackage[T1]{fontenc}\n\\usepackage{lmodern}\n\\usepackage{helvet}\n".into(),
     ));
 
     // Add all the imports seperated by newlines
@@ -95,9 +95,6 @@ fn get_template_imports() -> HashSet<String> {
     ["\\usepackage[top=3cm,bottom=3cm,inner=3cm,outer=3cm]{geometry}".to_string(),
     "\\usepackage{parskip}".to_string(),
     "\\usepackage{textcomp}".to_string(),
-    "\\usepackage{lmodern}".to_string(),
-    "\\usepackage{helvet}".to_string(),
-    "\\usepackage[T1]{fontenc}".to_string(),
     "\\usepackage[utf8]{inputenc}".to_string(),
     "\\usepackage[english]{babel}".to_string(),
     "\\usepackage{graphicx}".to_string(),
@@ -148,7 +145,9 @@ fn create_coverpage(settings: &DocSettings) -> String {
     % Cover text
     \mbox{}
     \vfill
-    \renewcommand{\familydefault}{\sfdefault} \normalfont % Set cover page font"#,
+    \renewcommand{\familydefault}{\sfdefault} \normalfont % Set cover page font
+    \begin{minipage}{0.8\linewidth}
+    "#,
     );
 
     // Main title
@@ -157,7 +156,9 @@ fn create_coverpage(settings: &DocSettings) -> String {
     writeln!(
         &mut content,
         r#"
-    \textbf{{\Huge {title}}}"#
+    \Huge\textbf{{{title}}}
+    
+    "#
     )
     .unwrap();
 
@@ -166,10 +167,12 @@ fn create_coverpage(settings: &DocSettings) -> String {
         writeln!(
             &mut content,
             r#"
-    {{\Large {subtitle}}}\\[0.3cm]"#
+    \Large {subtitle}"#
         )
         .unwrap();
     }
+
+    content.push_str(r"\end{minipage} \\[0.5cm]");
 
     // Subject line
     content.push_str(
@@ -180,7 +183,7 @@ fn create_coverpage(settings: &DocSettings) -> String {
     if let Some(subject) = &settings.subject {
         write!(&mut content, r#" in {subject}"#).unwrap();
     }
-    content.push_str(r" \setlength{\parskip}{0.5cm}");
+    content.push_str(r" \setlength{\parskip}{1cm}");
     content.push_str("\n\n");
 
     // Names of authors
@@ -498,9 +501,9 @@ Chalmers University of Technology and University of Gothenburg\setlength{\parski
     content.push(json!({"name": "block_content", "data": abstract_content, "args": {}}));
 
     // If there is an abstract in swedish add that too
-    if let Some(sammanfattning) = &settings.sammanfattning {
-        content.push(Value::String("\\section*{Sammanfattning}".to_string()));
-        content.push(json!({"name": "block_content", "data": sammanfattning, "args": {}}));
+    if let Some(sammandrag) = &settings.sammandrag {
+        content.push(Value::String("\\section*{Sammandrag}".to_string()));
+        content.push(json!({"name": "block_content", "data": sammandrag, "args": {}}));
     }
 
     if let Some(keywords) = &settings.keywords {
