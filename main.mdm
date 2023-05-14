@@ -43,7 +43,7 @@ enables users to write packages that add support for any output format they desi
 The language is ergonomic enough to use for notes while also powerful enough
 to produce this bachelor's thesis.
 
-[const-decl sammanfattning]
+[const-decl sammandrag]
 Vi presenterar ModMark -- ett nytt modulärt marktestar skrivaup-språk vars mål är att ge en balans
 mellan enkelheten i Markdown och kraften av [latex](). Det kan användas både i en online
 miljö och via kommandotolken. ModMark nyttjar teknikerna WebAssembly och WebAssembly System Interface,

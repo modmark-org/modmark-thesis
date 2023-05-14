@@ -495,9 +495,9 @@ Chalmers University of Technology and University of Gothenburg\setlength{\parski
     content.push(json!({"name": "block_content", "data": abstract_content, "args": {}}));
 
     // If there is an abstract in swedish add that too
-    if let Some(sammanfattning) = &settings.sammanfattning {
-        content.push(Value::String("\\section*{Sammanfattning}".to_string()));
-        content.push(json!({"name": "block_content", "data": sammanfattning, "args": {}}));
+    if let Some(sammandrag) = &settings.sammandrag {
+        content.push(Value::String("\\section*{Sammandrag}".to_string()));
+        content.push(json!({"name": "block_content", "data": sammandrag, "args": {}}));
     }
 
     if let Some(keywords) = &settings.keywords {

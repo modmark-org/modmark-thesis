@@ -481,8 +481,8 @@ struct DocSettings {
     cover_art_description: Option<String>,
     /// The abstract text
     abstract_content: Option<String>,
-    /// Sammanfattning (swedish abstract)
-    sammanfattning: Option<String>,
+    /// Sammandrag (swedish abstract)
+    sammandrag: Option<String>,
     /// Keywords that are mentioned in the abstract
     keywords: Option<String>,
     /// The acknowledgement text
@@ -513,7 +513,7 @@ impl DocSettings {
             cover_art: Self::read_const("cover_art"),
             cover_art_description: Self::read_const("cover_art_description"),
             abstract_content: Self::read_const("abstract"),
-            sammanfattning: Self::read_const("sammanfattning"),
+            sammandrag: Self::read_const("sammandrag"),
             acknowledgements_content: Self::read_const("acknowledgements"),
             sources: Self::read_const("sources"),
             course_examiner: Self::read_const("course_examiner"),
@@ -645,7 +645,7 @@ fn manifest() -> String {
                         "sources": {"type": "const", "access": "read"},
                         "subject": {"type": "const", "access": "read"},
                         "keywords": {"type": "const", "access": "read"},
-                        "sammanfattning": {"type": "const", "access": "read"},
+                        "sammandrag": {"type": "const", "access": "read"},
                         "notes": {"type": "list", "access": "read"},
                     },
                     "type": "parent"

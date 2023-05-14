@@ -68,7 +68,7 @@ pub(crate) fn transform_document_html(mut input: Value) -> Result<String, Error>
     result.push(raw!("</div>"));
 
     let include_preamble = settings.abstract_content.is_some()
-        || settings.sammanfattning.is_some()
+        || settings.sammandrag.is_some()
         || settings.acknowledgements_content.is_some();
 
     if include_preamble {
@@ -81,10 +81,10 @@ pub(crate) fn transform_document_html(mut input: Value) -> Result<String, Error>
         result.push(json!({"name": "block_content", "data": abstract_content, "args": {}}));
     }
 
-    // sammanfattning (swe. abstract)
-    if let Some(sammanfattning) = &settings.sammanfattning {
-        result.push(raw!("<h2>Sammanfattning</h2>"));
-        result.push(json!({"name": "block_content", "data": sammanfattning, "args": {}}));
+    // Sammandrag (swe. abstract)
+    if let Some(sammandrag) = &settings.sammandrag {
+        result.push(raw!("<h2>Sammandrag</h2>"));
+        result.push(json!({"name": "block_content", "data": sammandrag, "args": {}}));
     }
 
     // acknowledgements
