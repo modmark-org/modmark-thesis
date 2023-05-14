@@ -218,7 +218,7 @@ typesetting systems, such as [latex]().
 The following bullet points summarise the three main design goals of ModMark.
 
 [list]----
-* **[target aim:A1]"A1". Expressive and modular**
+* **[target aim:A1]"A1". Expressive and modular** [newline]()
     The language intends to be more expressive and extendable than Markdown and
     Djot by providing module expressions that offer a general syntax to extend
     the language with extra functionality. For instance, if a user wants to
@@ -229,10 +229,10 @@ The following bullet points summarise the three main design goals of ModMark.
     ModMark also aims to support nested structures in a similar fashion to
     [latex]().
 
-    Continuing in the spirit of modularity, fundamental parts of ModMark’s
+    Continuing in the spirit of modularity, fundamental parts of ModMark's
     compiler should be designed to be agnostic of the output file format.
 
-* **[target aim:A2]"A2". Simple**
+* **[target aim:A2]"A2". Simple** [newline]()
     The [tex]!! family of systems (and similar systems like Typst) solve the
     problem of expressiveness and portability by making the document language
     itself powerful, even Turing complete. Our language will hopefully be easier
@@ -241,7 +241,7 @@ The following bullet points summarise the three main design goals of ModMark.
     the document. Also, the syntax of ModMark should be lightweight and familiar
     to users of Markdown or Djot.
 
-* **[target aim:A3]"A3". Portable and developer-friendly**
+* **[target aim:A3]"A3". Portable and developer-friendly** [newline]()
     AsciiDoc, Djot and a few other languages offer similar expressive
     capabilities using an embedded language, compiler plugins or macros.
     However, this leaves package developers tied to using a specific programming
@@ -283,12 +283,12 @@ these are sufficient for the group to perform testing and debugging, but lack
 polished user experience design.
 
 ## Outline
-The rest of the thesis is structured as follows. Chapter [reference] chp:mml
+The rest of the thesis is structured as follows. Chapter [reference](chp:mml)
 //The ModMark Language// presents the design of the language, including an
 overview of the syntax and the ideas behind packages. Following that, Chapter
-[reference] chp:implementation //From Concept to Implementation} describes the
+[reference](chp:implementation) //From Concept to Implementation// describes the
 method and implementation used to realise our prototyped language. An evaluation
-of the results can be found in Chapter [reference] chp:evaluation
+of the results can be found in Chapter [reference](chp:evaluation)
 //Evaluation//, where we discuss how well our aims were achieved. Lastly,
-Chapter [reference] chp:conclusion discusses the current state of our language,
+Chapter [reference](chp:conclusion) discusses the current state of our language,
 conclusions and potential improvements as well as further reading.
