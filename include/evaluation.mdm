@@ -72,53 +72,16 @@ No whitespace character after the hash sign is needed like in Markdown and the
 alternate syntax that uses equal signs or hyphens is not supported.
 See Table [reference]{tab:headings} for a comparison. [comment](TODO ugly table/code, also broken in latex)
 
-[fancy-big-table caption="Comparing the syntax for headings." label="tab:headings"]{{
-CommonMark
-[next-column]
-ModMark
-[next-column]
-[latex]()
-[next-row]
-[code markdown bg="FFFFFF" theme="github"]{
-# Heading 1
+[fancy-image
+    caption="Comparing the syntax for headings."
+    label="tab:headings"
+]
+./figures/headings_evaluation.svg
 
-# Heading 1 #
-
-Heading 1
-=========
-}
-
-[next-column]
-[code markdown bg="FFFFFF" theme="github"]
-# Heading 1
-
-[next-column]
-[code latex bg="FFFFFF" theme="github"](
-\section{Heading 1}
-)
-[next-row]
-[code markdown bg="FFFFFF" theme="github"]{
-## Heading 2
-
-## Heading 2 ##
-
-Heading 2
-=========
-}
-
-[next-column]
-[code markdown bg="FFFFFF" theme="github"]
-## Heading 2
-
-[next-column]
-[code latex bg="FFFFFF" theme="github"](
-\subsection{Heading 2}
-)
-}}
 ##### Styling text
 ModMark follows Markdown's convention of using non-alphanumerical characters as
 tags to surround text that should be displayed in another format such as
-``**bold**`` or ``//italic//``. See Table [reference]{tab:tags} for a full 
+``**bold**`` or ``//italic//``. See Figure [reference]{fig:tags} for a full 
 comparison. 
 
 Using tags results in a shorter and less obtrusive syntax in comparison to
@@ -135,21 +98,13 @@ is needlessly verbose by always requiring four characters for tags but it helps
 to avoid confusion or ambiguity in situations with nested tags or prefixes
 ``**__a__**example``, which most Markdown implementations simply do not support.
 
-[comment](TODO ugly table/code, also broken in latex)
 
-[fancy-big-table caption="Comparing the syntax for common inline text formatting options. Notice that HTML is used for the situations where Markdown does not provide any concrete syntax." label="tab:tags"]{{
-CommonMark
-[next-column]
-ModMark
-[next-column]
-[latex]()
-[next-row]
-code
-[next-column]
-code
-[next-column]
-code
-}}
+[fancy-image
+    caption="Comparing the syntax for common inline text formatting options. Notice that HTML is used for the situations where Markdown does not provide any concrete syntax."
+    label="fig:tags"
+]
+./figures/tags_evaluation.svg
+
 
 ##### Modules
 Markdown has no syntax for user-provided features and only offer concrete syntax
