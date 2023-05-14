@@ -27,7 +27,7 @@ This chapter presents the development process, technical details and relevant
 
 ## Development workflow
 
-At the start of development, three key areas of the system were identified.
+At the start of development three key areas of the system were identified.
 These three consisted of a parser for the language
 (Sec. [reference][sec:parser]), a core runtime for evaluating the parsed tree
 (Sec. [reference][sec:scheduling] -- [reference][sec:transforming]), and tooling
