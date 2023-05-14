@@ -32,14 +32,13 @@ direction. Three critical parts within the system were identified for
 development. These three parts consisted of a parser for the language
 (Sec. [reference][sec:parser]), a core runtime for evaluating the parsed tree
 (Sec. [reference][sec:scheduling] -- [reference][sec:transforming]), and tooling
-for using the language in the command-line (Sec. [reference][sec:cli]) as well
-as the web (Sec. [reference][sec:playground]). All of these systems were in
+for using the language via the command-line (Sec. [reference][sec:cli]) as well
+as in the browser (Sec. [reference][sec:playground]). All of these systems were in
 place after five weeks and we could move to a more iterative and less
 restrictive workflow.
 
-Our workflow was based on GitHub's [cite] github issues and pull request system.
-Our git repository is hosted under a GitHub organisation named ModMark. There
-is an established set of conventions for commit message style and branch
+Our workflow was based on GitHub's [cite](github) issues and pull request system. We
+established a set of conventions for commit messages and branch
 naming to avoid confusion. Whenever a bug was encountered or a new feature was
 discussed an issue describing the bug or feature would be created so that there
 is a clear list of tasks that are available.
@@ -49,6 +48,39 @@ assigning group members to certain issues. When an issue was completed a pull
 request was opened so that other members could review the code. After being
 approved the branch was rebased into the main branch. Rebasing was chosen
 instead of merging to get a clean commit history without merge commits.
+
+Table [reference](tab:loc) lists all subsystems developed during the project along with
+the total amount of code. While the number of lines of code is not always an
+accurate metric for measuring the size and complexity of a project,
+it can provide a helpful overview. The following sections will describe these
+systems in greater detail. 
+
+[fancy-table
+    header=bold
+    caption="Summary of the total lines of code (LOC) in the project."
+    alignment="llrr"
+    label="tab:loc"
+]
+Subsystem                    | Language      | Files   | LOC
+Parser                  | Rust          | 7       | 2 292
+Core                    | Rust          | 12      | 4 335
+Standard packages       | Rust          | 16      | 4 581
+Parser tests            | ---           | 22      | 1 205   
+Parser test runner      | Rust          | 119     | 145
+Standard package tests  | JSON          | 128     | 4 581
+Pkg test runner         | Rust          | 1       | 414
+CLI                     | Rust          | 4       | 932
+VS Code extension       | YAML          | 1       | 93
+Chalmers-thesis package | Rust          | 3       | 1 450
+Website                 | TypeScript    | 10      | 1 757
+                        | Rust          | 2       | 541
+                        | JavaScript    | 1       | 94
+Demo packages           | Zig           | 2       | 188
+                        | Go            | 2       | 280
+                        | Swift         | 3       | 268
+                        | AssemblyScript| 1       | 180
+                        | C++           | 1       | 147
+**Total**               |               | **335** | **23 483**    
 
 ## Parsing
 [label] sec:parser
