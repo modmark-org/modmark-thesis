@@ -4,26 +4,74 @@ ksk vill reffa till underrubrikerna?
 
 # Conclusion
 [label](chp:conclusion)
-ModMark has been successfully implemented as evident by the fact that this document is written in ModMark. While the language is not perfect the flexible and expressive package system utilizing WebAssembly allows for many interesing possibilites.
+ModMark has been successfully implemented as evident by the fact that this
+document is written in ModMark. While the language is not perfect the flexible
+and expressive package system utilizing WebAssembly allows for many interesing possibilites.
 
-The fact that the online playground and CLI run on exactly the same code demonstrates that WASM can be used to create complex portable applications. Embedding a WASM runtime to evaluate packages also shows that plugin and packages systems can use WASM to provide more flexibility for developers.
+The fact that the online playground and CLI run on exactly the same code
+demonstrates that WASM can be used to create complex portable applications. Embedding
+a WASM runtime to evaluate packages also shows that plugin and packages systems
+can use WASM to provide more flexibility for developers.
 
-The process of implementing and designing ModMark has also highlighted some of the current limitations of WASM and WASI. As mentioned in Section [reference](sec:a3eval) some of the most popular languages like Python and JavaScript do not have good support for WASM due to their large runtimes. As previously mentioned there are proposals that will hopefully alleviate this issue but it is clear that WASM and WASI are still new technologies and the ecosystem will continue to change rapidly. If this project was to be done in a few years time it is likely that there would be new approaches available.
+The process of implementing and designing ModMark has also highlighted some of
+the current limitations of WASM and WASI. As mentioned in Section [reference](sec:a3eval)
+some of the most popular languages like Python and JavaScript do not have good
+support for WASM due to their large runtimes. As previously mentioned there are
+proposals that will hopefully alleviate this issue but it is clear that WASM and
+WASI are still new technologies and the ecosystem will continue to change rapidly.
+If this project was to be done in a few years time it is likely that there would
+be new approaches available.
 
 ## Future work
-ModMark will continue to be developed beyond the scope of this bachelor's thesis project. The compiler is released as free and open source software[note]{Licensed under the Apache License 2.0.} and we welcome new contributors. Due to the modular nature of the language most missing features can be implemented in the form of third-party packages. However, there are some noteworthy topics closely tied to the language design or compiler implementation of ModMark that could be further explored too.
+ModMark will continue to be developed beyond the scope of this bachelor's thesis
+project. The compiler is released as free and open source software[note]{Licensed under the Apache License 2.0.}
+and we welcome new contributors. Due to the modular nature of the language most
+missing features can be implemented in the form of third-party packages. However,
+there are some noteworthy topics closely tied to the language design or compiler
+implementation of ModMark that could be further explored too.
 
 ### Incremental compilation
-A potential downside of the modular design of ModMark in combination with the fact that packages are evaluated in WebAssembly virtual machines is slow compilation speeds. In order to improve the speed at which a document is transcompiled, incremental parsing and incremental compilation techniques could be further investigated.
+A potential downside of the modular design of ModMark in combination with the
+fact that packages are evaluated in WebAssembly virtual machines is slow compilation
+speeds. In order to improve the speed at which a document is transcompiled, incremental
+parsing and incremental compilation techniques could be further investigated.
 
-Incremental compilation is a technique that attempts to reuse parts of the previous output depending on how the source text was changed. It reduces the time spent by avoiding a full recompilation. In a system where all elements are independent of each other it can be achieved by simply checking which elements were changed. However, in Modmark the situation is more complex, as our modules have access to both variables and files. For instance, a module outputting images from a file may appear unchanged to the compiler but the previous output cannot be reused unless the file itself is unchanged. Similarly, the compiler may need to recompile a module with variable access if any of the variables have different values.
+Incremental compilation is a technique that attempts to reuse parts of the previous
+output depending on how the source text was changed. It reduces the time spent by
+avoiding a full recompilation. In a system where all elements are independent of
+each other it can be achieved by simply checking which elements were changed.
+However, in Modmark the situation is more complex, as our modules have access
+to both variables and files. For instance, a module outputting images from a file
+may appear unchanged to the compiler but the previous output cannot be reused
+unless the file itself is unchanged. Similarly, the compiler may need to recompile
+a module with variable access if any of the variables have different values.
 
-Incremental parsing is, in a sense, the same concept implemented at an earlier stage. While incremental compilation performs checks after the abstract syntax tree has been produced, incremental parsing may avoid producing the tree itself. Typst is one of the languages that feature both incremental parsing and compilation [cite](typst2). For incremental parsing, Typst uses an algorithm based on the so called //red-green tree//, (see also [cite](rust-compiler)), which keeps track of dependencies between elements and invalidates them as needed. For incremental compilation, it uses a cache that is queried for reusable entries. While Typst and ModMark have vastly different output formats, it is likely that similar ideas could be used to implement incremental parsing and compilation for ModMark.
+Incremental parsing is, in a sense, the same concept implemented at an earlier stage.
+While incremental compilation performs checks after the abstract syntax tree has
+been produced, incremental parsing may avoid producing the tree itself. Typst is
+one of the languages that feature both incremental parsing and compilation [cite](typst2).
+For incremental parsing, Typst uses an algorithm based on the so called //red-green tree//,
+(see also [cite](rust-compiler)), which keeps track of dependencies between
+elements and invalidates them as needed. For incremental compilation, it uses a
+cache that is queried for reusable entries. While Typst and ModMark have vastly
+different output formats, it is likely that similar ideas could be used to implement
+incremental parsing and compilation for ModMark.
 
 ### Diagnostics
-Good compiler diagnostics that help users when they encounter issues is essential for an ergonomic user experience. The benefits of unobtrusive syntax quickly disappear if the user gets stuck as soon as they make a minor mistake. In the related world of programming language research, results from a study have shown that students' learning is hindered by ineffective error messages [cite](errors). The study also presents a timeline of efforts in enhancing error messages as well as guidelines on how they should be structured.
+Good compiler diagnostics that help users when they encounter issues is essential
+for an ergonomic user experience. The benefits of unobtrusive syntax quickly
+disappear if the user gets stuck as soon as they make a minor mistake. In the
+related world of programming language research, results from a study have shown
+that students' learning is hindered by ineffective error messages [cite](errors).
+The study also presents a timeline of efforts in enhancing error messages as well
+as guidelines on how they should be structured.
 
-[latex](), despite its popularity, produces error messages that are arguably complex and unhelpful to inexperienced users [cite](typst). On the other hand, Typst and programming languages like Elm [cite](elm) and Rust [cite](rust_errors) has made more recent attempts at providing helpful error messages that reference the source code and attempt to explain the error. An example of this is found in Figure [reference](fig:elm_error).
+[latex](), despite its popularity, produces error messages that are arguably
+complex and unhelpful to inexperienced users [cite](typst). On the other hand,
+Typst and programming languages like Elm [cite](elm) and Rust [cite](rust_errors)
+has made more recent attempts at providing helpful error messages that reference
+the source code and attempt to explain the error. An example of this is found in
+Figure [reference](fig:elm_error).
 
 [fancy-image
     alt = "An error message produced by the elm compiler. It describes how the user forgot to end their line with double quotes."
@@ -33,20 +81,48 @@ Good compiler diagnostics that help users when they encounter issues is essentia
     ]
 ./figures/elm_error.png
 
-We could draw inspiration from these languages in order to improve the the error messages produced by the ModMark compiler. The most significant change would we a rewrite of the parser so that each node in the AST stores a reference to the position in the source text, meaning that error messages can describe where the error occurred. Nom, the parsing library that is currently used, is somewhat ill-suited for this task so it might be appropriate to consider writing hand-written recursive decent parser or opting for another parser combinator library such as //Chumsky// [cite](chumsky) which has a stronger focus on error recovery.
+We could draw inspiration from these languages in order to improve the the error
+ messages produced by the ModMark compiler. The most significant change would we
+ a rewrite of the parser so that each node in the AST stores a reference to the
+ position in the source text, meaning that error messages can describe where the
+ error occurred. Nom, the parsing library that is currently used, is somewhat
+ ill-suited for this task so it might be appropriate to consider writing hand-written
+ recursive decent parser or opting for another parser combinator library such as
+ //Chumsky// [cite](chumsky) which has a stronger focus on error recovery.
 
-There are several other aspects regarding error messages in ModMark that are worth exploring further too. The standard packages included with the language were developed with helpful errors messages in mind, but there are no such guarantees for third-party packages. In addition to this, package developers need useful errors that can help them with debugging. This becomes especially significant when considering the importance of our package ecosystem. In the future, it may be ideal to author a convention for package errors and also offer a separate tool specifically for package development.
+There are several other aspects regarding error messages in ModMark that are
+worth exploring further too. The standard packages included with the language
+were developed with helpful errors messages in mind, but there are no such
+guarantees for third-party packages. In addition to this, package developers
+need useful errors that can help them with debugging. This becomes especially
+significant when considering the importance of our package ecosystem. In the
+future, it may be ideal to author a convention for package errors and also offer
+a separate tool specifically for package development.
 
 ### Editor support
-Another feature that could be explored is building a WYSIWYG (//What You See Is What You Get//) editor for ModMark. More recently, editors and knowledge managements systems like Notion [cite](notion_block) and Microsoft Loop [cite](loop) have taken a different approach to rich text editing where a document consists of //blocks// with different kinds of content: text, schematics, interactive elements and other embedded documents. ModMark could potentially be well suited for such an interface since modules allow vastly different types of content to be mixed in a portable manner. 
+Another feature that could be explored is building a WYSIWYG
+(//What You See Is What You Get//) editor for ModMark. More recently, editors
+and knowledge managements systems like Notion [cite](notion_block) and Microsoft
+Loop [cite](loop) have taken a different approach to rich text editing where a
+document consists of //blocks// with different kinds of content: text, schematics,
+interactive elements and other embedded documents. ModMark could potentially be
+well suited for such an interface since modules allow vastly different types of
+content to be mixed in a portable manner. 
 
-Apart from building a stand-alone editor for ModMark better integration for other text editors could also be developed. There is already some basic support. A TextMate grammar that can be used to provide syntax highlighting for multiple editors has been created and is used in a Microsoft Visual Studio Code extension. However, there is still room for improvement. For instance, integrating a server with support for the Language Server Protocol (LSP) [cite](lsp) directly in the ModMark command-line tool is one possible direction.
+Apart from building a stand-alone editor for ModMark better integration for other
+text editors could also be developed. There is already some basic support. A
+TextMate grammar that can be used to provide syntax highlighting for multiple
+editors has been created and is used in a Microsoft Visual Studio Code extension.
+However, there is still room for improvement. For instance, integrating a server
+with support for the Language Server Protocol (LSP) [cite](lsp) directly in the
+ModMark command-line tool is one possible direction.
 
 
 
 ## Further reading
 [label](sec:furtherreading)
-More information about ModMark as well as the source code for the compiler can be found at the following online resources.
+More information about ModMark as well as the source code for the compiler can
+be found at the following online resources.
 
 [list]----
 * **Source code** [newline]() [link](https://github.com/modmark-org/modmark)
