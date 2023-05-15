@@ -64,7 +64,7 @@ Subsystem                    | Language      | Files   | LOC
 Parser                  | Rust          | 7       | 2 292
 Core                    | Rust          | 12      | 4 335
 Standard packages       | Rust          | 16      | 4 581
-Parser tests            | ---           | 22      | 1 205   
+Parser tests            | JSON          | 22      | 1 205   
 Parser test runner      | Rust          | 119     | 145
 Standard package tests  | JSON          | 128     | 4 581
 Pkg test runner         | Rust          | 1       | 414
@@ -108,8 +108,8 @@ in the form of ordinary functions that simply consume parts of the input
 [cite "p. 252--254"]{parsercombinator}. In this in this particular case the Rust
 library Nom [cite] nom was used.
 
-The parsing step in the ModMark compiler is performed by an isolated
-``modmark_parser`` library (a //crate// in Rust terminology) that simply is
+The parsing step in the ModMark compiler is performed by an isolated library
+(a //crate// in Rust terminology) that simply is
 imported in the main part of the system. Having the parser as a separate library
 also eases the potential future process of creating ModMark bindings for other
 programming languages. The responsibilities of the parser library include
@@ -199,7 +199,7 @@ includes a table of contents.
 # Discussion
 /
 
-In order to generate the final document, all headings need to be compiled before
+In order to generate the final document, all headings need to be evaulated before
 the ``\[table-of-contents]`` module. This is because the module itself does
 not have access to the rest of the document. Thus, the compiler needs to produce
 information about the headings that is available to the module during its
@@ -262,7 +262,7 @@ transformed as determined by the scheduler, the name of the element is looked up
 in a map to find what packages is responsible for the transform and some other
 related information. As previously mentioned in Sec. [reference]{sec:packages},
 the package that transforms the element may either be a native package or a
-stand-alone WebAssembly program.
+WebAssembly program.
 
 If the transform is provided by a native package, it means that the
 implementation is written in Rust and is included in the compiler itself. If the
@@ -370,8 +370,8 @@ needed to evaluate and render documents.
 
 ## Package manager
 Modularity is a key feature of ModMark, and as such, it is crucial for users to
-have an easy way to manage third-party packages. In the [tex]() ecosystem for
-example, packages are typically obtained through CTAN [cite] ctan (short for
+have an easy way to manage third-party packages. In the [tex]() ecosystem,
+packages are typically obtained through CTAN [cite] ctan (short for
 "the comprehensive [tex]() archive network"). However, users are often left to
 download either huge distribution of all common packages or manage packages
 themselves [cite]{ubuntu}.

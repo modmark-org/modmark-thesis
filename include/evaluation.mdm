@@ -102,7 +102,7 @@ to avoid confusion or ambiguity in situations with nested tags or prefixes
 
 [fancy-image
     alt = "A table comparing the syntax for common inline text formatting options in ModMark, Markdown and LaTeX."
-    caption="Comparing the syntax for common inline text formatting options. Notice that HTML is used for the situations where Markdown does not provide any concrete syntax."
+    caption="Comparing the syntax for common inline text formatting options. Notice that HTML and MATHML is used for the situations where Markdown does not provide any concrete syntax."
     label="fig:tags"
 ]
 ./figures/tags_evaluation.svg
@@ -130,7 +130,7 @@ handle nested structures examples such as this may confuse users:
 Some code
 
 This will not be part of the code block since
-'center' has no delimiter
+'center' has no delimiter and is ended by the line break above.
 }
 ))
 
@@ -142,7 +142,7 @@ regardless of what packages are used. [link A3] aim:A3 formulates this as
 a concrete requirement, the same aim also states that the solution should offer
 package developers a lot of flexibility. At the core of our solution for
 A3 is the Wasmer WebAssembly runtime. It supports the major
-operating systems: Linux, Windows and macOS and also the most common web browsers.
+operating systems: Linux, Windows and macOS and also all common web browsers.
 There were also recent improvements to their chipset support. Version 3.2 of Wasmer
 added RISC-V to the list of chipsets that is supported by both Cranelift and LLVM,
 which now consists of x86_64, arm64, x86 and RISC-V. To that extent, the portability
@@ -185,7 +185,7 @@ can arguably be solved by providing bindings that convert the input provided by 
 WASI API into an easier-to-use API suited for a particular language.
 
 When comparing the portability to other languages, ModMark appears as a good option
-nonetheless. Systems like [tex](), [latex](), and Typst solve the issue of portability by having
+nonetheless. Systems like [latex]() and Typst solve the issue of portability by having
 a fully Turing complete language that lets developers write packages directly in
 the document language itself. Another common approach is embedding a scripting language
 such as Lua that is used to create extensions. A notable downside to these approaches
