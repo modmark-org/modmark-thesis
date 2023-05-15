@@ -170,7 +170,8 @@ support is currently only a tech preview that is incompatible with Wasmer [cite]
 To add even more nuance to the issue of supporting multiple languages, there is
 also a matter of performance. If users were to develop packages in languages
 such as Python and JavaScript, it could slow down the ModMark compiler significantly.
-This is because higher-level languages need to include a larger runtime, introducing
+This is because higher-level languages need to include a larger runtime
+[note](CPython compiled to WebAssembly with WASI support is around 125 MB.), introducing
 a large performance overhead and size. However, recent developments may remedy this
 issue. There is an active proposal for WebAssembly to add support for built-in garbage
 collection [cite]{wasm}. It includes a handful of features to reduce the size and
