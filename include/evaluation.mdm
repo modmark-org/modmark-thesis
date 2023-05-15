@@ -33,8 +33,9 @@ To write our thesis in ModMark we needed to create a //chalmers-thesis// package
 responsible for creating [latex]() chapters and the pages that precede the table of contents.
 While the need for such a package can be seen as a shortcoming, it also demonstrates that the
 core concepts of ModMark are working. It shows that it is possible to extend the language with
-new functionality if needed. Granted, the extendability of the language only becomes a positive
-factor once there is a healthy ecosystem of packages.
+new functionality if needed. This is akin to the many [latex]() templates used by different
+scientific journals, see [cite](acm_template). Granted, the extendability of the language only
+becomes a positive factor once there is a healthy ecosystem of packages.
 
 Furthermore, part of our goals towards expressiveness was to make ModMark agnostic
 of output format. In Chapter [reference](chp:implementation), we presented the design and
