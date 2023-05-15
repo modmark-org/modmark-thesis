@@ -272,7 +272,7 @@ fn create_titlepage(settings: &DocSettings) -> String {
     \includesvg[width=0.25\pdfpagewidth]{{guandchalmerslogo}}
 \end{{figure}} \vspace{{5mm}}	
 	
-    {department}
+    {department}\\
 	\textsc{{Chalmers University of Technology}} \\
 	\textsc{{University of Gothenburg}} \\
 	Gothenburg, Sweden \the\year \\
