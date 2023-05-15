@@ -443,8 +443,8 @@ published version of the code are made, GitHub Actions compiles the code into a
 web page and publishes it online. When a pull request is made or is updated,
 the playground is also compiled with the code contained in the pull request,
 and the playground is published to be able to preview the changes. During the
-development of this project, there have been over 500 previews deployed and over
-100 deployments of the published version of the code.
+development of this project, there have been over 650 previews deployed and over
+120 deployments of the published version of the code.
 
 [comment]% Denna delen kanske passar bättre i diskussionen?%
 Both the continuous integration and continuous deployment has been central in
