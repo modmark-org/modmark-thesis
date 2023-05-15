@@ -163,7 +163,7 @@ the WebAssembly System Interface.
 To better evaluate this goal we have successfully implemented packages in Rust,
 Swift, C, C++, Go (more specifically the TinyGo dialect), AssemblyScript
 (a sub-set of Typescript), and Zig. Source code for some of these packages are
-referenced in Sec. [reference]{sec:furtherreading}. We have also made unsuccessful
+referenced in Section [reference]{sec:furtherreading}. We have also made unsuccessful
 attempts at implementing a package using the Haskell Glasgow Compiler, but their
 support is currently only a tech preview that is incompatible with Wasmer [cite]{ghc}.
 
