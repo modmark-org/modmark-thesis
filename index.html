@@ -1,0 +1,1048 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>ModMark: A Modular Document Markup Language</title>
+<meta charset="UTF-8">
+<style>@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+*::selection {
+    background: var(--color-dark);
+    color: var(--color-light);
+}
+
+:root {
+    --color-dark: #252525;
+    --color-light: #ffffff;
+    --color-primary: #0f8b8d;
+    --size-step-0: clamp(1rem, calc(0.96rem + 0.22vw), 1.13rem);
+    --size-step-1: clamp(1.25rem, calc(1.16rem + 0.43vw), 1.5rem);
+    --size-step-2: clamp(1.56rem, calc(1.41rem + 0.76vw), 2rem);
+    --size-step-3: clamp(1.95rem, calc(1.71rem + 1.24vw), 2.66rem);
+    --size-step-4: clamp(2.44rem, calc(2.05rem + 1.93vw), 3.55rem);
+}
+
+body {
+    background: var(--color-light);
+    color: var(--color-dark);
+    padding: 2em;
+    padding-top: 0;
+    font-family: 'Lora', serif;
+    font-size: var(--size-step-0);
+    min-height: 100vh;
+    text-rendering: optimizeSpeed;
+    line-height: 1.7;
+}
+
+p {
+    text-align: justify;
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+h1 {
+    text-align: center;
+    font-size: var(--size-step-3);
+    max-width: 20ch;
+}
+
+h2 {
+    font-size: var(--size-step-2);
+    max-width: 28ch;
+}
+
+h3 {
+    font-size: var(--size-step-1);
+    max-width: 28ch;
+}
+
+h4,
+h5,
+h6 {
+    font-size: 1rem;
+}
+
+.cover {
+    border-bottom: dashed 2px #dfdfdf;
+    padding-bottom: 4rem;
+}
+
+.cover .title {
+    margin-top: 1.5rem;
+    text-align: left;
+    max-width: 100%;
+    font-size: var(--size-step-3);
+    margin-bottom: 0.5rem;
+}
+
+.cover .subtitle {
+    max-width: 40ch;
+}
+
+.cover .authors {
+    margin: 0;
+    margin-top: 1rem;
+    padding: 0;
+    font-style: italic;
+    list-style: none;
+}
+
+.preamble h2 {
+    position: relative;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.preamble {
+    border-bottom: dashed 2px #dfdfdf;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footnote {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+
+ul,
+ol {
+    padding-inline-start: 1em;
+}
+
+blockquote {
+    padding-inline-start: 1em;
+    border-inline-start: 0.3em solid;
+    font-style: italic;
+    font-size: var(--size-step-1);
+    max-width: 50ch;
+}
+
+html:focus-within {
+    scroll-behavior: smooth;
+}
+
+article {
+    margin-inline: auto;
+    max-width: 70ch;
+}
+
+article>*+* {
+    margin-block-start: var(--flow-space, 1em);
+    max-width: 70ch;
+}
+
+:is(h1, h2, h3, h4, h5, h6 blockquote) {
+    --flow-space: 1.5em;
+}
+
+:is(h1, h2, h3, h4, h5, h6)+* {
+    --flow-space: 0.5em;
+}
+
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+img,
+picture {
+    max-width: 100%;
+    display: block;
+}
+
+figure,
+table,
+pre {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html:focus-within {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e4e4e4;
+}
+
+tbody tr:nth-child(even) {
+    background: #e4e4e4;
+}
+</style>
+</head>
+<body>
+<article>
+<div class="cover">
+<img alt="Cover photo" src="./figures/cover.jpg"/><h1 class="title">ModMark: A Modular Document Markup Language</h1><div class="subtitle">Designing and implementing a markup language utilising WebAssembly</div><ul class="authors"><li>Eli Adelhult</li>
+<li>Gustav Bruhn</li>
+<li>Carl Forsinge</li>
+<li>Axel Larsson</li>
+<li>Hugo Mårdbrink</li>
+<li>Jonathan Widén</li></ul></div><div class="preamble"><h2>Abstract</h2><p>We present ModMark — a new modular document markup language that aims to provide
+a balance between the simplicity of Markdown and the power of LaTeX.
+It can be used both in an web playground and via the command-line.
+ModMark utilises the capabilities of WebAssembly and the WebAssembly System Interface,
+allowing for a highly extensible markup language that can be customised to fit the needs
+of specific use cases. ModMark allows users to easily create and manage custom packages
+that can be added to their documents to enhance functionality, while still maintaining
+a straightforward and intuitive syntax. Furthermore, the modularity of ModMark also
+enables users to write packages that add support for any output format they desire.
+The language is ergonomic enough to use for notes while also powerful enough
+to produce this bachelor&#39;s thesis.</p><h2>Sammandrag</h2><p>Vi presenterar ModMark – ett nytt modulärt markup-språk vars mål är att ge en balans
+mellan enkelheten i Markdown och kraften av LaTeX. Det kan användas både i en webb-miljö och via kommandotolken.
+ModMark nyttjar teknikerna WebAssembly och WebAssembly System Interface,
+vilket möjliggör för ett högt utökbart markup-språk som kan anpassas för att passa specifika användningsfall.
+ModMark gör det möjligt för användare att enkelt skapa och hantera anpassade paket som kan läggas till i deras
+dokument för att förbättra funktionaliteten, samtidigt som man behåller en enkel och intuitiv syntax. Dessutom
+möjliggör ModMarks modularitet även användare att skriva paket som lägger till stöd för det utdataformat de vill ha.
+Språket är tillräckligt ergonomiskt för att användas för anteckningar samtidigt som det är tillräckligt
+kraftfullt för att producera denna kandidatuppsats.</p><h2>Acknowledgements</h2><p>We would like to express our sincere gratitude to our supervisor, Magnus Myreen, for his support
+and guidance throughout the entire project. We would particularly like to acknowledge his consistent
+feedback, which has improved both the quality of this thesis and the technical aspects of our work.</p></div><p>
+
+
+
+
+</p><p><h1>Introduction</h1><h2>Background</h2><p><span id="sec:background"></span>
+Typesetting is the art of composing characters or symbols in a way that matches
+the desired format and conveys the correct meaning. Historically, types were set
+by hand, and later on mechanically to reduce the effort required. While
+mechanical typesetting was a major improvement, the large machines could only
+cast a few characters per second while emitting significant noise and heat
+<a href="#bibentry:typesetting">[1]</a>. With the digital age, it became natural that typesetting
+would be done by computer systems.</p><h3>Early digital typesetting</h3><p>One of the earliest systems developed to typeset digital documents was Troff
+<a href="#bibentry:Troff">[2]</a>, <a href="#bibentry:mcilroy">[3]</a>. It was developed at Bell Labs in the early 1970s
+to achieve compatibility with a new generation of computers. While there was a
+significant demand for such a typesetting system, especially within the Unix
+community, Troff had its flaws. Most notably, it was built as a layer on Nroff,
+which in turn was built on top of Roff, and all this complexity led to the final
+product being quite complicated. The famous computer scientist Donald Knuth said
+that &quot;it was a fifth generation, each of which was a patch on another one. So it
+was time to scrap it&quot; <a href="#bibentry:KnuthCitat">[4, p. 43]</a>.</p><p>Later in the 1970s, TeX <a href="#bibentry:Tex">[5]</a> was created by Knuth in an attempt to
+improve on Troff. It was created from scratch, but shares many concepts with
+Troff, such as macros. TeX uses macros as low-level building blocks to
+generate complex code from smaller and simpler code at compilation. This design
+makes it possible to extend the functionality of the language with custom
+macros.</p><p>Neither Troff nor TeX see much usage in their pure forms today. There are
+instances where versions of them are used today such as GNU troff in Linux
+man-pages <a href="#bibentry:man7">[6]</a>, but they have largely been replaced by newer
+alternatives.</p><h3>Markup languages</h3><p><span id="sec:markup-languages"></span>
+A term that is often used when discussing typesetting is <em>markup</em>. A markup
+language is typically defined to be a language that is used to structure and
+describe the format of text. This definition includes the previously mentioned
+Troff and TeX but also languages such as HTML and XML. The aim of these
+languages was not necessarily to be easy to use but to be precise. Over time, popularity has
+shifted towards more lightweight markup languages, designed to increase
+readability and convenience rather than focusing on maximum control of output.</p><p>A selection of popular and relevant markup languages are presented below,
+ordered by date of release.</p><h5><u>LaTeX</u></h5><p>Leslie Lamport developed LaTeX (short for Lamport TeX) in the 1980s
+<a href="#bibentry:Latex">[7]</a>. It includes many useful macros that allows users to easier create
+documents adding images, headings etc. without worrying about the low-level
+typesetting primitives. While this added a layer of convenience, the language is
+still quite verbose in comparison to more recent markup languages.</p><h5><u>reStructuredText</u></h5><p>In 2001, the first version of reStructuredText, or reST for short, was released
+<a href="#bibentry:rest">[8]</a>. Since its release it has been adopted by the Python community for
+language documentation. It features syntactic sugar for formatting such as bold
+and italic, lists and tables. Additionally it allows users to write custom
+blocks in Python to extend the functionality.</p><h5><u>AsciiDoc</u></h5><p>AsciiDoc first arrived just a year after reST <a href="#bibentry:AsciiDoc">[9]</a>, with a newer
+implementation from 2013 called Asciidoctor <a href="#bibentry:Asciidoctor">[10]</a>. It is aimed
+towards technical documentation, and includes a variety of syntactical
+constructions for convenient writing much like reST. Figure
+<a href="#fig:asciidoc_rest_example">1.1</a> shows a small sample of both AsciiDoc and
+reStructuredText. The original implementation was written in Python, while
+Asciidoctor is implemented in Ruby (and ported to the web and the Java Virtual
+Machine). Customisation of the language can be done in both implementations
+through macros, which are regular expressions that are substituted during
+compilation. These do not require writing any external code. Asciidoctor also
+has support for extensions <a href="#bibentry:Asciidoctor_Ext">[11]</a>, which allows developers to
+use programming languages to generate output.</p><figure style="width:90%"><img src="./figures/reST_vs_AsciiDoc.svg" id="fig:asciidoc_rest_example" style="width:100%" alt="Code for producing some headings, paragraphs, and a link, in both reST and AsciiDoc"/>
+<figcaption style="text-align: center"><strong>Figure 1.1:</strong> An example of source code for producing two headings, two paragraphs and a link in reStructuredText and AsciiDoc</figcaption>
+</figure>
+<h5><u>Markdown</u></h5><p>Markdown was released in 2004, just two years after the release of AsciiDoc
+<a href="#bibentry:markdown">[12]</a>. It was developed by John Gruber and Aaron Swartz with a heavy
+focus on readability and being ergonomic. The original description of the
+language was lacking in detail and contained ambiguities, which eventually led
+to discrepancies between implementations. A decade later an effort was made
+to remedy this by redefining and clarifying the language with a more complete specification, which was
+released under the name CommonMark <a href="#bibentry:Commonmark">[13]</a>. While it succeeded at
+what was intended, it also introduced complexity in both syntax rules and
+parsing.</p><p>In comparison to other markup languages, Markdown is quite limited in
+functionality. It revolves around convenient syntactical patterns but has
+little to no support for custom extensions.</p><h5><u>Djot</u></h5><p>In 2022 John MacFarlane, who was active in the creation of CommonMark, presented
+Djot — a language aimed at fixing the shortcomings of Markdown and the
+complexities in CommonMark <a href="#bibentry:djot">[14]</a>. It expands on Markdown&#39;s original
+design by including elements such as tables and footnotes. Additionally, users
+are able to customise the language by creating custom filters.</p><h5><u>Typst</u></h5><p>Later in the same year, Mjäde <a href="#bibentry:typst">[15]</a> and Haug <a href="#bibentry:typst2">[16]</a> presented a
+new alternative to LaTeX that they call Typst. The motivation behind
+creating Typst was frustration with the LaTeX macro system and lack of
+complex typesetting in lightweight languages like AsciiDoc. Typst has syntax for
+styling text, creating lists etc. but also supports many common programming
+language features like loops and conditionals <a href="#bibentry:typst">[15]</a>. It is essentially a
+way to combine code and ergonomic markup to produce documents.</p><h3>Document converters and generators</h3><p>Along with the development of markup languages, a number of tools such as
+document converters have emerged. Tools like these are meant to provide yet
+another layer of convenience for the user, and in particular improve the
+accessibility of markup languages.</p><p>One of the most popular tools in markup is Pandoc <a href="#bibentry:pandoc">[17]</a>. Pandoc was
+released in 2006 and created by John MacFarlane. It allows users to write a
+document in one markup language and automatically convert it into other
+languages. In fact, all of the previously presented languages are (to some
+extent) supported by the tool <a href="#bibentry:pandoc">[17]</a>, <a href="#bibentry:djot">[14]</a>.</p><p>Another tool is Aurelio Jargas&#39; txt2tag <a href="#bibentry:txt2tags">[18]</a>, which was released in
+2001. It is described as a document generator and functions slightly differently
+from Pandoc. Unlike Pandoc it does not support other markup languages as input.
+Instead, it uses minimal markup that was designed to simplify both
+implementation and usage. The primary features of this minimal markup are
+headers, tags (such as bold and italic), lists, tables and images. From this
+point it works similarly to Pandoc; it can convert the input to a variety of
+markup languages.</p><h3>The current state of markup</h3><p>Among the languages presented in Section <a href="#sec:markup-languages">1.1.2</a>,
+Markdown and LaTeX are the most popular. Other languages see some usage from
+corporations and communities. For example, AsciiDoc was used to document Git
+<a href="#bibentry:gitdocs">[19]</a>, and reST is still used for Python&#39;s documentation
+<a href="#bibentry:sphinx">[20]</a>.</p><p>However, when it comes to personal use, Markdown and LaTeX are very
+dominant. LaTeX sees wide usage in academic writing, while Markdown is
+common in Internet forums and in programming documentation to provide simple
+formatting. When comparing Markdown and LaTeX, they quickly appear very
+different. A comparative example for LaTeX and Markdown can be found in
+Figure <a href="#fig:latexMarkdownExample">1.2</a>, which illustrates the difference
+in verbosity and capability.</p><figure style="width:90%"><img src="./figures/latex_vs_markdown.svg" id="fig:latexMarkdownExample" style="width:100%" alt="Code producing two headings and two paragraphs in LaTeX and Markdown"/>
+<figcaption style="text-align: center"><strong>Figure 1.2:</strong> An example of source code for producing two headings and two paragraphs of text in LaTeX and Markdown. However, it is worth noting that LaTeX documents rarely have an empty preamble (the section before the document begins).</figcaption>
+</figure>
+<p>LaTeX has a strong focus on expressiveness and customisation, though its
+complexity can make it difficult for new users to use properly. The macro system
+also makes editor integration and error handling less pleasant. On the other
+hand, Markdown&#39;s simplicity can be limiting for more demanding use cases.</p><p>While customisation in LaTeX is more accessible than that of TeX, it
+requires users to learn niche design patterns nonetheless. The newer languages
+like AsciiDoc and Djot generally allow users to write extensions in programming
+languages instead. However, these are often limited to the language their
+compiler was written in.</p><h3>Future possibilities using WebAssembly</h3><p>One can argue that these customisable markup languages would benefit from
+supporting more programming languages, as this would increase the reach and
+availability of their ecosystem. A recent technology that is capable of
+approaching this is WebAssembly, or WASM <a href="#bibentry:wasm">[21]</a> for short. WASM is an
+instruction format for a virtual machine that is embedded in all modern web
+browsers. Many programming languages support WASM as a compilation target,
+including C, C++, Swift and Rust. Using a virtual machine allows for
+interoperability between different languages and makes it easier to distribute
+binaries that run close to native speed in all platforms supported by the
+browser.</p><p>However, WASM has also shown to be useful outside of browsers. Running WASM
+without browsers can be achieved using runtimes such as Wasmer <a href="#bibentry:Wasmer">[22]</a> and
+Wasmtime <a href="#bibentry:Wasmtime">[23]</a>. These runtimes can be embedded in other applications
+to offer a portable way of running arbitrary code in a sandboxed environment.
+In addition to this, these runtimes implement WebAssembly System Interface
+(WASI) to provide an interface to the underlying system <a href="#bibentry:WASI">[24]</a>. This
+enhances the capabilities of the program to allow for disk I/0, environment
+variables and more.</p><p>WebAssembly presents an opportunity for markup languages to support many
+programming languages while still being platform independent. This is crucial not only
+to reach more users but also to ease development. Furthermore, this becomes even
+more important in ecosystems like LaTeX, where contributions from users are
+key to improving the language.</p><h2>Aim</h2><p><span id="sec:aim"></span>
+We aim to design and implement a declarative markup language named ModMark. The
+language should be suited for both note-taking and academic writing.</p><p>There is already a plethora of existing languages with the same goal in mind,
+but we explore a different set of trade-offs. The hope is to find a good middle
+ground between lightweight markup languages, such as Markdown, and more complex
+typesetting systems, such as LaTeX.</p><p>The following bullet points summarise the three main design goals of ModMark.</p><ul><li><strong><span id=inlinetargetaim:A1>A1</span>. Expressive and modular</strong> <br/>
+    The language should be more expressive and extendable than Markdown and
+    Djot by providing module expressions that offer a general syntax to extend
+    the language with extra functionality. For instance, if a user wants to
+    include citations, plots or figures in their document they can use this
+    general syntax to import and use third-party implementations of these
+    features. This is in contrast to Markdown where every feature is built-in
+    and has concrete syntax. To put even more control in the hands of the user,
+    ModMark also aims to support nested structures in a similar fashion to
+    LaTeX. Continuing in the spirit of modularity, fundamental parts of ModMark&#39;s
+    compiler should be designed to be agnostic of the output file format.</li><li><strong><span id=inlinetargetaim:A2>A2</span>. Simple</strong> <br/>
+    The TeX family of systems (and similar systems like Typst) solve the
+    problem of expressiveness and portability by making the document language
+    itself powerful, even Turing complete. Our language will hopefully be easier
+    to understand and require less programming knowledge since users will only
+    need to interface with modules instead of writing actual programs inside of
+    the document. Also, the syntax of ModMark should be lightweight and familiar
+    to users of Markdown or Djot.</li><li><strong><span id=inlinetargetaim:A3>A3</span>. Portable and developer-friendly</strong> <br/>
+    AsciiDoc, Djot and a few other languages offer similar expressive
+    capabilities using an embedded language, compiler plugins or macros.
+    However, this leaves package developers tied to using a specific programming
+    language. Another option, used by Pandoc for example, is inter-opting with
+    any program via the shell, but this risks losing portability. Our language
+    aims at being platform independent and yet offer developers greater
+    flexibility. This will be attempted by embedding a sandboxed WebAssembly
+    virtual machine.</li></ul><h2>Scope</h2><p>Successfully implementing ModMark includes both designing the language and
+developing a functioning compiler. However, we had to impose certain
+limitations on the project in order for it to fit within the time frame of a
+bachelor&#39;s thesis.</p><p>Firstly, ModMark does not directly control the resulting layout and typesetting.
+Instead, source code is transcompiled into another popular format, similar to
+Markdown&#39;s approach. We chose to focus on HTML and LaTeX, because they give
+ModMark ample control of the final output while also being widely used and
+supported. This may seem to contradict the output agnosticism mentioned in
+Section <a href="#sec:aim">1.2</a> as a part of A1, but in practise this means
+designing the bundled version of the final layer to target those formats. Given
+the modularity of ModMark, this can easily be extended to include other formats.</p><p>There are also limitations in regards to the types of document that are possible
+to produce. A main goal for the project was the ability to write this thesis in
+ModMark. This naturally drew focus towards elements such as figures and
+references. Overall the project has aimed to target web documentation and
+report-like documents, which covers only a fraction of the possible types of
+output. Although, the modularity of the language allows for more document types.</p><p>During the course of the project there has also been a trade-off between
+developing the language itself and developing the surrounding tools. The tools are
+essential for testing and demonstrating the language, but can on the other hand
+steal development time. We decided to create a web page and a command-line
+interface relatively early in the development process. The implementations of
+these are sufficient for the group to perform testing and debugging, but lack
+polished user experience design.</p><h2>Outline</h2><p>The rest of the thesis is structured as follows. Chapter <a href="#chp:mml">2</a>
+<em>The ModMark Language</em> presents the design of the language, including an
+overview of the syntax and the ideas behind packages. Following that, Chapter
+<a href="#chp:implementation">3</a> <em>From Concept to Implementation</em> describes the
+method and implementation used to realise our prototyped language. An evaluation
+of the results can be found in Chapter <a href="#chp:evaluation">4</a>
+<em>Evaluation</em>, where we discuss how well our aims were achieved. Lastly,
+Chapter <a href="#chp:conclusion">5</a> discusses the current state of our language,
+conclusions and potential improvements as well as further reading.</p>
+<h1>The ModMark Langauge</h1><p><span id="chp:mml"></span></p><p>We present ModMark — a new document markup language with a strong focus on
+modularity. It offers a lightweight syntax for common writing tasks such as
+headings, emphasised text and maths equations. Additionally, it provides a
+package system which allows the language to be extended with new features
+depending on the users needs.</p><p>Packages are independent WebAssembly programs that, amongst other things, add
+support for additional <em>modules</em>. Modules are a way of using a general syntax
+to include other elements in a document, such as images and code. They can also
+be used for more complicated elements that required a nested structure, such as
+tables and lists.</p><p>ModMark is designed to be transcompiled into other, more common, formats such
+as HTML or LaTeX. However, take note of the fact that the language itself is
+entirely agnostic of the output format. Due to the fact that the module system
+underpins the entire language, support for a new output format can be added by
+providing a new package that supports the transformation.</p><p>A short example of a document written in ModMark can be seen in Figure
+<a href="#fig:modmarkExample">2.1</a>. The rest of this chapter will explain the
+syntax and semantics of the ModMark language, and gives an introduction to some
+of the included packages.</p><figure style="width:65%"><img src="figures/modmark_example.svg" id="fig:modmarkExample" style="width:100%" alt="A short example of ModMark&#39;s syntax"/>
+<figcaption style="text-align: center"><strong>Figure 2.1:</strong> The same example document as in Figure <a href="#fig:latexMarkdownExample">1.2</a> but written in ModMark. It demonstrates a few syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags and (4) module expressions.</figcaption>
+</figure>
+<h2>Headings</h2><p>The first line of a paragraph may be started by one or more hash signs <code>#</code> to
+declare that line as a heading. The number of hash signs used represents the
+level of the heading. If a paragraph, for example, starts with the line
+<code>## Heading</code>, it will become a heading at level 2. To recreate the beginning of 
+Chapter <a href="#chp:mml">2</a> of this thesis in ModMark, one could write this:</p><pre style="box_sizing: border_box; padding: 0.5rem; tab-size: 4; font-size: 12px; background-color: #ffffff; "><span style="font-weight:bold;color:#a71d5d;"># </span><span style="font-weight:bold;color:#323232;">The ModMark Language</span><br><span style="color:#323232;">We present ModMark --- a new document markup</span><br><span style="color:#323232;">language with a strong focus on modularity ...</span><br><br><span style="font-weight:bold;color:#a71d5d;">## </span><span style="font-weight:bold;color:#323232;">Headings</span><br><span style="color:#323232;">The first line of a paragraph may be started </span><br><span style="color:#323232;">by one or more hash signs ...</span><br></pre><p>When evaluating the document, the content of the heading is delegated to a
+package which declares that it may transform a heading to the desired output
+format. The headings will be transformed at the discretion of that package, and
+the limit of how many heading levels are allowed depends solely on that package.
+For example, the LaTeX package supports three levels of headings by outputting
+<code>\section{}</code>, <code>\subsection{}</code> and <code>\subsubsection{}</code>, while the HTML
+package supports six levels by outputting <code>&lt;h1&gt;</code> to <code>&lt;h6&gt;</code>.</p><h2>Tags</h2><p>Tags are used to style text which is done by encasing content between a
+opening tag and closing tag. This allows formatted text to be expressed with
+similar simplicity to how it may be expressed in Markdown. Examples of such tags
+are <code>**bold**</code> and <code>//italic//</code>.</p><p>Nesting tags, or using one tag within another, makes sense in some cases. For
+example, you may want to have some of your bold text italic as well, and the
+language allows for writing <code>**bold //bold and italic//**</code> to achieve such
+behaviour. In some other cases, it does not make as much sense. Encasing content
+in <code>$$</code> will output it as math, but it does not make sense that <code>**</code> inside
+that tag would be treated as bold text. It is much more likely that those
+characters would refer to a mathematical operation than to apply formatting to
+the encasing content. For this case, some tags may allow nesting, meaning that
+their content will be checked for additional tags, while some tags do not allow
+for nesting. The complete set of tags built-in to ModMark is listed in Table
+<a href="#mm:tags">2.1</a>, including their output and whether they allow for nesting. </p><table id="mm:tags" style="border: 1px solid black; border-collapse: collapse;"><caption><strong>Table 2.1:</strong> The tags built-in to ModMark<caption><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><strong>Source</strong></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><strong>Output</strong></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><strong>Allows nested tags</strong></td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><code>**bold**</code></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><strong>bold</strong></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">yes</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><code>//italic//</code></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><em>italic</em></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">yes</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><code>__subscript__</code></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><sub>subscript</sub></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">yes</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><code>^^superscript^^</code></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><sup>superscript</sup></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">yes</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><code>==underlined==</code></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><u>underlined</u></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">yes</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><code>~~strikethrough~~</code></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><del>strikethrough</del></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">yes</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><code>``verbatim``</code></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><code>verbatim</code></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">no</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><code>Math: $$x^2+y^2$$</code></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Math: <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><msup><mi>y</mi><mn>2</mn></msup></math></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">no</td></tr></table><p>Similarly to headings, tags are also delegated to a package
+capable of transforming those tags to the desired output format. The end result
+for a bold tag may be <code>&lt;strong&gt;</code> for HTML or <code>\textbf</code> for LaTeX. This also
+means that not all tags may be supported in all output languages, depending on
+if the package declares that it may handle that tag or not.</p><h2>Smart punctuation</h2><p><span id="sec:smart_punc"></span></p><p>Smart punctuation is a feature of ModMark which replaces some characters or
+sequence of characters to some other character that may be more appropriate. For
+example, a sequence of three dots <code>...</code> gets replaced with the ellipsis
+character …, and a sequence of two dashes <code>--</code> gets replaced with the endash
+character –. This makes it easier to write correct typographical characters.</p><p>The full list of smart punctuation features available in ModMark is the following:</p><ul><li><code>&quot;Double quotes&quot;</code> gets replaced with “left and right double quotes”</li><li><code>&#39;Single quotes&#39;</code> gets replaced with ‘left and right single quotes’</li><li>Two dashes <code>--</code> gets replaced with an endash –</li><li>Three dashes <code>---</code> gets replaced with an emdash —</li><li>Three dots <code>...</code> gets replaced with the ellipsis character …</li></ul><p>If smart punctuation is not desired in certain situations it can always be escaped using 
+a “\” to revert to normal punctuation.</p><h2>Modules</h2><p>Module expressions allow users to include any arbitrary element in their
+documents. Modules capture some input text in its raw form and then transform it
+to some output. The expression consists of a name, optional arguments, and a
+body of text for the module to capture. Modules may be used both inline from
+within a paragraph or by itself, spanning multiple lines.</p><p>Inline modules are written with its name within square brackets, followed by the
+text to be captured. Text is captured up until the next space or line break. The
+expression <code>[link] https://modmark.org/</code> is an expression for the <code>link</code>
+module, containing the text <code>https://modmark.org/</code>. This will, in turn, use a
+package supporting the <code>link</code> module to turn the expression to some output.</p><p>Modules outside of paragraphs, so-called multiline modules, are written as if
+they were their own paragraph, with at least one empty row preceding and
+following it. Here is an example of such an expression:</p><pre style="box_sizing: border_box; padding: 0.5rem; tab-size: 4; font-size: 12px; background-color: #ffffff; "><span style="color:#323232;">[poem]</span><br><span style="color:#323232;">Roses are red,</span><br><span style="color:#323232;">violets are blue,</span><br><span style="color:#323232;">unexpected &#39;{&#39;</span><br><span style="color:#323232;">on line 32.</span><br></pre><p>Module expressions by default capture text until some boundary, which for
+inline modules is a space or a newline, and for multiline modules is an empty
+line. The text is then passed to the package which defines that module, and that
+package is free to arbitrarily transform the content. That means that it is
+possible to write many different kinds of modules. For example, a <code>code</code>
+module which renders code and keeps its text as-is, or a <code>table</code> module which
+wants to split the input text to different cells, possibly allow tags and
+modules within them.</p><p>To make a module expression capture more text than it would by default,
+a <em>custom delimiters</em> is used. When using custom delimiter, the module
+expression captures text until a matching closing delimiter is found. To use a custom
+delimiter, put it right after the closing square bracket containing
+the module name. Any non-alphanumeric character may be used as delimiter, and
+opening brackets use their corresponding closing bracket in the closing delimiter. This means that the
+expression <code>[math] x^2 + y^2</code> used inline would only capture <code>x^2</code>, since
+there is a space following it, but <code>[math](x^2 + y^2)</code> would capture the
+entire mathematical expression.</p><p>For inline modules, only one character may be used as delimiter, but for
+multiline modules, any number of characters may be used. To capture the entire
+code in this example, the delimiter <code>{[(</code> is used:</p><pre style="box_sizing: border_box; padding: 0.5rem; tab-size: 4; font-size: 12px; background-color: #ffffff; "><span style="color:#323232;">[code]{[(</span><br><span style="font-weight:bold;color:#a71d5d;">fn </span><span style="font-weight:bold;color:#795da3;">first_elem</span><span style="color:#323232;">(arr: </span><span style="font-weight:bold;color:#a71d5d;">&amp;</span><span style="color:#323232;">[</span><span style="font-weight:bold;color:#a71d5d;">u8</span><span style="color:#323232;">]) -&gt; </span><span style="font-weight:bold;color:#a71d5d;">u8 </span><span style="color:#323232;">{arr[</span><span style="color:#0086b3;">0</span><span style="color:#323232;">]}</span><br><br><span style="font-weight:bold;color:#a71d5d;">fn </span><span style="font-weight:bold;color:#795da3;">print_elems</span><span style="color:#323232;">(arr: </span><span style="font-weight:bold;color:#a71d5d;">&amp;</span><span style="color:#323232;">[</span><span style="font-weight:bold;color:#a71d5d;">u8</span><span style="color:#323232;">]) {</span><br><span style="color:#323232;">    arr.</span><span style="color:#62a35c;">into_iter</span><span style="color:#323232;">().</span><span style="color:#62a35c;">for_each</span><span style="color:#323232;">(|i| println!(</span><span style="color:#183691;">&quot;</span><span style="color:#0086b3;">{i}</span><span style="color:#183691;">&quot;</span><span style="color:#323232;">))</span><br><span style="color:#323232;">}</span><br><span style="color:#323232;">)]}</span><br></pre><p>There are a couple of noteworthy points in this example. First of all, since
+this expression uses a custom delimiter, it captures text which includes a
+newline. Second of all, the code itself uses a lot of brackets in combination,
+such as <code>])</code> and <code>]}</code>, but since the custom delimiter can be of any length,
+one could always find a delimiter that does not collide with the content that is
+captured, and thus any content can be captured regardless of what it actually
+contains. Using either <code>([</code> or <code>{[</code> as delimiters would match closing
+delimiters inside of the captured content itself, but the combination <code>)]}</code>
+does not occur anywhere in the code.</p><p>In addition to the module name and captured text, modules may also take
+arguments passed to them. When a module is defined by a package, the package
+also defines if it takes any arguments and whether or not they are optional.
+Arguments are passed to the module inside of the square brackets, and may or may
+not include the name of the argument. If an argument is unnamed it works as a
+positional argument, and these can not appear after named arguments. If the
+<code>code</code> module would take an argument <code>lang</code>, both <code>[code rust]</code> and
+<code>[code lang=rust]</code> would pass the value <code>rust </code> as the argument <code>lang</code> to
+the module. Here is another larger example of a module expression with argments,
+this time of an image:</p><pre style="box_sizing: border_box; padding: 0.5rem; tab-size: 4; font-size: 12px; background-color: #ffffff; "><span style="color:#323232;">[image</span><br><span style="color:#323232;">    alt     = &quot;Black and white photo of Alonzo Church&quot;</span><br><span style="color:#323232;">    caption = &quot;Alonzo Church&quot;</span><br><span style="color:#323232;">    label   = &quot;fig:alanzo&quot;</span><br><span style="color:#323232;">    width   = &quot;0.5&quot;</span><br><span style="color:#323232;">]</span><br><span style="color:#323232;">alanzo.jpg</span><br></pre><h2>Packages </h2><p><span id="sec:packages"></span>
+ A <em>package</em> is a WebAssembly program that
+adds additional features to your document. They add support for transforming
+modules, document templates or tags into one or more output formats. When a user
+is in need of specific feature or want to add support for a new output format
+they can import a package that support those transforms. Packages are imported
+using a special <code>[config]</code> module found once at the very top of a file. For
+example, here is the source code for importing a package named <code>prettify</code> and
+then using a module with the same name.</p><pre style="box_sizing: border_box; padding: 0.5rem; tab-size: 4; font-size: 12px; background-color: #ffffff; "><span style="color:#323232;">[config]</span><br><span style="color:#323232;">import prettify</span><br><br><span style="color:#323232;">[prettify]</span><br><span style="color:#323232;">Pretty text</span><br></pre><p>It is worth noting that every package also includes a manifest that declares
+what transform it provides but also additional information such as descriptions,
+arguments, and types. This makes it possible to auto generate documentation and
+provide better compilation diagnostics. It also has the potential to be used for
+editor tooling like completions and hover-over suggestions.</p><h3>Standard packages</h3><p><span id="subsec:stdpkg"></span>
+Users expect to have a sensible set of defaults that allow them to start writing
+documents without having to configure everything themselves — this is why ModMark
+comes bundled with a collection of <em>standard</em> packages that support both HTML
+and LaTeX, output. They are ordinary packages that help with common writing
+tasks but can easily be replaced if a user has other needs.</p><p>This includes features such as bibliography management, images, lists and tables.
+An exhaustive list can be found on the projects online documentation:</p><p>See: <a href="https://modmark.org/#/package-docs">https://modmark.org/#/package-docs</a></p><p></p><h3>Native packages</h3><p><span id="subsec:natpkg"></span>
+These previously mentioned external WASM packages may do anything with the input
+they receive, but some features require more control. For this reason,
+<em>native packages</em> exist to provide functionality not accessible by external
+packages. They are native in the sense that they are built-in to the ModMark
+compiler itself and thus has access to the compilers internal data structures
+and lives outside the external sandboxed WASM environment.</p><p>Native packages only declare module transformations, examples of such modules
+are <code>[block_content]</code> and <code>[inline_content]</code> which allows other modules
+to include nested structures by parsing a part of the document again. Two more
+examples are <code>[error]</code> and <code>[warning]</code> that are used to produce errors and
+warnings.</p>
+<h1>From Concept to Implementation</h1><p><span id="chp:implementation"></span></p><p>For ModMark to be practical to use, there must be a way of translating documents
+written in the language into other more commonly used formats such as HTML or
+LaTeX. This is what a compiler is used for.</p><p>To translate ModMark into other formats, we implemented a compiler using the
+Rust programming language. We also utilised the Wasmer <a href="#bibentry:Wasmer">[22]</a> WebAssembly
+ runtime to run the previously mentioned external packages.</p><p>This chapter presents the development process, technical details and relevant
+ design considerations for the implementation of the compiler and other language
+ related tooling. Figure <a href="#fig:overview">3.1</a> gives an overview of the
+ compilation process which is explained in the rest of this chapter.</p><figure style="width:100%"><img src="./figures/overview.svg" id="fig:overview" style="width:100%" alt="A block diagram describing how source text passes through the parser and then to the scheduler whereupon different packages iterate on the document until it is completed."/>
+<figcaption style="text-align: center"><strong>Figure 3.1:</strong> A high-level overview of the compilation pipeline showing how source text is transformed through multiple intermediate formats, iteratively evaluated in packages and then finally results in some output text in another other format (such as HTML or LaTeX).</figcaption>
+</figure>
+<h2>Development workflow</h2><p>At the start of development three key areas of the system were identified.
+These three consisted of a parser for the language
+(Section <a href="#sec:parser">3.2</a>), a core runtime for evaluating the parsed tree
+(Section <a href="#sec:scheduling">3.4</a> – <a href="#sec:transforming">3.5</a>), and tooling
+for using the language via the command-line (Section <a href="#sec:cli">3.6</a>) as well
+as in the browser (Section <a href="#sec:playground">3.7</a>). All of these systems were in
+place after five weeks and we could move to a more iterative and less
+restrictive workflow.</p><p>Our workflow was based on GitHub&#39;s <a href="#bibentry:github">[25]</a> issues and pull request system. We
+established a set of conventions for commit messages and branch
+naming to avoid confusion. Whenever a bug was encountered or a new feature was
+discussed an issue describing the bug or feature would be created so that there
+is a clear list of tasks that are available.</p><p>We held weekly meetings to prioritise and coordinate the workload, usually by
+assigning group members to certain issues. When an issue was completed a pull
+request was opened so that other members could review the code. After being
+approved the branch was rebased into the main branch. Rebasing was chosen
+instead of merging to get a clean commit history without merge commits.</p><p>Table <a href="#tab:loc">3.1</a> lists all subsystems developed during the project along with
+the total amount of code. While the number of lines of code is not always an
+accurate metric for measuring the size and complexity of a project,
+it can provide a helpful overview. The following sections will describe these
+systems in greater detail. </p><table id="tab:loc" style="border: 1px solid black; border-collapse: collapse;"><caption><strong>Table 3.1:</strong> Summary of the total lines of code (LOC) in the project.<caption><tr><th style="text-align: left; border: 1px solid black; border-collapse: collapse;">Subsystem</th><th style="text-align: left; border: 1px solid black; border-collapse: collapse;">Language</th><th style="text-align: right; border: 1px solid black; border-collapse: collapse;">Files</th><th style="text-align: right; border: 1px solid black; border-collapse: collapse;">LOC</th></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Parser</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Rust</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">7</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">2 292</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Core</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Rust</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">12</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">4 335</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Standard packages</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Rust</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">16</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">4 581</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Parser tests</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">JSON</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">22</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">1 205</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Parser test runner</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Rust</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">119</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">145</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Standard package tests</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">JSON</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">128</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">4 581</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Pkg test runner</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Rust</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">1</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">414</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">CLI</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Rust</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">4</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">932</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">VS Code extension</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">YAML</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">1</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">93</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Chalmers-thesis package</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Rust</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">3</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">1 450</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Website</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">TypeScript</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">10</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">1 757</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Rust</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">2</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">541</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">JavaScript</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">1</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">94</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Demo packages</td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Zig</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">2</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">188</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Go</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">2</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">280</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">Swift</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">3</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">268</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">AssemblyScript</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">1</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">180</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;">C++</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">1</td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;">147</td></tr><tr><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"><strong>Total</strong></td><td style="text-align: left; border: 1px solid black; border-collapse: collapse;"></td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;"><strong>335</strong></td><td style="text-align: right; border: 1px solid black; border-collapse: collapse;"><strong>23 483</strong></td></tr></table><h2>Parsing</h2><p><span id="sec:parser"></span>
+The first step of a compilation is parsing. Parsing is the process of
+transforming the original source text into a so-called abstract syntax tree
+(AST). In practise, this process means distinguishing different parts of the
+source text and storing them in data structures that contain relevant
+information. Structuring the information in such a tree makes it easier for the
+succeeding compilation steps to further transform and then evaluate the
+document. Figure <a href="#fig:sourceToAst">3.2</a> shows an example of a simple
+ModMark document parsed into an AST.</p><figure style="width:75%"><img src="./figures/source_to_AST.svg" id="fig:sourceToAst" style="width:100%" alt="A heading and some text being converted to an AST tree."/>
+<figcaption style="text-align: center"><strong>Figure 3.2:</strong> Some example source text being parsed into an AST.</figcaption>
+</figure>
+<p>The ModMark compiler uses a parsing technique called combinatory parsing. Parser
+combinator libraries use an embedded domain specific language approach and offer
+a small set of primitive parsers that can be combined into larger parsers, often
+in the form of ordinary functions that simply consume parts of the input
+<a href="#bibentry:parsercombinator">[26, p. 252–254]</a>. In this in this particular case the Rust
+library Nom <a href="#bibentry:nom">[27]</a> was used.</p><p>The parsing step in the ModMark compiler is performed by an isolated library
+(a <em>crate</em> in Rust terminology) that simply is
+imported in the main part of the system. Having the parser as a separate library
+also eases the potential future process of creating ModMark bindings for other
+programming languages. The responsibilities of the parser library include
+producing an AST from source text and including the typographically correct
+punctuation characters mentioned in Section <a href="#sec:smart_punc">2.3</a>. In
+addition to this, the parser retrieves information from a document configuration
+module and passes this to the later stages of compilation.</p><h2>Element-tree conversion</h2><p>Once the parser has produced an abstract syntax tree the next step in the
+compilation chain is translating it into a more useful intermediate
+representation — what we call an <em>element tree</em>. Each constituent of the
+document, including paragraphs, headings, images, and other entities, is
+regarded as an <em>element</em>.</p><p>The translation of the AST into an element tree categorises the source text into
+two variants: <em>modules</em> (including all <code>[module]</code> expressions and some other
+things like plain text) and <em>parents</em> that may contain other elements as
+children (for instance, bold tags, headings and paragraphs). Unique and totally
+ordered IDs are also attached to each element in this process. <em>Raw</em> and
+<em>compound</em> element variants may also exist in the tree, but will only occur in
+later stages of the compilation process. See Figure <a href="#fig:element">3.3</a> that
+contains the Rust code that describes the element tree and Figure
+<a href="#fig:weather">3.4</a> for an example conversion from a document to an element
+tree.</p><pre style="box_sizing: border_box; padding: 0.5rem; tab-size: 4; font-size: 12px; background-color: #ffffff; "><span style="font-weight:bold;color:#a71d5d;">enum </span><span style="color:#323232;">Element {</span><br><span style="color:#323232;">    Parent {</span><br><span style="color:#323232;">        name: </span><span style="color:#0086b3;">String</span><span style="color:#323232;">,</span><br><span style="color:#323232;">        args: HashMap&lt;String, String&gt;,</span><br><span style="color:#323232;">        children: Vec&lt;Element&gt;,</span><br><span style="color:#323232;">        id: GranularId,</span><br><span style="color:#323232;">    },</span><br><span style="color:#323232;">    Module {</span><br><span style="color:#323232;">        name: </span><span style="color:#0086b3;">String</span><span style="color:#323232;">,</span><br><span style="color:#323232;">        args: ModuleArguments,</span><br><span style="color:#323232;">        body: </span><span style="color:#0086b3;">String</span><span style="color:#323232;">,</span><br><span style="color:#323232;">        inline: </span><span style="font-weight:bold;color:#a71d5d;">bool</span><span style="color:#323232;">,</span><br><span style="color:#323232;">        id: GranularId,</span><br><span style="color:#323232;">    },</span><br><span style="color:#323232;">    Compound(Vec&lt;Element&gt;),</span><br><span style="color:#323232;">    Raw(</span><span style="color:#0086b3;">String</span><span style="color:#323232;">),</span><br><span style="color:#323232;">}</span></pre><p></p><p><span id="fig:element"></span></p><p></p><div style="display:flex; justify-content: center; margin-left: auto; margin-right: auto; gap: 10rem; max-width: 70%; overflow: hidden; "><p><strong>Figure 3.3:</strong> A Rust enum (a sum type) describing the element tree.</p></div><p></p><figure style="width:70%"><img src="./figures/weather.svg" id="fig:weather" style="width:100%" alt="Text about a weather updated being parsed to an AST and converted to an element tree"/>
+<figcaption style="text-align: center"><strong>Figure 3.4:</strong> Some source text that has first been parsed into a AST and then converted into a element tree.</figcaption>
+</figure>
+<h2>Scheduling</h2><p><span id="sec:scheduling"></span>
+After creating an element tree, it should be transformed into the desired output
+format. However, simply recursively evaluating each element starting from the
+root is not sufficient. Consider the following example of a document that
+includes a table of contents.</p><pre style="box_sizing: border_box; padding: 0.5rem; tab-size: 4; font-size: 12px; background-color: #ffffff; "><span style="color:#323232;">[table-of-contents]</span><br><br><span style="font-weight:bold;color:#a71d5d;"># </span><span style="font-weight:bold;color:#323232;">Introduction</span><br><span style="font-weight:bold;color:#a71d5d;"># </span><span style="font-weight:bold;color:#323232;">Method</span><br><span style="font-weight:bold;color:#a71d5d;"># </span><span style="font-weight:bold;color:#323232;">Discussion</span><br></pre><p>In order to generate the final document, all headings need to be evaulated before
+the <code>[table-of-contents]</code> module. This is because the module itself does
+not have access to the rest of the document. Thus, the compiler needs to produce
+information about the headings that is available to the module during its
+execution. Furthermore, other modules may evaluate to any arbitrary set of
+elements, making it difficult to determine which elements should be included in
+the table of contents. This means that you can have a <code>[mystery]</code> module that
+later, when being transformed, happens to contain yet another heading that the
+table of contents module must take into consideration. This issue is not unique
+to headings either, this same problem arises in other situations where shared
+state is needed e.g. figures, imports, references etc.</p><p>There are multiple ways to address issue, LaTeX for example simply
+requires the document to be compiled multiple times to resolve these so-called
+cross-references <a href="#bibentry:boblatex">[28, p. 36]</a>. The ModMark compiler solves this
+issue using a different approach. The compiler includes a variable system that
+tracks which elements access what variables and the order dependencies between
+them. Packages define which variables each element needs to access. Variables
+can then be read and written to using six modules that are native to the
+language; these modules are listed in Figure <a href="#fig:variables">3.5</a>. Because
+external packages are run using WASI in a similar fashion to command-line
+applications, it is also possible to read the variables as if they were ordinary
+OS environment variables.</p><figure style="width:60%"><img src="./figures/variables.svg" id="fig:variables" style="width:100%" alt="A table of the data types set, list and constant, and their associated operations, that is set-add, set-read, list-push, list-read, const-decl and const-read"/>
+<figcaption style="text-align: center"><strong>Figure 3.5:</strong> The six modules used to write and read to variables. The different types and operations they offer affect the dependencies between elements.</figcaption>
+</figure>
+<p>Using the information from the variable system, the compiler can model the
+problem as a directed acyclic graph (DAG), where elements are vertices and edges
+are drawn between elements that need to be transformed after one another. An
+example of such a graph can be seen in Figure <a href="#fig:dag">3.6</a>. To decide in
+which order to transform the elements, the DAG can then simply be topologically
+sorted.</p><figure style="width:80%"><img src="./figures/scheduling.svg" id="fig:dag" style="width:100%" alt="A table of content followed by three headings, which are converted to one node for each, with dependencies drawn inbetween them"/>
+<figcaption style="text-align: center"><strong>Figure 3.6:</strong> A example of a DAG. Note that all dependencies (edges) in this example are caused by list push operations to a <em>headings</em> variable. Push operations are required to be performed in the same order as they appear in the source text and this is why the headings depend on each other too.</figcaption>
+</figure>
+<p>Once sorted, the elements are then transformed and any new elements that are
+created in this process will be inserted in DAG and sorted once again. There are
+algorithms such as Pearce-Kelly <a href="#bibentry:pearcekelly">[29]</a> that are designed to
+efficiently maintain a topological order in a DAG with incremental insertions.
+However, since elements are discarded after they have been transformed the
+compiler can use Kahn&#39;s algorithm <a href="#bibentry:kahn">[30]</a> which is simpler. The algorithm
+works by repeatedly removing vertices that have no incoming edges.</p><h2>Element transformation</h2><p><span id="sec:transforming"></span>
+Transforming takes place during the evaluation process, where the parsed element
+is transformed into the chosen output format. When an element is to be
+transformed as determined by the scheduler, the name of the element is looked up
+in a map to find what packages is responsible for the transform and some other
+related information. As previously mentioned in Section <a href="#sec:packages">2.5</a>,
+the package that transforms the element may either be a native package or a
+WebAssembly program.</p><p>If the transform is provided by a native package, it means that the
+implementation is written in Rust and is included in the compiler itself. If the
+package instead is a WASM file, the compiler needs to run it in a WASM runtime.
+Since programs using the WebAssembly System Interface (WASI) behaves very much
+like command-line applications, ModMark supplies the element name and the target
+output format as arguments to the program, and passes the rest of the element
+serialised as a JSON string to <code>stdin</code>.</p><p>Once the package has received information about the element, it executes the
+transform and generates a number of new elements as output. The elements are
+printed to <code>stdout</code> as a JSON array, whereupon the compiler reads the data and
+deserializes it. Then, the compiler proceeds to replace the original element
+with a <em>compound</em> element containing the data from the package. Packages can
+produce warnings and errors by printing to <code>stderr</code> or exiting with a non-zero
+exit code, very much like a conventional command-line program would.</p><p>There is a multitude of WebAssembly runtimes available for use outside of the
+browser. The ModMark compiler uses Wasmer, which has its own interpreter which
+is used in combination with a compiler back-end, Cranelift and LLVM being the
+most note-worthy. Currently, our compiler uses Cranelift which is a Rust
+compiler framework often used in the WASM ecosystem, it is generally found to
+have faster compile-speeds than LLVM but less optimised output
+<a href="#bibentry:cranelift_vs_llvm">[31]</a>.</p><p>An advantage of Wasmer over other options is that it also can use the browser&#39;s
+built-in runtime if targeting the web. This reduces the binary size for
+embedding the compiler in a website and additionally increases performance.
+Also, the standard packages are bundled in the binary itself, and when targeting
+the web we thus need to bundle the raw WASM bytecode to let the browser compile
+it with its own compiler. However, when targeting a native platform, we also
+include the option to compile the WASM bytecode using Cranelift directly to
+the intermediate representation used by Wasmer at build-time instead of at
+run-time, drastically improving startup times (at the cost of a larger binary
+file size).</p><h2>Command-line interface</h2><p><span id="sec:cli"></span>
+To allow users to interact with the compiler, we built a command-line interface
+(CLI). The ModMark CLI is supported on all major operating systems and allow
+source files to be converted into an output file. A simple version of the tool
+was completed within the first two weeks of development.</p><p>More features has since been added to improve the user experience. Most notably,
+the tool supports live updating HTML previews. This is accomplished by running a
+file system watcher, static web server and a WebSocket server that informs the
+outputted HTML website refresh to itself on changes.</p><p>The CLI also offers granular control over file system access and by default
+packages have no access to the host machine at all. Another interesting feature
+that has been explored is the ability to auto-generate example packages in
+multiple programming languages such as Rust and C++ by running the
+<code>modmark init &lt;LANGUAGE&gt;</code> command. This is intended to ease the process of
+getting started with package development.</p><h2>Web playground</h2><p><span id="sec:playground"></span></p><p>Aside from the command-line interface there is also a web playground
+(seen in Figure <a href="#fig:playground">3.7</a>) that allows users to easily test
+ModMark without having to download anything. The playground uses the same
+compiler as the rest of the project but is built to WebAssembly and comes with
+accompanying auto generated JavaScript bindings. Two versions of the playground
+has been built during the project, one only using ordinary JavaScript and a
+later effort has been put in making a more full featured version using the
+popular React library.</p><figure style="width:100%"><img src="./figures/playground.png" id="fig:playground" style="width:100%" alt="A screenshot of the web playground with a reproduction of the Wikipedia article about Ada Lovelace."/>
+<figcaption style="text-align: center"><strong>Figure 3.7:</strong> A screenshot of the web playground with a reproduction of the Wikipedia article about Ada Lovelace.</figcaption>
+</figure>
+<p>The playground has many features that have been helpful when developing ModMark.
+The text written in the playground can of course be converted to any output
+like HTML and LaTeX, but there is also an option to see the AST
+representation of the text which can be very helpful when debugging. The
+playground also has support for auto generating documentation for any package,
+a example of this can be found in Figure <a href="#fig:docs">3.8</a>. Finally, there
+is virtual file system with an accompanying file browser that allows users to
+upload files such as images to use in their document.</p><figure style="width:100%"><img src="./figures/docs.png" id="fig:docs" style="width:100%" alt="A list of packages and transforms contained within, that is loaded in the playground"/>
+<figcaption style="text-align: center"><strong>Figure 3.8:</strong> A screenshot of the documentation view in the playground.</figcaption>
+</figure>
+<p>Web-based (and sometimes real-time collaborative) tools are becoming the norm
+for writing and editing documents with popular examples like Google Docs and
+Overleaf. Even though developing a tool like this for ModMark is outside the
+scope of this thesis, the playground serves as an important proof of concept
+showing that it would be possible to do so — even without any server side code
+needed to evaluate and render documents.</p><h2>Package manager</h2><p>Modularity is a key feature of ModMark, and as such, it is crucial for users to
+have an easy way to manage third-party packages. In the TeX ecosystem,
+packages are typically obtained through CTAN <a href="#bibentry:ctan">[32]</a> (short for
+“the comprehensive TeX archive network”). However, users are often left to
+download either huge distribution of all common packages or manage packages
+themselves <a href="#bibentry:ubuntu">[33]</a>.</p><p>We instead aim to provide a built-in mechanism for managing dependencies, where
+missing packages can be automatically resolved when compiling a document. To
+achieve this, we have included a package resolution protocol in the compiler,
+allowing users to provide a path to the packages they want to use. An integrated
+proof of concept package manager (found in both the command-line tool and on the
+web) then communicates with the compiler and provides any missing packages by
+asynchronously downloading them from  the Internet and then caches them locally.</p><p>Our protocol is inspired by the Deno JavaScript runtime <a href="#bibentry:denospecifier">[34]</a> and
+uses a so-called <em>specifier</em> as prefix to the path in order to inform the
+package manager where to find the desired packages. See Figure
+<a href="#fig:imports">3.9</a> for an example.</p><figure style="width:70%"><img src="./figures/imports.svg" id="fig:imports" style="width:100%" alt="Packages loaded firstly from a local file, then from an URL, then from the catalog, and lastly from the standard packages"/>
+<figcaption style="text-align: center"><strong>Figure 3.9:</strong> A config module with import statements with different paths. The specifier is highlighted in purple.</figcaption>
+</figure>
+<h2>Testing, continuous integration and deployment</h2><p>Continuous integration (CI) is the practise of continuously running integration
+tasks on code which is in development. Grady Booch <a href="#bibentry:CI">[35, p. 314]</a> describes
+that CI is essential for testing, which should be a continuous activity during
+development.</p><p>For this project, GitHub Actions were used to enable testing with CI. The
+project includes the following test suites:</p><ul><li><strong>Parser tests</strong> that contains sample ModMark input and runs it though the
+    parser, and verifies that the input is parsed correctly. We currently have
+    22 test cases which ensures that the parser is working correctly for those
+    test cases, and if changes are done to the parser the tests may catch any
+    change that breaks functionality.</li><li><strong>Package tests</strong> that contains test cases for the standard packages included
+    in ModMark by default. Since the standard packages are standalone programs
+    written in Rust, the packages are compiled and all the test cases are passed
+    to them one by one. The result of the program is compared to the expected
+    output, and if they match, the test passes. The test worker, which is the
+    program executing the tests, allows running the packages targeting different
+    languages and with different environment variables, simulating different
+    variables provided by the ModMark compiler. There are currently
+    
+    142 tests for the standard packages, which ensures that the packages are
+    working correctly and gives valid, parsable and correct output for those
+    test cases. In addition to this, there are package tests checking the Rust
+    toolchain configuration for each package, ensuring that the toolchain is
+    configured such that it produces packages that can be located when building
+    the project.</li><li><strong>Package loading test</strong> is a test which instantiates our compiler and loads
+    the standard packages. When loading packages, the package manifests are also
+    checked, ensuring that argument names, value types and default values are
+    valid, and that variables and variables referencing arguments are valid.</li></ul><p>In addition to CI, a related term is continuous deployment (CD) which is the
+practise of continuously release deployments of code which is in development.
+The continuous deployment part of this project includes building and publishing
+the playground, see Section <a href="#sec:playground">3.7</a>. When changes to the
+published version of the code are made, GitHub Actions compiles the code into a
+web page and publishes it online. When a pull request is made or is updated,
+the playground is also compiled with the code contained in the pull request,
+and the playground is published to be able to preview the changes. During the
+development of this project, there have been over 500 previews deployed and over
+100 deployments of the published version of the code.</p><p>
+Both the continuous integration and continuous deployment has been central in
+the development of this project. When a pull request is made to propose code
+changes, the continuous integration procedures automatically ensure that none of
+the test cases fail. This means that the developer writing and reviewing the
+proposals does not have to spend time manually testing every single input to
+make sure no functionality has been broken. Additionally, the continuous
+deployment provides a convenient way to test the changes online in the generated
+preview playground, rather than downloading and running the code locally.</p>
+<h1>Evaluation</h1><p><span id="chp:evaluation"></span>
+The primary objective of the project is to design and implement a markup language
+that is well-suited for both note-taking and academic writing.
+As evidenced by the fact that the text you are currently reading has been written
+in the ModMark language (and transcompiled into LaTeX), significant progress
+towards achieving this goal has been made. </p><p>The successful compilation of this bachelor thesis demonstrates that the ModMark
+compiler is functioning as intended, and that the language itself is expressive
+and powerful. Nonetheless, it is important to acknowledge that both the design
+and implementation of ModMark are not without their shortcomings. The remainder
+of this chapter will investigate to which extent the design ideals outlined in
+Section <a href="#sec:aim">1.2</a> were realised. </p><h2>Expressiveness (A1)</h2><p><a href="#inlinetargetaim:A1">Aim A1</a> is to make ModMark expressive enough to bridge the gap between lightweight
+languages and powerful typesetting systems like LaTeX. We also stated that the
+language should be output agnostic. While the former is more subjective, the latter
+is a core property of the compiler presented in Chapter <a href="#chp:implementation">3</a>. </p><p>The majority of ModMark&#39;s expressiveness comes from its packages and modules. It
+relies on these to provide functionality that is necessary to produce the desired
+document. The set of packages that is included in the standard bundle of ModMark
+goes a long way in enabling most kinds of writing. As was presented in Section
+<a href="#sec:packages">2.5</a>, they support figures, tables, and even a standalone bibliography
+and citation system. This is adequate for most parts of a typical academic report.
+However, the standard packages may not be enough when conforming to certain report standards.
+Sections such as cover page and title page are more cumbersome to reproduce in ModMark
+without specialised packages.</p><p>To write our thesis in ModMark we needed to create a <em>chalmers-thesis</em> package. It is
+responsible for creating LaTeX chapters and the pages that precede the table of contents.
+While the need for such a package can be seen as a shortcoming, it also demonstrates that the
+core concepts of ModMark are working. It shows that it is possible to extend the language with
+new functionality if needed. Granted, the extendability of the language only becomes a positive
+factor once there is a healthy ecosystem of packages.</p><p>Furthermore, part of our goals towards expressiveness was to make ModMark agnostic
+of output format. In Chapter <a href="#chp:implementation">3</a>, we presented the design and
+implementation of a compiler that achieves this. Additionally, both the CLI and web
+playground were designed to be output agnostic, by allowing the user to specify the
+output format. Although, because HTML and LaTeX were prioritised in development
+they were also given additional functionality (see Section <a href="#sec:cli">3.6</a> and
+<a href="#sec:playground">3.7</a>). In that sense, while the compiler is truly output agnostic,
+the full ModMark suite is not. </p><p>The decision to make ModMark output agnostic has served us well in development. It eased
+the process of extending and fine tuning the output for both HTML and LaTeX. Because the
+support for these was written exclusively as packages, the process should translate well
+to adding support for other formats. In practise, a package that provides fundamental support
+for a new format is relatively small in size and complexity and thus it is possible for
+individual users to add new output formats.  </p><h2>Simplicity and syntax (A2)</h2><p>Another aim <a href="#inlinetargetaim:A2">A2</a> in designing ModMark is simplicity. The language is intended to offer
+an ergonomic lightweight syntax and also be easier to understand in comparison to
+more full featured typesetting systems such as LaTeX and Typst.</p><p>Simplicity is highly subjective and very hard to evaluate in an objective manner.
+However, since ModMark aims to strike a balance between the simplicity of Markdown
+and the expressiveness of LaTeX we will offer a non-exhaustive comparison of
+syntax and features for common writing tasks in the three languages<a id="note-backlink:40326282953474511"></a><a href="#note:40326282953474511"><sup>1</sup></a>. </p><h5><u>Headings</u></h5><p>Headings in ModMark are very similar to Markdown with some subtle differences.
+No whitespace character after the hash sign is needed like in Markdown and the
+alternate syntax that uses equal signs or hyphens is not supported.
+See Figure <a href="#fig:headings">4.1</a> for a comparison.</p><figure style="width:100%"><img src="./figures/headings_evaluation.svg" id="fig:headings" style="width:100%" alt="A table comparing the syntax for headings in ModMark, Markdown and LaTeX."/>
+<figcaption style="text-align: center"><strong>Figure 4.1:</strong> Comparing the syntax for headings.</figcaption>
+</figure>
+<h5><u>Styling text</u></h5><p>ModMark follows Markdown&#39;s convention of using non-alphanumerical characters as
+tags to surround text that should be displayed in another format such as
+<code>**bold**</code> or <code>//italic//</code>. See Figure <a href="#fig:tags">4.2</a> for a full 
+comparison. </p><p>Using tags results in a shorter and less obtrusive syntax in comparison to
+LaTeX (with the exception of math mode). Since ModMark includes many more
+tags than Markdown, expressing other styling options such as superscript and
+math also leads to a shorter syntax since Markdown requires the use of HTML for
+expressing those concepts. </p><p>A potential downside of ModMark&#39;s approach is that the list of characters with
+special behaviour that users need to know about gets larger than for instance
+LaTeX where, almost, everything in text mode follows the convention of an
+command prefixed with a backslash. It is also possible to argue that ModMark
+is needlessly verbose by always requiring four characters for tags but it helps
+to avoid confusion or ambiguity in situations with nested tags or prefixes
+(<code>**__a__**example</code>), which most Markdown implementations simply do not support.</p><figure style="width:100%"><img src="./figures/tags_evaluation.svg" id="fig:tags" style="width:100%" alt="A table comparing the syntax for common inline text formatting options in ModMark, Markdown and LaTeX."/>
+<figcaption style="text-align: center"><strong>Figure 4.2:</strong> Comparing the syntax for common inline text formatting options. Notice that HTML and MATHML is used for the situations where Markdown does not provide any concrete syntax.</figcaption>
+</figure>
+<h5><u>Modules</u></h5><p>Markdown has no syntax for user-provided features and only offer concrete syntax
+for a few more common elements such as images and links. LaTeX and ModMark
+on the other hand has a syntax that may be used for any arbitrary feature:
+<code>\commands[]{}</code> and <code>[modules]</code>. It is debatable if ModMarks modules are
+easier to understand than the TeX macro system. Although ModMark has some
+potential benefits when it comes to auto generated documentation and editor integration.</p><p>The syntax for multi-line modules in ModMark is also shorter than the
+environments (<code>\begin{something}</code>) found in LaTeX. But ModMark has its own
+flaws, since modules always consume content verbatim and then later can choose to
+handle nested structures examples such as this may confuse users:</p><p>
+</p><pre style="box_sizing: border_box; padding: 0.5rem; tab-size: 4; font-size: 12px; background-color: #ffffff; "><span style="color:#323232;">[center]</span><br><span style="color:#323232;">[code]{</span><br><span style="color:#323232;">Some code</span><br><br><span style="color:#323232;">This will not be part of the code block since</span><br><span style="color:#323232;">&#39;center&#39; has no delimiter and is ended by the line break above.</span><br><span style="color:#323232;">}</span><br></pre><h2>Portability and package development (A3)</h2><p><span id="sec:a3eval"></span>
+One of the central ideas of ModMark is portability; a document written on one
+computer should still produce the same result if compiled on another computer,
+regardless of what packages are used. <a href="#inlinetargetaim:A3">A3</a> formulates this as
+a concrete requirement, the same aim also states that the solution should offer
+package developers a lot of flexibility. At the core of our solution for
+A3 is the Wasmer WebAssembly runtime. It supports the major
+operating systems: Linux, Windows and macOS and also all common web browsers.
+There were also recent improvements to their chipset support. Version 3.2 of Wasmer
+added RISC-V to the list of chipsets that is supported by both Cranelift and LLVM,
+which now consists of x86_64, arm64, x86 and RISC-V. To that extent, the portability
+of ModMark is sufficient for the goal that was set.</p><p>There is also the aspect of being accessible and convenient for developers who
+wish to extend the language, which is an essential criterion for the growth of
+the ModMark ecosystem. Development of the standard modules (all written in Rust)
+was relatively straightforward. However, Rust may not be a good benchmark for the
+typical experience of package development, since it works well with both WebAssembly
+and Wasmer and there are well established libraries for string serialisation (including JSON support). </p><p>A handful of the popular programming languages can be compiled into WebAssembly,
+although most do not have the same first class support that Rust does. A hurdle
+for all other languages is the requirement of compatibility with both Wasmer and
+the WebAssembly System Interface. </p><p>To better evaluate this goal we have successfully implemented packages in Rust,
+Swift, C, C++, Go (more specifically the TinyGo dialect), AssemblyScript
+(a sub-set of Typescript), and Zig. Source code for some of these packages are
+referenced in Section <a href="#sec:furtherreading">5.3</a>. We have also made unsuccessful
+attempts at implementing a package using the Haskell Glasgow Compiler, but their
+support is currently only a tech preview that is incompatible with Wasmer <a href="#bibentry:ghc">[36]</a>.</p><p>To add even more nuance to the issue of supporting multiple languages, there is
+also a matter of performance. If users were to develop packages in languages
+such as Python and JavaScript, it could slow down the ModMark compiler significantly.
+This is because higher-level languages need to include a larger runtime, introducing
+a large performance overhead and size. However, recent developments may remedy this
+issue. There is an active proposal for WebAssembly to add support for built-in garbage
+collection <a href="#bibentry:wasm">[21]</a>. It includes a handful of features to reduce the size and
+increase the efficiency for use of high-level languages that use garbage collection,
+Javascript and Python included.</p><p>There are some noteworthy downsides to using WebAssembly too. WASM and WASI are
+yet to allow functions that return more complex data types. Subsequently, the API
+for manipulating the element tree is at risk of being cumbersome to use in comparison
+to an embedded language with free access to the element tree. Although, this problem
+can arguably be solved by providing bindings that convert the input provided by ModMark&#39;s
+WASI API into an easier-to-use API suited for a particular language.</p><p>When comparing the portability to other languages, ModMark appears as a good option
+nonetheless. Systems like LaTeX and Typst solve the issue of portability by having
+a fully Turing complete language that lets developers write packages directly in
+the document language itself. Another common approach is embedding a scripting language
+such as Lua that is used to create extensions. A notable downside to these approaches
+is that developers are restricted to a domain specific language they might not be
+familiar with. Moreover, they do not have access to the rich ecosystem of libraries
+that is often present in a general purpose programming languages and have to manually
+implement every feature themselves.</p><h2>Accessibility</h2><p>Wang, Cachola, Bragg, <em>et al.</em> <a href="#bibentry:accessibility">[37]</a> discuss how PDFs are not 
+accessible to everyone and have
+poor support for screen readers. They present a possible solution to this problem
+with a system that converts PDFs to more accessible HTML documents. While this is
+a good option a report written in ModMark could be converted directly to both a
+PDF and an accessible HTML document if there is proper package support for it.</p><p>As PDFs do not have much support for accessibility it is difficult to accommodate
+everyone when generating LaTeX. However, when generating HTML there are a lot
+of things that can be done to assist people with disabilities or other barriers.
+ModMark attempts to generate semantic HTML to give as much information as possible
+about the different parts of the documents. For example <code>&lt;figure&gt;</code> tags are
+used for images and plots. <code>&lt;table&gt;</code> is used for tables. Paragraphs are also
+wrapped in <code>&lt;p&gt;</code> tags. The <code>files</code> package that is responsible for
+converting images will also give a compiler warning if no alt-text is given when
+converting to HTML.</p>
+<h1>Conclusion</h1><p><span id="chp:conclusion"></span>
+This chapter summarises our achievements and discusses how we aim to extend
+and improve ModMark in the future.</p><h2>Summary</h2><p>ModMark has been successfully implemented as evident by the fact that this
+document is written in ModMark. The aims set for the project in Section <a href="#sec:aim">1.2</a> 
+have been reached as described in Chapter <a href="#chp:evaluation">4</a>. While the language is not perfect the flexible
+and expressive package system utilizing WebAssembly allows for many interesing possibilites.</p><p>The fact that the online playground and CLI run on exactly the same code
+demonstrates that WASM can be used to create complex portable applications. Embedding
+a WASM runtime to evaluate packages also shows that plugin and packages systems
+can use WASM to provide more flexibility for developers.</p><p>The process of implementing and designing ModMark has also highlighted some of
+the current limitations of WASM and WASI. As mentioned in Section <a href="#sec:a3eval">4.3</a>
+some of the most popular languages like Python and JavaScript do not have good
+support for WASM due to their large runtimes. As previously mentioned there are
+proposals that will hopefully alleviate this issue but it is clear that WASM and
+WASI are still new technologies and the ecosystem will continue to change rapidly.
+If this project was to be done in a few years time it is likely that there would
+be new approaches available.</p><h2>Future work</h2><p>ModMark will continue to be developed beyond the scope of this bachelor&#39;s thesis
+project. The compiler is released as free and open source software<a id="note-backlink:15326246074003253317"></a><a href="#note:15326246074003253317"><sup>2</sup></a>
+and we welcome new contributors. Due to the modular nature of the language most
+missing features can be implemented in the form of third-party packages. However,
+there are some noteworthy topics closely tied to the language design or compiler
+implementation of ModMark that could be further explored too.</p><h3>Incremental compilation</h3><p>A potential downside of the modular design of ModMark in combination with the
+fact that packages are evaluated in WebAssembly virtual machines is slow compilation
+speeds. In order to improve the speed at which a document is transcompiled, incremental
+parsing and incremental compilation techniques could be further investigated.</p><p>Incremental compilation is a technique that attempts to reuse parts of the previous
+output depending on how the source text was changed. It reduces the time spent by
+avoiding a full recompilation. In a system where all elements are independent of
+each other it can be achieved by simply checking which elements were changed.
+However, in Modmark the situation is more complex, as our modules have access
+to both variables and files. For instance, a module outputting images from a file
+may appear unchanged to the compiler but the previous output cannot be reused
+unless the file itself is unchanged. Similarly, the compiler may need to recompile
+a module with variable access if any of the variables have different values.</p><p>Incremental parsing is, in a sense, the same concept implemented at an earlier stage.
+While incremental compilation performs checks after the abstract syntax tree has
+been produced, incremental parsing may avoid producing the tree itself. Typst is
+one of the languages that feature both incremental parsing and compilation <a href="#bibentry:typst2">[16]</a>.
+For incremental parsing, Typst uses an algorithm based on the so called <em>red-green tree</em>,
+(see also <a href="#bibentry:rust-compiler">[38]</a>), which keeps track of dependencies between
+elements and invalidates them as needed. For incremental compilation, it uses a
+cache that is queried for reusable entries. While Typst and ModMark have vastly
+different output formats, it is likely that similar ideas could be used to implement
+incremental parsing and compilation for ModMark.</p><h3>Diagnostics</h3><p>Good compiler diagnostics that help users when they encounter issues is essential
+for an ergonomic user experience. The benefits of unobtrusive syntax quickly
+disappear if the user gets stuck as soon as they make a minor mistake. In the
+related world of programming language research, results from a study have shown
+that students&#39; learning is hindered by ineffective error messages <a href="#bibentry:errors">[39]</a>.
+The study also presents a timeline of efforts in enhancing error messages as well
+as guidelines on how they should be structured.</p><p>LaTeX, despite its popularity, produces error messages that are arguably
+complex and unhelpful to inexperienced users <a href="#bibentry:typst">[15]</a>. On the other hand,
+Typst and programming languages like Elm <a href="#bibentry:elm">[40]</a> and Rust <a href="#bibentry:rust_errors">[41]</a>
+has made more recent attempts at providing helpful error messages that reference
+the source code and attempt to explain the error. An example of this is found in
+Figure <a href="#fig:elm_error">5.1</a>.</p><figure style="width:80%"><img src="./figures/elm_error.png" id="fig:elm_error" style="width:100%" alt="An error message produced by the elm compiler. It describes how the user forgot to end their line with double quotes."/>
+<figcaption style="text-align: center"><strong>Figure 5.1:</strong> An example of a error message produced by the compiler for the Elm programming language.</figcaption>
+</figure>
+<p>We could draw inspiration from these languages in order to improve the the error
+ messages produced by the ModMark compiler. The most significant change would we
+ a rewrite of the parser so that each node in the AST stores a reference to the
+ position in the source text, meaning that error messages can describe where the
+ error occurred. Nom, the parsing library that is currently used, is somewhat
+ ill-suited for this task so it might be appropriate to consider writing hand-written
+ recursive decent parser or opting for another parser combinator library such as
+ <em>Chumsky</em> <a href="#bibentry:chumsky">[42]</a> which has a stronger focus on error recovery.</p><p>There are several other aspects regarding error messages in ModMark that are
+worth exploring further too. The standard packages included with the language
+were developed with helpful errors messages in mind, but there are no such
+guarantees for third-party packages. In addition to this, package developers
+need useful errors that can help them with debugging. This becomes especially
+significant when considering the importance of our package ecosystem. In the
+future, it may be ideal to author a convention for package errors and also offer
+a separate tool specifically for package development.</p><h3>Editor support</h3><p>Another feature that could be explored is building a WYSIWYG
+(<em>What You See Is What You Get</em>) editor for ModMark. More recently, editors
+and knowledge managements systems like Notion <a href="#bibentry:notion_block">[43]</a> and Microsoft
+Loop <a href="#bibentry:loop">[44]</a> have taken a different approach to rich text editing where a
+document consists of <em>blocks</em> with different kinds of content: text, schematics,
+interactive elements and other embedded documents. ModMark could potentially be
+well suited for such an interface since modules allow vastly different types of
+content to be mixed in a portable manner. </p><p>Apart from building a stand-alone editor for ModMark better integration for other
+text editors could also be developed. There is already some basic support. A
+TextMate grammar that can be used to provide syntax highlighting for multiple
+editors has been created and is used in a Microsoft Visual Studio Code extension.
+However, there is still room for improvement. For instance, integrating a server
+with support for the Language Server Protocol (LSP) <a href="#bibentry:lsp">[45]</a> directly in the
+ModMark command-line tool is one possible direction.</p><h2>Further reading</h2><p><span id="sec:furtherreading"></span>
+More information about ModMark as well as the source code for the compiler can
+be found at the following online resources.</p><ul><li><strong>Source code</strong> <br/> <a href="https://github.com/modmark-org/modmark">https://github.com/modmark-org/modmark</a></li><li><strong>ModMark website</strong> <br/> <a href="https://modmark.org/">https://modmark.org/</a></li><li><strong>Web playground</strong> <br/> <a href="https://modmark.org/#/playground">https://modmark.org/#/playground</a></li><li><strong>Source text for this thesis and the <em>chalmers-thesis package</em> </strong> <br/> <a href="https://github.com/modmark-org/modmark-thesis">https://github.com/modmark-org/modmark-thesis</a></li><li><strong>Example Swift package</strong> <br/> <a href="https://github.com/CMDJojo/modmark-lorem">https://github.com/CMDJojo/modmark-lorem</a></li><li><strong>Example C++ package</strong> <br/> <a href="https://github.com/hugomardbrink/modmark-prettify">https://github.com/hugomardbrink/modmark-prettify</a></li><li><strong>Example Go package</strong> <br/> <a href="https://github.com/forsinge/modmark-fen">https://github.com/forsinge/modmark-fen</a></li><li><strong>Example Zig package</strong> <br/> <a href="https://github.com/axoxelol1/modmark-robber">https://github.com/axoxelol1/modmark-robber</a></li><li><strong>Example AssemblyScript package</strong> <br/> <a href="https://github.com/bruhng/modmark-vigenere">https://github.com/bruhng/modmark-vigenere</a></li></ul></p><h1>Bibliography</h1>
+<style>
+    .modmark-bibliography {
+        display: grid;
+        grid-template-columns: [start] auto [center] 1fr [end];
+        gap: 0.5rem;
+    }
+        
+    .modmark-bibliography>.modmark-bibliography-prefix {
+        grid-column-start: start;
+        grid-column-end: center;
+    }
+        
+    .modmark-bibliography>.modmark-bibliography-bibitem {
+        grid-column-start: center;
+        grid-column-end: end;
+    }
+</style><div class="modmark-bibliography"><span class="modmark-bibliography-prefix">[1]</span> <span class="modmark-bibliography-bibitem" id="bibentry:typesetting">G. O. Walter, “Typesetting,” <em>Scientific American</em>, vol. 220, no. 5, pp. 60–69, 1969.</span><br/><span class="modmark-bibliography-prefix">[2]</span> <span class="modmark-bibliography-bibitem" id="bibentry:Troff">GNU, “The gnu troff manual,” 2018. Accessed: Jan. 25, 2023. [Online]. Available: <a href="https://www.gnu.org/software/groff/manual/groff.html">https://www.gnu.org/software/groff/manual/groff.html</a></span><br/><span class="modmark-bibliography-prefix">[3]</span> <span class="modmark-bibliography-bibitem" id="bibentry:mcilroy">M. D. McIlroy, “A research unix reader: annotated excerpts from the programmer&#39;s manual, 1971-1986,” Bell Labs, 1987. Accessed: Mar. 21, 2023. [Online]. Available: <a href="https://www.cs.dartmouth.edu/~doug/reader.pdf">https://www.cs.dartmouth.edu/~doug/reader.pdf</a></span><br/><span class="modmark-bibliography-prefix">[4]</span> <span class="modmark-bibliography-bibitem" id="bibentry:KnuthCitat">C. Thiele, “Knuth meets ntg members,” 1996. Accessed: Jan. 25, 2023. [Online]. Available: <a href="https://www.ntg.nl/maps/16/15.pdf">https://www.ntg.nl/maps/16/15.pdf</a></span><br/><span class="modmark-bibliography-prefix">[5]</span> <span class="modmark-bibliography-bibitem" id="bibentry:Tex">D. Knuth, <em>Computers &amp; Typesetting, Volume A: The TeXbook</em>, Addison-Wesley, American Mathematical Society, 1986.</span><br/><span class="modmark-bibliography-prefix">[6]</span> <span class="modmark-bibliography-bibitem" id="bibentry:man7">M. Kerrisk, “Linux man-pages,” 2023. Accessed: Mar. 7, 2023. [Online]. Available: <a href="https://www.man7.org/linux/man-pages/">https://www.man7.org/linux/man-pages/</a></span><br/><span class="modmark-bibliography-prefix">[7]</span> <span class="modmark-bibliography-bibitem" id="bibentry:Latex">L. Lamport, <em>LaTeX: A Document Preparation System</em>, 2nd ed., Addison-Wesley, 1994.</span><br/><span class="modmark-bibliography-prefix">[8]</span> <span class="modmark-bibliography-bibitem" id="bibentry:rest">D. Goodger, “An introduction to restructuredtext,” 2022. Accessed: Mar. 21, 2023. [Online]. Available: <a href="https://docutils.sourceforge.io/docs/ref/rst/introduction.html">https://docutils.sourceforge.io/docs/ref/rst/introduction.html</a></span><br/><span class="modmark-bibliography-prefix">[9]</span> <span class="modmark-bibliography-bibitem" id="bibentry:AsciiDoc">Eclipse Foundation, “AsciiDoc.” Accessed: Jan. 23, 2023. [Online]. Available: <a href="http://asciidoc.org/">http://asciidoc.org/</a></span><br/><span class="modmark-bibliography-prefix">[10]</span> <span class="modmark-bibliography-bibitem" id="bibentry:Asciidoctor">Asciidoctor Project 2022, “Asciidoctor.” Accessed: Mar. 6, 2023. [Online]. Available: <a href="https://asciidoctor.org/">https://asciidoctor.org/</a></span><br/><span class="modmark-bibliography-prefix">[11]</span> <span class="modmark-bibliography-bibitem" id="bibentry:Asciidoctor_Ext">D. Allen, S. White, and others, “Asciidoctor docs.” Accessed: May 11, 2023. [Online]. Available: <a href="https://docs.asciidoctor.org/asciidoctor/latest/extensions/">https://docs.asciidoctor.org/asciidoctor/latest/extensions/</a></span><br/><span class="modmark-bibliography-prefix">[12]</span> <span class="modmark-bibliography-bibitem" id="bibentry:markdown">J. Gruber, “Markdown,” 2004. Accessed: Jan. 25, 2023. [Online]. Available: <a href="https://daringfireball.net/projects/markdown">https://daringfireball.net/projects/markdown</a></span><br/><span class="modmark-bibliography-prefix">[13]</span> <span class="modmark-bibliography-bibitem" id="bibentry:Commonmark">J. MacFarlane, “Commonmark spec,” 2021. Accessed: Mar. 21, 2023. [Online]. Available: <a href="https://spec.commonmark.org/0.30/">https://spec.commonmark.org/0.30/</a></span><br/><span class="modmark-bibliography-prefix">[14]</span> <span class="modmark-bibliography-bibitem" id="bibentry:djot">J. MacFarlane, “Djot.” Accessed: Jan. 23, 2023. [Online]. Available: <a href="https://djot.net/">https://djot.net/</a></span><br/><span class="modmark-bibliography-prefix">[15]</span> <span class="modmark-bibliography-bibitem" id="bibentry:typst">L. Mädje, “Typst: a programmable markup language for typesetting,” Thesis, Technical University of Berlin, 2022. Accessed: Jan. 25, 2023. [Online]. Available: <a href="https://www.user.tu-berlin.de/laurmaedje/programmable-markup-language-for-typesetting.pdf">https://www.user.tu-berlin.de/laurmaedje/programmable-markup-language-for-typesetting.pdf</a></span><br/><span class="modmark-bibliography-prefix">[16]</span> <span class="modmark-bibliography-bibitem" id="bibentry:typst2">M. E. Haug, “Fast typesetting with incremental compilation,” Thesis, Technical University of Berlin, 2022. Accessed: Apr. 8, 2023. [Online]. Available: <a href="https://www.user.tu-berlin.de/mhaug/fast-typesetting-incremental-compilation.pdf">https://www.user.tu-berlin.de/mhaug/fast-typesetting-incremental-compilation.pdf</a></span><br/><span class="modmark-bibliography-prefix">[17]</span> <span class="modmark-bibliography-bibitem" id="bibentry:pandoc">L. Phillips, “Technical writing with pandoc and panflute,” 2021. Accessed: Apr. 11, 2023. [Online]. Available: <a href="https://lee-phillips.org/panflute-gnuplot/">https://lee-phillips.org/panflute-gnuplot/</a></span><br/><span class="modmark-bibliography-prefix">[18]</span> <span class="modmark-bibliography-bibitem" id="bibentry:txt2tags">A. Jargas, “Txt2tags.” Accessed: Apr. 11, 2023. [Online]. Available: <a href="https://txt2tags.org/">https://txt2tags.org/</a></span><br/><span class="modmark-bibliography-prefix">[19]</span> <span class="modmark-bibliography-bibitem" id="bibentry:gitdocs">“Git documentation.” Accessed: Mar. 7, 2023. [Online]. Available: <a href="https://git-scm.com/doc">https://git-scm.com/doc</a></span><br/><span class="modmark-bibliography-prefix">[20]</span> <span class="modmark-bibliography-bibitem" id="bibentry:sphinx">“Sphinx.” Accessed: Mar. 6, 2023. [Online]. Available: <a href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html">https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html</a></span><br/><span class="modmark-bibliography-prefix">[21]</span> <span class="modmark-bibliography-bibitem" id="bibentry:wasm">A. Rossberg, Ed., “WebAssembly Core Specification,” W3C, Rep. 2.0, Apr. 19, 2022. Accessed: Apr. 16, 2023. [Online]. Available: <a href="https://www.w3.org/TR/wasm-core-2/">https://www.w3.org/TR/wasm-core-2/</a></span><br/><span class="modmark-bibliography-prefix">[22]</span> <span class="modmark-bibliography-bibitem" id="bibentry:Wasmer">Wasmer, Inc., “Wasmer.” Accessed: Jan. 23, 2023. [Online]. Available: <a href="https://wasmer.io/">https://wasmer.io/</a></span><br/><span class="modmark-bibliography-prefix">[23]</span> <span class="modmark-bibliography-bibitem" id="bibentry:Wasmtime">Bytecode Alliance, “Wasmtime.” Accessed: Jan. 23, 2023. [Online]. Available: <a href="https://docs.wasmtime.dev/">https://docs.wasmtime.dev/</a></span><br/><span class="modmark-bibliography-prefix">[24]</span> <span class="modmark-bibliography-bibitem" id="bibentry:WASI">“WASI: The WebAssembly System Interface.” Accessed: Jan. 23, 2023. [Online]. Available: <a href="https://wasi.dev/">https://wasi.dev/</a></span><br/><span class="modmark-bibliography-prefix">[25]</span> <span class="modmark-bibliography-bibitem" id="bibentry:github">“GitHub.” Accessed: Mar. 3, 2023. [Online]. Available: <a href="https://github.com/">https://github.com/</a></span><br/><span class="modmark-bibliography-prefix">[26]</span> <span class="modmark-bibliography-bibitem" id="bibentry:parsercombinator">S. D. Swierstra, “Combinator parsing: a short tutorial,” <em>Language Engineering and Rigorous Software Development: International Lernet ALFA Summer School 2008, Piriapolis, Uruguay, February 24-March 1, 2008, Revised Tutorial Lectures</em>, pp. 252–300, 2009.</span><br/><span class="modmark-bibliography-prefix">[27]</span> <span class="modmark-bibliography-bibitem" id="bibentry:nom">G. Couprie, “Nom, a byte oriented, streaming, zero copy, parser combinators library in rust,” in <em>2015 IEEE Security and Privacy Workshops</em>, 2015, pp. 142–148. [Online]. Available: <a href="https://ieeexplore.ieee.org/abstract/document/7163218">https://ieeexplore.ieee.org/abstract/document/7163218</a></span><br/><span class="modmark-bibliography-prefix">[28]</span> <span class="modmark-bibliography-bibitem" id="bibentry:boblatex">B. Dowling, “An introduction to LaTeX,” 1996. Accessed: Apr. 26, 2023. [Online]. Available: <a href="http://kcgs.soc.srcf.net/sites/default/files/computing/LaTeX/LaTeX.pdf">http://kcgs.soc.srcf.net/sites/default/files/computing/LaTeX/LaTeX.pdf</a></span><br/><span class="modmark-bibliography-prefix">[29]</span> <span class="modmark-bibliography-bibitem" id="bibentry:pearcekelly">D. J. Pearce, and P. H. Kelly, “A dynamic topological sort algorithm for directed acyclic graphs,” <em>Journal of Experimental Algorithmics (Jea)</em>, vol. 11, pp. 1–7, 2007.</span><br/><span class="modmark-bibliography-prefix">[30]</span> <span class="modmark-bibliography-bibitem" id="bibentry:kahn">A. B. Kahn, “Topological sorting of large networks,” <em>Communications of the Acm</em>, vol. 5, no. 11, pp. 558–562, 1962.</span><br/><span class="modmark-bibliography-prefix">[31]</span> <span class="modmark-bibliography-bibitem" id="bibentry:cranelift_vs_llvm">D. Hockley, and C. Williamson, “Benchmarking runtime scripting performance in wasmer,” in <em>Companion of the 2022 ACM/SPEC International Conference on Performance Engineering</em>, 2022, pp. 97–104.</span><br/><span class="modmark-bibliography-prefix">[32]</span> <span class="modmark-bibliography-bibitem" id="bibentry:ctan">G. D. Greenwade, “The comprehensive tex archive network (ctan),” <em>Tugboat</em>, vol. 14, no. 3, pp. 342–351, 1993. Accessed: Apr. 9, 2023. [Online]. Available: <a href="http://download.nus.edu.sg/mirror/ctan/info/digests/maps/maps11/maps11_j.ps.gz">http://download.nus.edu.sg/mirror/ctan/info/digests/maps/maps11/maps11_j.ps.gz</a></span><br/><span class="modmark-bibliography-prefix">[33]</span> <span class="modmark-bibliography-bibitem" id="bibentry:ubuntu">Ubuntu community help wiki, “LaTeX,” 2013. Accessed: Apr. 27, 2023. [Online]. Available: <a href="https://help.ubuntu.com/community/LaTeX">https://help.ubuntu.com/community/LaTeX</a></span><br/><span class="modmark-bibliography-prefix">[34]</span> <span class="modmark-bibliography-bibitem" id="bibentry:denospecifier">Deno Land Inc., “Deno manual.” Accessed: Apr. 26, 2023. [Online]. Available: <a href="https://deno.com/manual@v1.32.5/node/npm_specifiers">https://deno.com/manual@v1.32.5/node/npm_specifiers</a></span><br/><span class="modmark-bibliography-prefix">[35]</span> <span class="modmark-bibliography-bibitem" id="bibentry:CI">G. Booch, R. Maksimchuk, et al., <em>Object-Oriented Analysis and Design With Applications</em>, Addison-Wesley Professional, 2007.</span><br/><span class="modmark-bibliography-prefix">[36]</span> <span class="modmark-bibliography-bibitem" id="bibentry:ghc">GHC Team , “Using the ghc webassembly backend,” 2023. Accessed: May 4, 2023. [Online]. Available: <a href="https://ghc.gitlab.haskell.org/ghc/doc/users_guide/wasm.html">https://ghc.gitlab.haskell.org/ghc/doc/users_guide/wasm.html</a></span><br/><span class="modmark-bibliography-prefix">[37]</span> <span class="modmark-bibliography-bibitem" id="bibentry:accessibility">L. L. Wang, I. Cachola, et al., “Improving the accessibility of scientific documents: current state, user needs, and a system solution to enhance scientific pdf accessibility for blind and low vision users,” 2021.</span><br/><span class="modmark-bibliography-prefix">[38]</span> <span class="modmark-bibliography-bibitem" id="bibentry:rust-compiler">The Rust Project Developers, “Rust compiler development guide,” 2018. Accessed: May 4, 2023. [Online]. Available: <a href="https://rustc-dev-guide.rust-lang.org/queries/incremental-compilation-in-detail.html">https://rustc-dev-guide.rust-lang.org/queries/incremental-compilation-in-detail.html</a></span><br/><span class="modmark-bibliography-prefix">[39]</span> <span class="modmark-bibliography-bibitem" id="bibentry:errors">B. A. Becker, P. Denny, et al., “Compiler error messages considered unhelpful: the landscape of text-based programming error message research,” <em>Proceedings of the Working Group Reports on Innovation and Technology in Computer Science Education</em>, pp. 177–210, 2019. [Online]. Available: <a href="https://dl.acm.org/doi/abs/10.1145/3344429.3372508">https://dl.acm.org/doi/abs/10.1145/3344429.3372508</a></span><br/><span class="modmark-bibliography-prefix">[40]</span> <span class="modmark-bibliography-bibitem" id="bibentry:elm">E. Czaplicki, “Compiler errors for humans,” 2016. Accessed: May 9, 2023. [Online]. Available: <a href="https://elm-lang.org/news/compiler-errors-for-humans">https://elm-lang.org/news/compiler-errors-for-humans</a></span><br/><span class="modmark-bibliography-prefix">[41]</span> <span class="modmark-bibliography-bibitem" id="bibentry:rust_errors">J. Turner, “Shape of errors to come,” 2016. Accessed: May 9, 2023. [Online]. Available: <a href="https://blog.rust-lang.org/2016/08/10/Shape-of-errors-to-come.html">https://blog.rust-lang.org/2016/08/10/Shape-of-errors-to-come.html</a></span><br/><span class="modmark-bibliography-prefix">[42]</span> <span class="modmark-bibliography-bibitem" id="bibentry:chumsky">J. Barretto, “Chumsky: a parser library for humans with powerful error recovery.” [Online]. Available: <a href="https://github.com/zesterer/chumsky">https://github.com/zesterer/chumsky</a></span><br/><span class="modmark-bibliography-prefix">[43]</span> <span class="modmark-bibliography-bibitem" id="bibentry:notion_block">Notion, “What is a block?.” Accessed: May 10, 2023. [Online]. Available: <a href="https://www.notion.so/help/what-is-a-block">https://www.notion.so/help/what-is-a-block</a></span><br/><span class="modmark-bibliography-prefix">[44]</span> <span class="modmark-bibliography-bibitem" id="bibentry:loop">W. McKelvey, “New microsoft loop app is built for modern co-creation,” 2023. Accessed: May 9, 2023. [Online]. Available: <a href="https://www.microsoft.com/en-us/microsoft-365/blog/2023/03/22/new-microsoft-loop-app-is-built-for-modern-co-creation/">https://www.microsoft.com/en-us/microsoft-365/blog/2023/03/22/new-microsoft-loop-app-is-built-for-modern-co-creation/</a></span><br/><span class="modmark-bibliography-prefix">[45]</span> <span class="modmark-bibliography-bibitem" id="bibentry:lsp">Microsoft, “Language server protocol specification - 3.17,” 2022. [Online]. Available: <a href="https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/">https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/</a></span><br/></div><div class="footnotes"><h2>Footnotes</h2><ol><li><a id="note:40326282953474511"></a>Note that there are many dialects of Markdown that offer different features, such as GitHub flavoured Markdown, John Grubers original Perl script and Pandoc Markdown. This comparison will use the CommonMark specification <a href="#bibentry:Commonmark">[13]</a>. <a href="#note-backlink:40326282953474511">(back)</a></li><li><a id="note:15326246074003253317"></a>Licensed under the Apache License 2.0. <a href="#note-backlink:15326246074003253317">(back)</a></li></ol></div></article></body></html>
