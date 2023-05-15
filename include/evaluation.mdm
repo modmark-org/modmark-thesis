@@ -142,7 +142,7 @@ A3 is the Wasmer WebAssembly runtime. It supports the major
 operating systems: Linux, Windows and macOS and also all common web browsers.
 There were also recent improvements to their chipset support. Version 3.2 of Wasmer
 added RISC-V to the list of chipsets that is supported by both Cranelift and LLVM,
-which now consists of x86_64, arm64, x86 and RISC-V. To that extent, the portability
+which now consists of x86_64, arm64, x86 and RISC-V [cite](wasmer_features). To that extent, the portability
 of ModMark is sufficient for the goal that was set.
 
 There is also the aspect of being accessible and convenient for developers who
