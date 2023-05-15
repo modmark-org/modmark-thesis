@@ -168,6 +168,8 @@ like AsciiDoc and Djot generally allow users to write extensions in programming
 languages instead. However, these are often limited to the language their
 compiler was written in.
 
+[newpage]()
+
 ### Future possibilities using WebAssembly
 
 One can argue that these customisable markup languages would benefit from

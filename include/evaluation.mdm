@@ -66,6 +66,8 @@ to adding support for other formats. In practise, a package that provides fundam
 for a new format is relatively small in size and complexity. Therefore, it is possible for
 individual users to add support for new output formats.  
 
+[newpage]()
+
 ## Simplicity and syntax (A2)
 Another aim [link "A2"]aim:A2 in designing ModMark is simplicity. The language is intended to offer
 an ergonomic lightweight syntax and also be easier to understand in comparison to

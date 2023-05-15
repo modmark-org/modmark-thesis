@@ -25,6 +25,7 @@ compilation process which is explained in the rest of this chapter.
     ]
 ./figures/overview.svg
 
+
 ## Development workflow
 
 At the start of development three key areas of the system were identified.
@@ -81,6 +82,8 @@ Demo packages           | Zig           | 2       | 188
                         | C++           | 1       | 147
 **Total**               |               | **351** | **23 483**    
 
+[newpage]()
+
 ## Parsing
 [label] sec:parser
 The first step of compiling a document is parsing. Parsing is the process of
@@ -118,12 +121,22 @@ punctuation characters mentioned in Section [reference]{sec:smart_punc}. In
 addition to this, the parser retrieves information from a document configuration
 module and passes this to the later stages of compilation.
 
+[newpage]()
+
 ## Element-tree conversion
 Once the parser has produced an abstract syntax tree, the next step in the
 compilation chain is translating it into a more useful intermediate
 representation --- what we call an //element tree//. Each constituent of the
 document, including paragraphs, headings, images, and other entities, is
 regarded as an //element//.
+
+[fancy-image
+    alt = "Text about a weather updated being parsed to an AST and converted to an element tree"
+    caption = "Some source text that has first been parsed into an AST and then converted into an element tree."
+    width = 0.8
+    label = fig:weather
+    ]
+./figures/weather.svg
 
 The translation of the AST into an element tree categorises the source text into
 two variants: //modules// (including all ``\[module]`` expressions and some other
@@ -175,14 +188,6 @@ enum Element {
 }
 }}
 [comment]"TODO Maybe remove this hack"
-
-[fancy-image
-    alt = "Text about a weather updated being parsed to an AST and converted to an element tree"
-    caption = "Some source text that has first been parsed into an AST and then converted into an element tree."
-    width = 0.7
-    label = fig:weather
-    ]
-./figures/weather.svg
 
 ## Scheduling
 [label] sec:scheduling
