@@ -4,8 +4,13 @@ ksk vill reffa till underrubrikerna?
 
 # Conclusion
 [label](chp:conclusion)
+This chapter summarises our achievements and discusses how we aim to extend
+and improve ModMark in the future.
+
+## Summary
 ModMark has been successfully implemented as evident by the fact that this
-document is written in ModMark. While the language is not perfect the flexible
+document is written in ModMark. The aims set for the project in Section [reference](sec:aim) 
+have been reached as described in Chapter [reference](chp:evaluation). While the language is not perfect the flexible
 and expressive package system utilizing WebAssembly allows for many interesing possibilites.
 
 The fact that the online playground and CLI run on exactly the same code
