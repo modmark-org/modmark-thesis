@@ -60,13 +60,13 @@ systems in greater detail.
     alignment="llrr"
     label="tab:loc"
 ]
-Subsystem                    | Language      | Files   | LOC
+Subsystem               | Language      | Files   | LOC
 Parser                  | Rust          | 7       | 2 292
 Core                    | Rust          | 12      | 4 335
 Standard packages       | Rust          | 16      | 4 581
 Parser tests            | JSON          | 22      | 1 205   
 Parser test runner      | Rust          | 119     | 145
-Standard package tests  | JSON          | 128     | 4 581
+Standard package tests  | JSON          | 142     | 4 581
 Pkg test runner         | Rust          | 1       | 414
 CLI                     | Rust          | 4       | 932
 VS Code extension       | YAML          | 1       | 93
@@ -79,7 +79,7 @@ Demo packages           | Zig           | 2       | 188
                         | Swift         | 3       | 268
                         | AssemblyScript| 1       | 180
                         | C++           | 1       | 147
-**Total**               |               | **335** | **23 483**    
+**Total**               |               | **352** | **23 483**    
 
 ## Parsing
 [label] sec:parser
