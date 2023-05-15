@@ -1,5 +1,5 @@
 [config]--------
-import chalmers-thesis hiding cite
+import chalmers-thesis
 hide std:bibliography
 import std:latex hiding __document, __heading
 import std:html hiding __document, __heading
