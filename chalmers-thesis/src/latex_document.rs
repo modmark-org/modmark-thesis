@@ -355,7 +355,7 @@ fn create_imprint_page(settings: &DocSettings) -> String {
 
         writeln!(
             &mut content,
-            "Examiners: {course_examiner}, {department}\\\\"
+            "Examiner: {course_examiner}, {department}\\\\"
         )
         .unwrap();
     }
