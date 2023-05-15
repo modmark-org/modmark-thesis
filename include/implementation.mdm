@@ -64,9 +64,9 @@ Subsystem               | Language      | Files   | LOC
 Parser                  | Rust          | 7       | 2 292
 Core                    | Rust          | 12      | 4 335
 Standard packages       | Rust          | 16      | 4 581
-Parser tests            | JSON          | 22      | 1 205   
+Parser tests            | JSON          | 22      | 1 205
 Parser test runner      | Rust          | 119     | 145
-Standard package tests  | JSON          | 142     | 4 581
+Standard package tests  | JSON & Toml   | 143     | 4 581
 Pkg test runner         | Rust          | 1       | 414
 CLI                     | Rust          | 4       | 932
 VS Code extension       | YAML          | 1       | 93
@@ -420,8 +420,8 @@ project includes the following test suites:
     program executing the tests, allows running the packages targeting different
     languages and with different environment variables, simulating different
     variables provided by the ModMark compiler. There are currently
-    [comment]"TODO: Update this number"
-    142 tests for the standard packages, which ensures that the packages are
+    [comment]"TODO: Update this number - updated as of 15 may 13:16"
+    143 tests for the standard packages, which ensures that the packages are
     working correctly and gives valid, parsable and correct output for those
     test cases. In addition to this, there are package tests checking the Rust
     toolchain configuration for each package, ensuring that the toolchain is
