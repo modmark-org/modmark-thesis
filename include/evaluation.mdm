@@ -158,14 +158,18 @@ and Wasmer and there are well established libraries for string serialisation (in
 A handful of the popular programming languages can be compiled into WebAssembly,
 although most do not have the same first class support that Rust does. A hurdle
 for all other languages is the requirement of compatibility with both Wasmer and
-the WebAssembly System Interface. 
+the WebAssembly System Interface. To better evaluate this goal we have attempted to implemented packages
+in multiple programming languages:
 
-To better evaluate this goal we have successfully implemented packages in Rust,
-Swift, C, C++, Go (more specifically the TinyGo dialect), AssemblyScript
-(a sub-set of Typescript), and Zig. Source code for some of these packages are
-referenced in Section [reference]{sec:furtherreading}. We have also made unsuccessful
-attempts at implementing a package using the Haskell Glasgow Compiler, but their
-support is currently only a tech preview that is incompatible with Wasmer [cite]{ghc}.
+[list]
+* **Rust** [newline]() 13 different packages have been implemented in Rust. And as previously mentioned the developer experience using the rustc compiler and the ``wasm32-wasi`` target has been great. The ModMark CLI tool also supports generating new Rust packages with ``modmark init rust``.    
+* **C** [newline]() A template for using C and the Clang based Wasienv toolchain [cite](wasienv) is available using the ``modmark init c`` command. However, we have not implemented any larger packages in C since the language is far from ergonomic when it comes to string manipulation and JSON.
+* **C++** [newline]() C++ also has support for the init command and can be used with the same Wasienv toolchain as C does. Additionally, a demo package called prettify has been implemented.
+* **AssemblyScript** [newline]() AssemblyScript, a sub-set of Typescript, is also supported by the ModMark init command and a demo package for using the Vigenère ciphers has been implemented. AssemblyScript has first-class WASM support but requires additional libraries for WASI support.  
+* **Go** [newline]() A demo package for rendering chess boards has been implemented and can be used with the TinyGo compiler. Compiling for WASM is very straight forward but sadly TinyGo does not support the entire Go standard library.  
+* **Zig**  [newline]() Zig has first-class support for WASM and WASI and a demo package for "röverspråket" has been implemented. However, since Zig is a very low-level low-level language it might not be very well suited for developing packages in practice. 
+* **Swift** [newline]() Swift also has good WASM and WASI support and a package for generating lorem ipsum text has been written. The big downside of developing packages in Swift is the large runtime which leads to larger binary sizes.    
+* **Haskell** [newline]() We have also made unsuccessful attempts at implementing a package using the Haskell Glasgow Compiler, but their support is currently only a tech preview that is incompatible with Wasmer [cite]{ghc}.
 
 To add even more nuance to the issue of supporting multiple languages, there is
 also a matter of performance. If users were to develop packages in languages
