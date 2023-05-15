@@ -69,6 +69,7 @@ Markup languages, WebAssembly, WASI
 [comment]
 Note that bibliography (according to the overleaf version) should not
 have a chapter number, like "6. Bibliography"
+We add it to TOC for LaTeX, and for HTML we have some code to add a header
 
 [if html]
 [raw]
