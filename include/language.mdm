@@ -42,7 +42,7 @@ level of the heading. If a paragraph, for example, starts with the line
 ``## Heading``, it will become a heading at level 2. To recreate the beginning of 
 Chapter [reference](chp:mml) of this thesis in ModMark, one could write this:
 
-[code lang=markdown theme=github]{{
+[code lang=markdown font_size="16" theme=github]{{
 # The ModMark Language
 We present ModMark --- a new document markup
 language with a strong focus on modularity ...
@@ -142,7 +142,7 @@ Modules outside of paragraphs, so-called multiline modules, are written as if
 they were their own paragraph, with at least one empty row preceding and
 following it. Here is an example of such an expression:
 
-[code theme=github]{{
+[code font_size="16" theme=github]{{
 [poem]
 Roses are red,
 violets are blue,
@@ -173,7 +173,7 @@ For inline modules, only one character may be used as delimiter, but for
 multiline modules, any number of characters may be used. To capture the entire
 code in this example, the delimiter ``{[(`` is used:
 
-[code rust theme=github]-----
+[code rust font_size="16" theme=github]-----
 [code]{[(
 fn first_elem(arr: &[u8]) -> u8 {arr[0]}
 
@@ -204,7 +204,7 @@ positional argument, and these can not appear after named arguments. If the
 the module. Here is another larger example of a module expression with argments,
 this time of an image:
 
-[code theme=github]---
+[code font_size="16" theme=github]---
 [image
     alt     = "Black and white photo of Alonzo Church"
     caption = "Alonzo Church"
@@ -225,7 +225,7 @@ using a special ``\[config]`` module found once at the very top of a file. For
 example, here is the source code for importing a package named ``prettify`` and
 then using a module with the same name.
 
-[code theme=github]{{
+[code font_size="16" theme=github]{{
 [config]
 import prettify
 
