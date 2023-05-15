@@ -81,7 +81,7 @@ Figure [reference](fig:elm_error).
 [fancy-image
     alt = "An error message produced by the elm compiler. It describes how the user forgot to end their line with double quotes."
     caption = "An example of a error message produced by the compiler for the Elm programming language."
-    width = .8
+    width = .9
     label = fig:elm_error
     ]
 ./figures/elm_error.png
