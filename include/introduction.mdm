@@ -17,8 +17,9 @@ to achieve compatibility with a new generation of computers. While there was a
 significant demand for such a typesetting system, especially within the Unix
 community, Troff had its flaws. Most notably, it was built as a layer on Nroff,
 which in turn was built on top of Roff, and all this complexity led to the final
-product being quite complicated. The famous computer scientist Donald Knuth said
-that "it was a fifth generation, each of which was a patch on another one. So it was time to scrap it" [cite "p. 43"]{KnuthCitat}.
+product being quite complicated. The famous computer scientist Donald Knuth said that
+"it was a fifth generation, each of which was a patch on another one. So it was time to scrap it"
+[cite "p. 43"]{KnuthCitat}.
 
 Later in the 1970s, [tex]() [cite] Tex was created by Knuth in an attempt to
 improve on Troff. It was created from scratch, but shares many concepts with
@@ -40,11 +41,6 @@ describe the format of text. This definition includes the previously mentioned
 Troff and [tex]() but also languages such as HTML and XML. The aim of these
 languages was not necessarily to be easy to use but to be precise. Over time, popularity has
 shifted towards more lightweight markup languages, designed to increase
-readability and convenience rather than focusing on maximum control of output.
-
-[comment]
-%All of these are quite verbose and not well suited for an ergonomic writing experience.
-Over time, popularity has shifted towards more lightweight markup languages, designed to increase
 readability and convenience rather than focusing on maximum control of output.
 
 A selection of popular and relevant markup languages are presented below,
