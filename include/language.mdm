@@ -208,10 +208,10 @@ this time of an image:
 [image
     alt     = "Black and white photo of Alonzo Church"
     caption = "Alonzo Church"
-    label   = "fig:alanzo"
+    label   = "fig:alonzo"
     width   = "0.5"
 ]
-alanzo.jpg
+alonzo.jpg
 ---
 
 ## Packages 
