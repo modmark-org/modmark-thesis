@@ -420,7 +420,6 @@ project includes the following test suites:
     program executing the tests, allows running the packages targeting different
     languages and with different environment variables, simulating different
     variables provided by the ModMark compiler. There are currently
-    [comment]"TODO: Update this number - updated as of 15 may 13:16"
     143 tests for the standard packages, which ensures that the packages are
     working correctly and gives valid, parsable and correct output for those
     test cases. In addition to this, there are package tests checking the Rust

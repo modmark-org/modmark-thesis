@@ -1,7 +1,3 @@
-[comment]{
-Generell todo: hyperrefs om vi vill at A1, A2, A3 ord ska länka
-}
-
 # Evaluation
 [label](chp:evaluation)
 The primary objective of the project is to design and implement a markup language
