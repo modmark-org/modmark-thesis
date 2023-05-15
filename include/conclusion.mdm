@@ -127,10 +127,12 @@ ModMark command-line tool is one possible direction.
 ## Further reading
 [label](sec:furtherreading)
 More information about ModMark as well as the source code for the compiler can
-be found at the following online resources.
+be found at the following online resources. This thesis is available to
+read on the web as HTML document too. 
 
 [list]----
 * **Source code** [newline]() [link](https://github.com/modmark-org/modmark)
+* **This thisis as a HTML document** [newline]() [link](https://modmark-org.github.io/modmark-thesis/) [comment](//)
 * **ModMark website** [newline]() [link](https://modmark.org/)
 * **Web playground** [newline]() [link](https://modmark.org/#/playground)
 * **Source text for this thesis and the //chalmers-thesis package// ** [newline]() [link](https://github.com/modmark-org/modmark-thesis)
