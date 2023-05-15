@@ -113,7 +113,7 @@ design by including elements such as tables and footnotes. Additionally, users
 are able to customise the language by creating custom filters.
 
 ##### ==Typst==
-Later in the same year, Mjäde [cite] typst and Haug [cite] typst2 presented a
+Later in the same year, Mädje [cite] typst and Haug [cite] typst2 presented a
 new alternative to [latex]() that they call Typst. The motivation behind
 creating Typst was frustration with the [latex]() macro system and lack of
 complex typesetting in lightweight languages like AsciiDoc. Typst has syntax for
