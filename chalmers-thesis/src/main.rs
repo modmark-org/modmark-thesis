@@ -12,7 +12,6 @@ use html_document::transform_document_html;
 use latex_document::transform_document_latex;
 
 enum Error {
-    MissingKey,
     ConsumedInput,
     HeadingLevel(u8),
 }
@@ -42,7 +41,6 @@ fn main() {
 
 fn handle_error(error: Error) {
     match error {
-        Error::MissingKey => eprintln!("Missing citation key."),
         Error::HeadingLevel(level) => {
             eprintln!("Invalid heading level '{level}'.")
         }
@@ -58,7 +56,6 @@ fn transform(from: &str, to: &str) -> Result<String, Error> {
     };
 
     match from {
-        "cite" => transform_cite(input, to),
         "__document" => transform_document(input, to),
         "__heading" => transform_heading(input, to),
         "tex" => transform_latex_command("TeX", input, to),
@@ -237,7 +234,9 @@ fn transform_heading(heading: Value, to: &str) -> Result<String, Error> {
             let dummy_label = format!("label/h{level}/{header_id}");
             let elem_num_invoc = format!("[element-number](h{level}/{header_id})");
 
-            list.push(json!({"name": "list-push", "arguments": {"name": "structure"}, "data": key}));
+            list.push(
+                json!({"name": "list-push", "arguments": {"name": "structure"}, "data": key}),
+            );
             list.push(json!({"name": "list-push", "arguments": {"name": "structure"}, "data": dummy_label}));
 
             if level == 1 {
@@ -463,40 +462,6 @@ fn transform_latex_command(command: &str, input: Value, to: &str) -> Result<Stri
     }
 }
 
-fn transform_cite(input: Value, to: &str) -> Result<String, Error> {
-    let key = input["data"].as_str().unwrap();
-    let postnote = input["arguments"]["postnote"].as_str().unwrap();
-
-    // You are required to provide a key
-    if key.is_empty() {
-        return Err(Error::MissingKey);
-    }
-
-    if to == "html" {
-        let html =
-            format!("<span style=\"background: #0000000d; font-style: italic; border-radius: 1rem; padding: 0.2rem 0.5rem 0.2rem 0.5rem; font-size: 80%;\">{key} {postnote}</span>");
-
-        return Ok(serde_json::to_string(&json!([
-            {
-                "name": "raw",
-                "data": html
-            }
-        ]))
-        .unwrap());
-    }
-
-    let args = if postnote.is_empty() {
-        String::new()
-    } else {
-        format!("[{postnote}]")
-    };
-
-    let citation = format!("\\cite{args}{{{key}}}");
-    let json = json!([{"name": "raw", "data": citation}]);
-
-    Ok(serde_json::to_string(&json).unwrap())
-}
-
 struct DocSettings {
     /// Name of authors
     authors: Vec<String>,
@@ -533,8 +498,6 @@ struct DocSettings {
     /// Used on the titlepage
     /// For instance, "Computer Science and Engineering".
     subject: Option<String>,
-    /// Path to a .bib file
-    sources: Option<String>,
 }
 
 impl DocSettings {
@@ -558,7 +521,6 @@ impl DocSettings {
             abstract_content: Self::read_const("abstract"),
             sammandrag: Self::read_const("sammandrag"),
             acknowledgements_content: Self::read_const("acknowledgements"),
-            sources: Self::read_const("sources"),
             course_examiner: Self::read_const("course_examiner"),
             course_examiner_department: Self::read_const("course_examiner_department"),
             subject: Self::read_const("subject"),
@@ -633,17 +595,6 @@ fn manifest() -> String {
             "name": "chalmers-thesis",
             "description": "A port of the Bachelor's thesis template from Chalmers University of Technology.",
             "transforms": [
-                {
-                    "from": "cite",
-                    "to": ["latex", "html"],
-                    "arguments": [
-                        {
-                            "name": "postnote",
-                            "description": "A note at the end of the citation, such as a page number",
-                            "default": ""
-                        },
-                    ],
-                },
                 {
                     "from": "note",
                     "to": ["latex", "html"],

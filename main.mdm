@@ -1,27 +1,24 @@
 [config]--------
-import chalmers-thesis hiding cite
+import chalmers-thesis
 hide std:bibliography
 import std:latex hiding __document, __heading
 import std:html hiding __document, __heading
 import std:link hiding label, reference
 import bibv2
 
-set title ModMark: A Modular Document Markup Language
-set subtitle Designing and implementing a markup language utilising WebAssembly
-set examiner Nick Smallbone
-set supervisor Magnus Myreen
-set course_examiner Wolfgang Ahrendt
-set examiner_department Department of Computer Science and Engineering
-set supervisor_department Department of Computer Science and Engineering
-set course_examiner_department Department of Computer Science and Engineering
-set department Department of Computer Science and Engineering
-set subject Computer Science and Engineering
-set cover_art ./figures/cover.jpg
+set title                       ModMark: A Modular Document Markup Language
+set subtitle                    Designing and implementing a markup language utilising WebAssembly
+set examiner                    Nick Smallbone
+set supervisor                  Magnus Myreen
+set course_examiner             Wolfgang Ahrendt
+set examiner_department         Department of Computer Science and Engineering
+set supervisor_department       Department of Computer Science and Engineering
+set course_examiner_department  Department of Computer Science and Engineering
+set department                  Department of Computer Science and Engineering
+set subject                     Computer Science and Engineering
+set cover_art                   ./figures/cover.jpg
+set cover_art_description       Photo by Raphael Schaller, licensed under the Unsplash License.
 --------
-
-
-[const-decl cover_art_description]
-Photo by Raphael Schaller, licensed under the Unsplash License.
 
 [list-push authors](Eli Adelhult)
 [list-push authors](Gustav Bruhn)
@@ -72,6 +69,7 @@ Markup languages, WebAssembly, WASI
 [comment]
 Note that bibliography (according to the overleaf version) should not
 have a chapter number, like "6. Bibliography"
+We add it to TOC for LaTeX, and for HTML we have some code to add a header
 
 [if html]
 [raw]

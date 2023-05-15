@@ -38,11 +38,6 @@ pub(crate) fn transform_document_latex(input: Value) -> Result<String, Error> {
     // Add settings (helper macros and such)
     content.push(Value::String(include_str!("settings.tex").into()));
 
-    // Import the bibliography
-    if let Some(sources) = &settings.sources {
-        content.push(Value::String(format!("\\addbibresource{{{sources}}}\n")));
-    }
-
     // Start the document
     content.push(Value::String("\\begin{document}\n".into()));
 
@@ -75,16 +70,6 @@ pub(crate) fn transform_document_latex(input: Value) -> Result<String, Error> {
             content.push(child.clone());
         }
     };
-
-    if settings.sources.is_some() {
-        content.push(Value::String(format!(
-            r"
-\cleardoublepage    
-\addcontentsline{{toc}}{{chapter}}{{Bibliography}}
-\printbibliography
-"
-        )));
-    }
 
     content.push(Value::String("\\end{document}".into()));
 
