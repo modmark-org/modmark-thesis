@@ -6,17 +6,17 @@ import std:html hiding __document, __heading
 import std:link hiding label, reference
 import bibv2
 
-set title ModMark: A Modular Document Markup Language
-set subtitle Designing and implementing a markup language utilising WebAssembly
-set examiner Nick Smallbone
-set supervisor Magnus Myreen
-set course_examiner Wolfgang Ahrendt
-set examiner_department Department of Computer Science and Engineering
-set supervisor_department Department of Computer Science and Engineering
-set course_examiner_department Department of Computer Science and Engineering
-set department Department of Computer Science and Engineering
-set subject Computer Science and Engineering
-set cover_art ./figures/cover.jpg
+set title                       ModMark: A Modular Document Markup Language
+set subtitle                    Designing and implementing a markup language utilising WebAssembly
+set examiner                    Nick Smallbone
+set supervisor                  Magnus Myreen
+set course_examiner             Wolfgang Ahrendt
+set examiner_department         Department of Computer Science and Engineering
+set supervisor_department       Department of Computer Science and Engineering
+set course_examiner_department  Department of Computer Science and Engineering
+set department                  Department of Computer Science and Engineering
+set subject                     Computer Science and Engineering
+set cover_art                   ./figures/cover.jpg
 --------
 
 
