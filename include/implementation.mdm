@@ -390,7 +390,7 @@ package manager where to find the desired packages. See Figure
 [reference] fig:imports for an example.
 
 [fancy-image
-    alt = "Packages loaded firstly from a local file, then from an URL, then from the catalogue, and lastly from the standard packages"
+    alt = "Packages loaded firstly from a local file, then from an URL, then from the catalog, and lastly from the standard packages"
     caption = "A config module with import statements with different paths. The specifier is highlighted in purple."
     width = 0.7
     label = fig:imports
