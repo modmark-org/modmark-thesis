@@ -45,7 +45,19 @@ playground were designed to be output agnostic, by allowing the user to specify 
 output format. Although, because HTML and [latex]() were prioritised in development
 they were also given additional functionality (see Section [reference]{sec:cli} and
 [reference]{sec:playground}). In that sense, while the compiler is truly output agnostic,
-the full ModMark suite is not. 
+the full ModMark suite is not.
+
+In Figure [reference](fig:threetests), three example documents in widely different domains
+are presented, showing that the language is extensible enough to add capabilities to
+be used for different purposes. Links to these documents can be found in
+Section [reference](sec:furtherreading).
+
+[fancy-image
+    alt="Three example documents written in ModMark"
+    caption="Three example documents written in ModMark, the first one containing lecture notes, the second one being an article about the chess opening //Three Knights Game//, and the third one being this thesis."
+    label="fig:threetests"
+]
+./figures/threetests.png
 
 The decision to make ModMark output agnostic has served us well in development. It eased
 the process of extending and fine tuning the output for both HTML and [latex](). Because the

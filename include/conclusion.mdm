@@ -133,6 +133,15 @@ an HTML document.
 * **ModMark website** [newline]() [link](https://modmark.org/)
 * **Web playground** [newline]() [link](https://modmark.org/#/playground)
 * **Repository for this thesis and the //chalmers-thesis package// ** [newline]() [link](https://github.com/modmark-org/modmark-thesis)
+* **Maths notes**, from Figure [reference](fig:threetests), editable in the Playground
+    [newline]()
+    [link](https://modmark.org/#/playground?gist=788fb98f4919327ab5d53ddcee00cdb9)
+* **Three Knights Game**, from Figure [reference](fig:threetests), editable in the Playground
+    [newline]()
+    [link](https://modmark.org/#/playground?gist=29b40792a008c3ce3b25a65c20a8c78b)
+* **Snapshot of this thesis**, from Figure [reference](fig:threetests), editable in the Playground
+    [newline]()
+    [link](https://modmark.org/#/playground?gist=530d97a6746d2d05c4df2af6ba7b9b1e)
 * **Example Swift package** [newline]() [link](https://github.com/CMDJojo/modmark-lorem)
 * **Example C++ package** [newline]() [link](https://github.com/hugomardbrink/modmark-prettify)
 * **Example Go package** [newline]() [link](https://github.com/forsinge/modmark-fen)
