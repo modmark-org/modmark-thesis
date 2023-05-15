@@ -43,19 +43,8 @@ figures/modmark_example.svg
 The first line of a paragraph may be started by one or more hash signs ``#`` to
 declare that line as a heading. The number of hash signs used represents the
 level of the heading. If a paragraph, for example, starts with the line
-``## Heading``, it will become a heading at level 2.
-
-When evaluating the document, the content of the heading is delegated to a
-package which declares that it may transform a heading to the desired output
-format. The headings will be transformed at the discretion of that package, and
-the limit of how many heading levels are allowed depends solely on that package.
-For example, the [latex]() package supports three levels of headings by outputting
-``\\section{}``, ``\\subsection{}`` and ``\\subsubsection{}``, while the HTML
-package supports six levels by outputting ``<h1>`` to ``<h6>``.
-
-
-To recreate the beginning of Chapter [reference](chp:mml) of this thesis in
-ModMark, one could write this:
+``## Heading``, it will become a heading at level 2. To recreate the beginning of 
+Chapter [reference](chp:mml) of this thesis in ModMark, one could write this:
 
 [code lang=markdown theme=github]{{
 # The ModMark Language
@@ -67,12 +56,19 @@ The first line of a paragraph may be started
 by one or more hash signs ...
 }}
 
+When evaluating the document, the content of the heading is delegated to a
+package which declares that it may transform a heading to the desired output
+format. The headings will be transformed at the discretion of that package, and
+the limit of how many heading levels are allowed depends solely on that package.
+For example, the [latex]() package supports three levels of headings by outputting
+``\\section{}``, ``\\subsection{}`` and ``\\subsubsection{}``, while the HTML
+package supports six levels by outputting ``<h1>`` to ``<h6>``.
+
 ## Tags
 Tags are used to style text which is done by encasing content between a
 opening tag and closing tag. This allows formatted text to be expressed with
 similar simplicity to how it may be expressed in Markdown. Examples of such tags
-are ``**`` which makes the content bold, and ``//`` which makes the content
-italic.
+are ``**bold**`` and ``//italic//``.
 
 Nesting tags, or using one tag within another, makes sense in some cases. For
 example, you may want to have some of your bold text italic as well, and the
@@ -91,15 +87,15 @@ for nesting. The complete set of tags built-in to ModMark is listed in Table
     caption="The tags built-in to ModMark"
     label="mm:tags"
 ]{{
-**Source**           | **Output**        | **Allows nested tags**
-``**bold**``         | **bold**          | yes
-``//italic//``       | //italic//        | yes
-``__subscript__``    | __subscript__     | yes
-``^^superscript^^``  | ^^superscript^^   | yes
-``==underlined==``   | ==underlined==    | yes
-``~~strikethrough~~``| ~~strikethrough~~ | yes
-````verbatim````     | ``verbatim``      | no
-``Math: $$x^2+y^2$$``| Math: $$x^2+y^2$$ | no}}
+**Source**                  | **Output**        | **Allows nested tags**
+``**bold**``                | **bold**          | yes
+``//italic//``              | //italic//        | yes
+``__subscript__``           | __subscript__     | yes
+``^^superscript^^``         | ^^superscript^^   | yes
+``==underlined==``          | ==underlined==    | yes
+``~~strikethrough~~``       | ~~strikethrough~~ | yes
+[__verbatim](``verbatim``)  | ``verbatim``      | no
+``Math: $$x^2+y^2$$``       | Math: $$x^2+y^2$$ | no}}
 
 Similarly to headings, tags are also delegated to a package
 capable of transforming those tags to the desired output format. The end result
@@ -144,7 +140,7 @@ Inline modules are written with its name within square brackets, followed by the
 text to be captured. Text is captured up until the next space or line break. The
 expression ``\[link] https://modmark.org/`` is an expression for the ``link``
 module, containing the text ``https://modmark.org/``. This will, in turn, use a
-package containing the ``link`` module to turn the expression to an output.
+package supporting the ``link`` module to turn the expression to some output.
 
 Modules outside of paragraphs, so-called multiline modules, are written as if
 they were their own paragraph, with at least one empty row preceding and
@@ -158,7 +154,7 @@ unexpected '{'
 on line 32.
 }}
 
-Module expressions by default capture texts until some boundary, which for
+Module expressions by default capture text until some boundary, which for
 inline modules is a space or a newline, and for multiline modules is an empty
 line. The text is then passed to the package which defines that module, and that
 package is free to arbitrarily transform the content. That means that it is
@@ -167,12 +163,12 @@ module which renders code and keeps its text as-is, or a ``table`` module which
 wants to split the input text to different cells, possibly allow tags and
 modules within them.
 
-To make a module expression capture more text than it would by default, you may
-use //custom delimiters//. When you use a custom delimiter, the module
-expression captures text until the matching closing delimiter. To use a custom
-delimiter, you should put it right after the closing square bracket containing
+To make a module expression capture more text than it would by default,
+a //custom delimiters// is used. When using custom delimiter, the module
+expression captures text until a matching closing delimiter is found. To use a custom
+delimiter, put it right after the closing square bracket containing
 the module name. Any non-alphanumeric character may be used as delimiter, and
-brackets use their matching other bracket as delimiter. This means that the
+opening brackets use their corresponding closing bracket in the closing delimiter. This means that the
 expression ``\[math] x^2 + y^2`` used inline would only capture ``x^2``, since
 there is a space following it, but ``\[math](x^2 + y^2)`` would capture the
 entire mathematical expression.
@@ -209,7 +205,18 @@ not include the name of the argument. If an argument is unnamed it works as a
 positional argument, and these can not appear after named arguments. If the
 ``code`` module would take an argument ``lang``, both ``\[code rust]`` and
 ``\[code lang=rust]`` would pass the value ``rust `` as the argument ``lang`` to
-the module.
+the module. Here is another larger example of a module expression with argments,
+this time of an image:
+
+[code theme=github]---
+[image
+    alt     = "Black and white photo of Alonzo Church"
+    caption = "Alonzo Church"
+    label   = "fig:alanzo"
+    width   = "0.5"
+]
+alanzo.jpg
+---
 
 ## Packages 
 [label] sec:packages
@@ -244,11 +251,11 @@ and [latex](), output. They are ordinary packages that help with common writing
 tasks but can easily be replaced if a user has other needs.
 
 This includes features such as bibliography management, images, lists and tables.
-An exhaustive list can be found on the projects online documentation
-([link]{https://modmark.org/#/package-docs}).
-[comment](TODO: FIx formatting, link goes of screen)
+An exhaustive list can be found on the projects online documentation:
+
+See: [link]{https://modmark.org/#/package-docs}
+
 [comment](// to fix syntax highligher for now heh)
- 
 
 ### Native packages
 [label] subsec:natpkg

@@ -42,12 +42,14 @@ A term that is often used when discussing typesetting is //markup//. A markup
 language is typically defined to be a language that is used to structure and
 describe the format of text. This definition includes the previously mentioned
 Troff and [tex]() but also languages such as HTML and XML. The aim of these
-languages was not to be easy to use but to be precise. Over time, popularity has
+languages was not necessarily to be easy to use but to be precise. Over time, popularity has
 shifted towards more lightweight markup languages, designed to increase
 readability and convenience rather than focusing on maximum control of output.
 
 [comment]
-%All of these are quite verbose and not well suited for an ergonomic writing experience. Over time, popularity has shifted towards more lightweight markup languages, designed to increase readability and convenience rather than focusing on maximum control of output.
+%All of these are quite verbose and not well suited for an ergonomic writing experience.
+Over time, popularity has shifted towards more lightweight markup languages, designed to increase
+readability and convenience rather than focusing on maximum control of output.
 
 A selection of popular and relevant markup languages are presented below,
 ordered by date of release.
@@ -92,10 +94,10 @@ use programming languages to generate output.
 ##### ==Markdown==
 Markdown was released in 2004, just two years after the release of AsciiDoc
 [cite]{markdown}. It was developed by John Gruber and Aaron Swartz with a heavy
-focus on readability and being ergonomic. The original specification of the
+focus on readability and being ergonomic. The original description of the
 language was lacking in detail and contained ambiguities, which eventually led
-to discrepancies between its implementations. A decade later an effort was made
-to remedy this by redefining and clarifying the specification, which was
+to discrepancies between implementations. A decade later an effort was made
+to remedy this by redefining and clarifying the language with a more complete specification, which was
 released under the name CommonMark [cite]{Commonmark}. While it succeeded at
 what was intended, it also introduced complexity in both syntax rules and
 parsing.
@@ -106,7 +108,7 @@ little to no support for custom extensions.
 
 ##### ==Djot==
 In 2022 John MacFarlane, who was active in the creation of CommonMark, presented
-Djot -- a language aimed at fixing the shortcomings of Markdown and the
+Djot --- a language aimed at fixing the shortcomings of Markdown and the
 complexities in CommonMark [cite]{djot}. It expands on Markdown's original
 design by including elements such as tables and footnotes. Additionally, users
 are able to customise the language by creating custom filters.
@@ -116,9 +118,9 @@ Later in the same year, Mjäde [cite] typst and Haug [cite] typst2 presented a
 new alternative to [latex]() that they call Typst. The motivation behind
 creating Typst was frustration with the [latex]() macro system and lack of
 complex typesetting in lightweight languages like AsciiDoc. Typst has syntax for
-styling text and creating lists but also supports many common programming
+styling text, creating lists etc. but also supports many common programming
 language features like loops and conditionals [cite]{typst}. It is essentially a
-way to combine variables, code, and ergonomic markup to produce documents.
+way to combine code and ergonomic markup to produce documents.
 
 ### Document converters and generators
 Along with the development of markup languages, a number of tools such as
@@ -150,25 +152,23 @@ corporations and communities. For example, AsciiDoc was used to document Git
 
 However, when it comes to personal use, Markdown and [latex]() are very
 dominant. [latex]() sees wide usage in academic writing, while Markdown is
-common in internet forums and in programming documentation to provide simple
+common in Internet forums and in programming documentation to provide simple
 formatting. When comparing Markdown and [latex](), they quickly appear very
 different. A comparative example for [latex]() and Markdown can be found in
 Figure [reference]{fig:latexMarkdownExample}, which illustrates the difference
-in verbosity and capability. It is worth noting that [latex]() documents rarely
-have an empty preamble (the section before the document begins).
+in verbosity and capability.
 
 [fancy-image
     alt = "Code producing two headings and two paragraphs in LaTeX and Markdown"
-    caption = "An example of source code for producing two headings and two paragraphs of text in [latex]// and Markdown."
+    caption = "An example of source code for producing two headings and two paragraphs of text in [latex]() and Markdown. However, it is worth noting that [latex]() documents rarely have an empty preamble (the section before the document begins)."
     width = 0.9
     label = fig:latexMarkdownExample
     ]
 ./figures/latex_vs_markdown.svg
 
 [latex]() has a strong focus on expressiveness and customisation, though its
-complexity can make it difficult for new users to use it properly. Furthermore,
-over time the [latex]() ecosystem has fallen down the same pitfalls Troff
-originally did, growing harder to maintain and less ergonomic. On the other
+complexity can make it difficult for new users to use properly. The macro system
+also makes editor integration and error handling less pleasant. On the other
 hand, Markdown's simplicity can be limiting for more demanding use cases.
 
 While customisation in [latex]() is more accessible than that of [tex](), it
@@ -200,7 +200,7 @@ enhances the capabilities of the program to allow for disk I/0, environment
 variables and more.
 
 WebAssembly presents an opportunity for markup languages to support many
-programming languages and to be platform independent. This is crucial not only
+programming languages while still being platform independent. This is crucial not only
 to reach more users but also to ease development. Furthermore, this becomes even
 more important in ecosystems like [latex](), where contributions from users are
 key to improving the language.
@@ -219,7 +219,7 @@ The following bullet points summarise the three main design goals of ModMark.
 
 [list]----
 * **[target aim:A1]"A1". Expressive and modular** [newline]()
-    The language intends to be more expressive and extendable than Markdown and
+    The language should be more expressive and extendable than Markdown and
     Djot by providing module expressions that offer a general syntax to extend
     the language with extra functionality. For instance, if a user wants to
     include citations, plots or figures in their document they can use this
@@ -227,9 +227,7 @@ The following bullet points summarise the three main design goals of ModMark.
     features. This is in contrast to Markdown where every feature is built-in
     and has concrete syntax. To put even more control in the hands of the user,
     ModMark also aims to support nested structures in a similar fashion to
-    [latex]().
-
-    Continuing in the spirit of modularity, fundamental parts of ModMark's
+    [latex](). Continuing in the spirit of modularity, fundamental parts of ModMark's
     compiler should be designed to be agnostic of the output file format.
 
 * **[target aim:A2]"A2". Simple** [newline]()
@@ -254,9 +252,9 @@ The following bullet points summarise the three main design goals of ModMark.
 
 ## Scope
 Successfully implementing ModMark includes both designing the language and
-developing a functioning environment for it. However, we had to impose certain
+developing a functioning compiler. However, we had to impose certain
 limitations on the project in order for it to fit within the time frame of a
-Bachelor's thesis.
+bachelor's thesis.
 
 Firstly, ModMark does not directly control the resulting layout and typesetting.
 Instead, source code is transcompiled into another popular format, similar to
@@ -275,7 +273,7 @@ report-like documents, which covers only a fraction of the possible types of
 output. Although, the modularity of the language allows for more document types.
 
 During the course of the project there has also been a trade-off between
-developing the language itself and developing surrounding tools. The tools are
+developing the language itself and developing the surrounding tools. The tools are
 essential for testing and demonstrating the language, but can on the other hand
 steal development time. We decided to create a web page and a command-line
 interface relatively early in the development process. The implementations of
