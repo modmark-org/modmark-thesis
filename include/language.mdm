@@ -25,10 +25,6 @@ A short example of a document written in ModMark can be seen in Figure
 syntax and semantics of the ModMark language, and gives an introduction to some
 of the included packages.
 
-[comment]
-TODO: the label here does not work because the _ is escaped so it becomes 
-\label{fig:modmark\_example}.
-
 [fancy-image
     alt="A short example of ModMark's syntax"
     caption="The same example document as in Figure [reference]{fig:latexMarkdownExample} but written in ModMark. It demonstrates a few syntactical constructions such as (1) headings, (2) bold tags, (3) italic tags and (4) module expressions." label="fig:modmarkExample"
