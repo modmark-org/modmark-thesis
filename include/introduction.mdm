@@ -21,8 +21,7 @@ significant demand for such a typesetting system, especially within the Unix
 community, Troff had its flaws. Most notably, it was built as a layer on Nroff,
 which in turn was built on top of Roff, and all this complexity led to the final
 product being quite complicated. The famous computer scientist Donald Knuth said
-that "it was a fifth generation, each of which was a patch on another one. So it
-was time to scrap it" [cite "p. 43"]{KnuthCitat}.
+that "it was a fifth generation, each of which was a patch on another one. So it was time to scrap it" [cite "p. 43"]{KnuthCitat}.
 
 Later in the 1970s, [tex]() [cite] Tex was created by Knuth in an attempt to
 improve on Troff. It was created from scratch, but shares many concepts with
