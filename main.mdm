@@ -74,6 +74,7 @@ Note that bibliography (according to the overleaf version) should not
 have a chapter number, like "6. Bibliography"
 
 [if html]
-# Bibliography
+[raw]
+<h1 style="margin-top:4rem">Bibliography</h1>
 
 [better-bib file=sources.bib]
