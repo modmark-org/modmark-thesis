@@ -231,11 +231,28 @@ fn transform_heading(heading: Value, to: &str) -> Result<String, Error> {
         }
         "html" => {
             let key = format!("h{level}");
-            list.push(
-                json!({"name": "list-push", "arguments": {"name": "structure"}, "data": key}),
-            );
+            let header_id = rand::random::<u64>();
+            // we need some sort of label so we can create an "element-number" invocation
+            // reorganize to avoid this when implementing for TOC or moving to main rep
+            let dummy_label = format!("label/h{level}/{header_id}");
+            let elem_num_invoc = format!("[element-number](h{level}/{header_id})");
 
-            list.push(Value::String(format!("<h{level}>")));
+            list.push(json!({"name": "list-push", "arguments": {"name": "structure"}, "data": key}));
+            list.push(json!({"name": "list-push", "arguments": {"name": "structure"}, "data": dummy_label}));
+
+            if level == 1 {
+                list.push(Value::String(format!("<div class=big-number>")));
+                list.push(json!({"name": "inline_content", "data": elem_num_invoc}));
+                list.push(Value::String(format!("</div>")));
+                list.push(Value::String(format!("<h{level}>")));
+            } else if level < 5 {
+                list.push(Value::String(format!("<h{level}>")));
+                list.push(json!({"name": "inline_content", "data": elem_num_invoc}));
+                list.push(Value::String(format!(" ")));
+            } else {
+                list.push(Value::String(format!("<h{level}>")));
+            }
+
             if let Value::Array(children) = &heading["children"] {
                 for child in children {
                     list.push(child.clone());

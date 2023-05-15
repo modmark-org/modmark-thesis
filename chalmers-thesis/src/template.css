@@ -35,6 +35,8 @@ dd {
     --size-step-2: clamp(1.56rem, calc(1.41rem + 0.76vw), 2rem);
     --size-step-3: clamp(1.95rem, calc(1.71rem + 1.24vw), 2.66rem);
     --size-step-4: clamp(2.44rem, calc(2.05rem + 1.93vw), 3.55rem);
+    --size-step-5: clamp(3.05rem, calc(2.45rem + 2.92vw), 5.14rem);
+    --size-step-6: clamp(3.8rem, calc(2.9rem + 4.33vw), 8.73rem);
 }
 
 body {
@@ -57,6 +59,14 @@ a {
     color: var(--color-primary);
     text-decoration: none;
 }
+
+.big-number {
+    display: block;
+    text-align: center;
+    font-size: var(--size-step-6);
+    max-height: calc(var(--size-step-6) + 0.4em);
+}
+
 
 h1,
 h2,
@@ -160,7 +170,11 @@ article>*+* {
     max-width: 70ch;
 }
 
-:is(h1, h2, h3, h4, h5, h6 blockquote) {
+:is(h1) {
+    --flow-space: 0.5em;
+}
+
+:is(h2, h3, h4, h5, h6 blockquote) {
     --flow-space: 1.5em;
 }
 
