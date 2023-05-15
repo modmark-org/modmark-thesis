@@ -15,7 +15,7 @@ set examiner_department Department of Computer Science and Engineering
 set supervisor_department Department of Computer Science and Engineering
 set course_examiner_department Department of Computer Science and Engineering
 set department Department of Computer Science and Engineering
-set subject Computer science and engineering
+set subject Computer Science and Engineering
 set cover_art ./figures/cover.jpg
 --------
 
