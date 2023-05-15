@@ -17,11 +17,8 @@ set course_examiner_department  Department of Computer Science and Engineering
 set department                  Department of Computer Science and Engineering
 set subject                     Computer Science and Engineering
 set cover_art                   ./figures/cover.jpg
+set cover_art_description       Photo by Raphael Schaller, licensed under the Unsplash License.
 --------
-
-
-[const-decl cover_art_description]
-Photo by Raphael Schaller, licensed under the Unsplash License.
 
 [list-push authors](Eli Adelhult)
 [list-push authors](Gustav Bruhn)
