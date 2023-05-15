@@ -8,14 +8,14 @@ towards achieving this goal has been made.
 
 The successful compilation of this bachelor thesis demonstrates that the ModMark
 compiler is functioning as intended, and that the language itself is expressive
-and powerful. Nonetheless, it is important to acknowledge that both the design
+and powerful. Nevertheless, it is important to acknowledge that both the design
 and implementation of ModMark are not without their shortcomings. The remainder
 of this chapter will investigate to which extent the design ideals outlined in
 Section [reference](sec:aim) were realised. 
 
 ## Expressiveness (A1)
 [link "Aim A1"] aim:A1 is to make ModMark expressive enough to bridge the gap between lightweight
-languages and powerful typesetting systems like [latex](). We also stated that the
+languages and powerful systems like [latex](). We also stated that the
 language should be output agnostic. While the former is more subjective, the latter
 is a core property of the compiler presented in Chapter [reference](chp:implementation). 
 
@@ -23,7 +23,7 @@ The majority of ModMark's expressiveness comes from its packages and modules. It
 relies on these to provide functionality that is necessary to produce the desired
 document. The set of packages that is included in the standard bundle of ModMark
 goes a long way in enabling most kinds of writing. As was presented in Section
-[reference](sec:packages), they support figures, tables, and even a standalone bibliography
+[reference](subsec:stdpkg), they support figures, tables, and even a standalone bibliography
 and citation system. This is adequate for most parts of a typical academic report.
 However, the standard packages may not be enough when conforming to certain report standards.
 Sections such as cover page and title page are more cumbersome to reproduce in ModMark
@@ -49,8 +49,8 @@ The decision to make ModMark output agnostic has served us well in development. 
 the process of extending and fine tuning the output for both HTML and [latex](). Because the
 support for these was written exclusively as packages, the process should translate well
 to adding support for other formats. In practise, a package that provides fundamental support
-for a new format is relatively small in size and complexity and thus it is possible for
-individual users to add new output formats.  
+for a new format is relatively small in size and complexity. Therefore, it is possible for
+individual users to add support for new output formats.  
 
 ## Simplicity and syntax (A2)
 Another aim [link "A2"]aim:A2 in designing ModMark is simplicity. The language is intended to offer
@@ -60,17 +60,17 @@ more full featured typesetting systems such as [latex]() and Typst.
 Simplicity is highly subjective and very hard to evaluate in an objective manner.
 However, since ModMark aims to strike a balance between the simplicity of Markdown
 and the expressiveness of [latex]() we will offer a non-exhaustive comparison of
-syntax and features for common writing tasks in the three languages[note]{Note that there are many dialects of Markdown that offer different features, such as GitHub flavoured Markdown, John Grubers original Perl script and Pandoc Markdown. This comparison will use the CommonMark specification [cite](Commonmark).}. 
+syntax and features for common writing tasks in the three languages[note]{Note that there are many dialects of Markdown that offer different features, such as GitHub-flavoured Markdown, John Grubers original Perl script and Pandoc Markdown. These comparisons will use the CommonMark specification [cite](Commonmark).}. 
 
 ##### ==Headings==
 Headings in ModMark are very similar to Markdown with some subtle differences.
-No whitespace character after the hash sign is needed like in Markdown and the
+No whitespace character after the number sign is needed like in Markdown and the
 alternate syntax that uses equal signs or hyphens is not supported.
 See Figure [reference]{fig:headings} for a comparison.
 
 [fancy-image
-    alt="A table comparing the syntax for headings in ModMark, Markdown and LaTeX."
-    caption="Comparing the syntax for headings."
+    alt="A table comparing the syntax for headings in ModMark, Markdown, and LaTeX."
+    caption="Comparing the syntax for headings in ModMark, Markdown, and [latex]()."
     label="fig:headings"
 ]
 ./figures/headings_evaluation.svg
@@ -89,7 +89,7 @@ expressing those concepts.
 
 A potential downside of ModMark's approach is that the list of characters with
 special behaviour that users need to know about gets larger than for instance
-[latex]() where, almost, everything in text mode follows the convention of an
+[latex]() where, almost, everything in text mode follows the convention of a
 command prefixed with a backslash. It is also possible to argue that ModMark
 is needlessly verbose by always requiring four characters for tags but it helps
 to avoid confusion or ambiguity in situations with nested tags or prefixes
@@ -98,7 +98,7 @@ to avoid confusion or ambiguity in situations with nested tags or prefixes
 
 [fancy-image
     alt = "A table comparing the syntax for common inline text formatting options in ModMark, Markdown and LaTeX."
-    caption="Comparing the syntax for common inline text formatting options. Notice that HTML and MATHML is used for the situations where Markdown does not provide any concrete syntax."
+    caption="Comparing the syntax for common inline text formatting options in ModMark, Markdown, and [latex](). Note that HTML and MathML is used for situations where Markdown does not provide any concrete syntax."
     label="fig:tags"
 ]
 ./figures/tags_evaluation.svg
@@ -110,7 +110,8 @@ for a few more common elements such as images and links. [latex]() and ModMark
 on the other hand has a syntax that may be used for any arbitrary feature:
 ``\\commands[]{}`` and ``\[modules]``. It is debatable if ModMarks modules are
 easier to understand than the [tex]() macro system. Although ModMark has some
-potential benefits when it comes to auto generated documentation and editor integration.
+potential benefits when it comes to automatically generated documentation and 
+editor integration.
 
 The syntax for multi-line modules in ModMark is also shorter than the
 environments (``\\begin{something}``) found in [latex](). But ModMark has its own
@@ -125,8 +126,8 @@ handle nested structures examples such as this may confuse users:
 [code]{
 Some code
 
-This will not be part of the code block since
-'center' has no delimiter and is ended by the line break above.
+This will not be part of the code block since 'center' 
+has no delimiter and is ended by the line break above.
 }
 ))
 
@@ -135,7 +136,7 @@ This will not be part of the code block since
 One of the central ideas of ModMark is portability; a document written on one
 computer should still produce the same result if compiled on another computer,
 regardless of what packages are used. [link A3] aim:A3 formulates this as
-a concrete requirement, the same aim also states that the solution should offer
+a concrete requirement, and the same aim also states that the solution should offer
 package developers a lot of flexibility. At the core of our solution for
 A3 is the Wasmer WebAssembly runtime. It supports the major
 operating systems: Linux, Windows and macOS and also all common web browsers.
@@ -149,7 +150,7 @@ wish to extend the language, which is an essential criterion for the growth of
 the ModMark ecosystem. Development of the standard modules (all written in Rust)
 was relatively straightforward. However, Rust may not be a good benchmark for the
 typical experience of package development, since it works well with both WebAssembly
-and Wasmer and there are well established libraries for string serialisation (including JSON support). 
+and Wasmer and there are well-established libraries for serialisation (including JSON support). 
 
 A handful of the popular programming languages can be compiled into WebAssembly,
 although most do not have the same first class support that Rust does. A hurdle
@@ -158,14 +159,14 @@ the WebAssembly System Interface. To better evaluate this goal we have attempted
 in multiple programming languages:
 
 [list]
-* **Rust** [newline]() 13 different packages have been implemented in Rust. And as previously mentioned the developer experience using the rustc compiler and the ``wasm32-wasi`` target has been great. The ModMark CLI tool also supports generating new Rust packages with ``modmark init rust``.    
-* **C** [newline]() A template for using C and the Clang based Wasienv toolchain [cite](wasienv) is available using the ``modmark init c`` command. However, we have not implemented any larger packages in C since the language is far from ergonomic when it comes to string manipulation and JSON.
+* **Rust** [newline]() 13 different packages have been implemented in Rust. As previously mentioned, the developer experience using the rustc compiler and the ``wasm32-wasi`` target has been great. The ModMark CLI tool also supports generating new Rust packages with ``modmark init rust``.    
+* **C** [newline]() A template for using C and the Clang-based Wasienv toolchain [cite](wasienv) is available using the ``modmark init c`` command. However, we have not implemented any larger packages in C since the language is far from ergonomic when it comes to string manipulation and JSON.
 * **C++** [newline]() C++ also has support for the init command and can be used with the same Wasienv toolchain as C does. Additionally, a demo package called prettify has been implemented.
 * **AssemblyScript** [newline]() AssemblyScript, a sub-set of Typescript, is also supported by the ModMark init command and a demo package for using the Vigenère ciphers has been implemented. AssemblyScript has first-class WASM support but requires additional libraries for WASI support.  
 * **Go** [newline]() A demo package for rendering chess boards has been implemented and can be used with the TinyGo compiler. Compiling for WASM is very straight forward but sadly TinyGo does not support the entire Go standard library.  
-* **Zig**  [newline]() Zig has first-class support for WASM and WASI and a demo package for "röverspråket" has been implemented. However, since Zig is a very low-level low-level language it might not be very well suited for developing packages in practice. 
+* **Zig**  [newline]() Zig has first-class support for WASM and WASI and a demo package for "rövarspråket" has been implemented. However, since Zig is a very low-level language it might not be very well suited for developing packages in practice. 
 * **Swift** [newline]() Swift also has good WASM and WASI support and a package for generating lorem ipsum text has been written. The big downside of developing packages in Swift is the large runtime which leads to larger binary sizes.    
-* **Haskell** [newline]() We have also made unsuccessful attempts at implementing a package using the Haskell Glasgow Compiler, but their support is currently only a tech preview that is incompatible with Wasmer [cite]{ghc}.
+* **Haskell** [newline]() We have also made unsuccessful attempts at implementing a package using the Glasgow Haskell Compiler, but their support is currently only a tech preview that is incompatible with Wasmer [cite]{ghc}.
 
 To add even more nuance to the issue of supporting multiple languages, there is
 also a matter of performance. If users were to develop packages in languages
@@ -176,7 +177,7 @@ a large performance overhead and size. However, recent developments may remedy t
 issue. There is an active proposal for WebAssembly to add support for built-in garbage
 collection [cite]{wasm}. It includes a handful of features to reduce the size and
 increase the efficiency for use of high-level languages that use garbage collection,
-Javascript and Python included.
+JavaScript and Python included.
 
 There are some noteworthy downsides to using WebAssembly too. WASM and WASI are
 yet to allow functions that return more complex data types. Subsequently, the API
@@ -189,10 +190,10 @@ When comparing the portability to other languages, ModMark appears as a good opt
 nonetheless. Systems like [latex]() and Typst solve the issue of portability by having
 a fully Turing complete language that lets developers write packages directly in
 the document language itself. Another common approach is embedding a scripting language
-such as Lua that is used to create extensions. A notable downside to these approaches
-is that developers are restricted to a domain specific language they might not be
+such as Lua that is used to create extensions [cite](djot). A notable downside to these approaches
+is that developers are restricted to a domain-specific language they might not be
 familiar with. Moreover, they do not have access to the rich ecosystem of libraries
-that is often present in a general purpose programming languages and have to manually
+that is often present in a general-purpose programming languages and have to manually
 implement every feature themselves.
 
 ## Accessibility
@@ -200,7 +201,7 @@ Wang, Cachola, Bragg, //et al.// [cite](accessibility) discuss how PDFs are not
 accessible to everyone and have
 poor support for screen readers. They present a possible solution to this problem
 with a system that converts PDFs to more accessible HTML documents. While this is
-a good option a report written in ModMark could be converted directly to both a
+a good option, a report written in ModMark could be converted directly to both a
 PDF and an accessible HTML document if there is proper package support for it.
 
 As PDFs do not have much support for accessibility it is difficult to accommodate
@@ -208,7 +209,7 @@ everyone when generating [latex](). However, when generating HTML there are a lo
 of things that can be done to assist people with disabilities or other barriers.
 ModMark attempts to generate semantic HTML to give as much information as possible
 about the different parts of the documents. For example ``<figure>`` tags are
-used for images and plots. ``<table>`` is used for tables. Paragraphs are also
+used for images and plots, ``<table>`` is used for tables, and paragraphs are
 wrapped in ``<p>`` tags. The ``files`` package that is responsible for
 converting images will also give a compiler warning if no alt-text is given when
 converting to HTML.

@@ -1,7 +1,6 @@
 # The ModMark Langauge
 [label] chp:mml
 
-
 We present ModMark --- a new document markup language with a strong focus on
 modularity. It offers a lightweight syntax for common writing tasks such as
 headings, emphasised text and maths equations. Additionally, it provides a
@@ -18,7 +17,7 @@ ModMark is designed to be transcompiled into other, more common, formats such
 as HTML or [latex](). However, take note of the fact that the language itself is
 entirely agnostic of the output format. Due to the fact that the module system
 underpins the entire language, support for a new output format can be added by
-providing a new package that supports the transformation.
+providing a new package that supports that format.
 
 A short example of a document written in ModMark can be seen in Figure
 [reference](fig:modmarkExample). The rest of this chapter will explain the
@@ -36,8 +35,8 @@ figures/modmark_example.svg
 
 ## Headings
 
-The first line of a paragraph may be started by one or more hash signs ``#`` to
-declare that line as a heading. The number of hash signs used represents the
+The first line of a paragraph may start with one or more number signs ``#`` to
+declare that line as a heading. The number of number signs used represents the
 level of the heading. If a paragraph, for example, starts with the line
 ``## Heading``, it will become a heading at level 2. To recreate the beginning of 
 Chapter [reference](chp:mml) of this thesis in ModMark, one could write this:
@@ -49,7 +48,7 @@ language with a strong focus on modularity ...
 
 ## Headings
 The first line of a paragraph may be started 
-by one or more hash signs ...
+by one or more number signs ...
 }}
 
 When evaluating the document, the content of the heading is delegated to a
@@ -61,7 +60,7 @@ For example, the [latex]() package supports three levels of headings by outputti
 package supports six levels by outputting ``<h1>`` to ``<h6>``.
 
 ## Tags
-Tags are used to style text which is done by encasing content between a
+Tags are used to style text which is done by encasing content between an
 opening tag and closing tag. This allows formatted text to be expressed with
 similar simplicity to how it may be expressed in Markdown. Examples of such tags
 are ``**bold**`` and ``//italic//``.
@@ -73,7 +72,7 @@ behaviour. In some other cases, it does not make as much sense. Encasing content
 in ``$$`` will output it as math, but it does not make sense that ``**`` inside
 that tag would be treated as bold text. It is much more likely that those
 characters would refer to a mathematical operation than to apply formatting to
-the encasing content. For this case, some tags may allow nesting, meaning that
+the encasing content. For this reason, some tags may allow nesting, meaning that
 their content will be checked for additional tags, while some tags do not allow
 for nesting. The complete set of tags built-in to ModMark is listed in Table
 [reference](mm:tags), including their output and whether they allow for nesting. 
@@ -104,11 +103,11 @@ if the package declares that it may handle that tag or not.
 ## Smart punctuation
 [label] sec:smart_punc
 
-Smart punctuation is a feature of ModMark which replaces some characters or
-sequence of characters to some other character that may be more appropriate. For
-example, a sequence of three dots ``...`` gets replaced with the ellipsis
-character ..., and a sequence of two dashes ``--`` gets replaced with the endash
-character --. This makes it easier to write correct typographical characters.
+//Smart punctuation// is a feature of ModMark which replaces some characters
+with other characters that may be more appropriate. For example, a sequence of three 
+dots ``...`` gets replaced with the ellipsis character ..., and a sequence of two 
+dashes ``--`` gets replaced with the endash character --. This makes it easier to 
+write correct typographical characters.
 
 The full list of smart punctuation features available in ModMark is the following:
 
@@ -120,9 +119,8 @@ The full list of smart punctuation features available in ModMark is the followin
 * Three dots ``...`` gets replaced with the ellipsis character ...
 
 
-
-If smart punctuation is not desired in certain situations it can always be escaped using 
-a "\\" to revert to normal punctuation.
+Smart punctuation can be disabled by inserting an escape symbol (a backslash) before
+the characters.
 
 ## Modules
 
@@ -133,10 +131,9 @@ body of text for the module to capture. Modules may be used both inline from
 within a paragraph or by itself, spanning multiple lines.
 
 Inline modules are written with its name within square brackets, followed by the
-text to be captured. Text is captured up until the next space or line break. The
-expression ``\[link] https://modmark.org/`` is an expression for the ``link``
-module, containing the text ``https://modmark.org/``. This will, in turn, use a
-package supporting the ``link`` module to turn the expression to some output.
+text to be captured. The expression ``\[link] https://modmark.org/`` is an expression 
+for the ``link`` module, containing the text ``https://modmark.org/``. This will, in 
+turn, use a package supporting the ``link`` module to turn the expression to some output.
 
 Modules outside of paragraphs, so-called multiline modules, are written as if
 they were their own paragraph, with at least one empty row preceding and
@@ -160,9 +157,9 @@ wants to split the input text to different cells, possibly allow tags and
 modules within them.
 
 To make a module expression capture more text than it would by default,
-a //custom delimiters// is used. When using custom delimiter, the module
+a //custom delimiter// is used. When using a custom delimiter, the module
 expression captures text until a matching closing delimiter is found. To use a custom
-delimiter, put it right after the closing square bracket containing
+delimiter, it can be placed right after the closing square bracket containing
 the module name. Any non-alphanumeric character may be used as delimiter, and
 opening brackets use their corresponding closing bracket in the closing delimiter. This means that the
 expression ``\[math] x^2 + y^2`` used inline would only capture ``x^2``, since
@@ -186,7 +183,7 @@ fn print_elems(arr: &[u8]) {
 There are a couple of noteworthy points in this example. First of all, since
 this expression uses a custom delimiter, it captures text which includes a
 newline. Second of all, the code itself uses a lot of brackets in combination,
-such as ``])`` and ``]}``, but since the custom delimiter can be of any length,
+such as ``])`` and ``]}``. Since the custom delimiter can be of any length,
 one could always find a delimiter that does not collide with the content that is
 captured, and thus any content can be captured regardless of what it actually
 contains. Using either ``([`` or ``{[`` as delimiters would match closing
@@ -200,7 +197,7 @@ Arguments are passed to the module inside of the square brackets, and may or may
 not include the name of the argument. If an argument is unnamed it works as a
 positional argument, and these can not appear after named arguments. If the
 ``code`` module would take an argument ``lang``, both ``\[code rust]`` and
-``\[code lang=rust]`` would pass the value ``rust `` as the argument ``lang`` to
+``\[code lang=rust]`` would pass the value ``rust`` as the argument ``lang`` to
 the module. Here is another larger example of a module expression with argments,
 this time of an image:
 
@@ -209,7 +206,7 @@ this time of an image:
     alt     = "Black and white photo of Alonzo Church"
     caption = "Alonzo Church"
     label   = "fig:alonzo"
-    width   = "0.5"
+    width   = 0.5
 ]
 alonzo.jpg
 ---
@@ -218,9 +215,9 @@ alonzo.jpg
 [label] sec:packages
  A //package// is a WebAssembly program that
 adds additional features to your document. They add support for transforming
-modules, document templates or tags into one or more output formats. When a user
+modules, document templates, and/or tags into one or more output formats. When a user
 is in need of specific feature or want to add support for a new output format
-they can import a package that support those transforms. Packages are imported
+they can import a package that supports those transforms. Packages are imported
 using a special ``\[config]`` module found once at the very top of a file. For
 example, here is the source code for importing a package named ``prettify`` and
 then using a module with the same name.
@@ -234,34 +231,33 @@ Pretty text
 }}
 It is worth noting that every package also includes a manifest that declares
 what transform it provides but also additional information such as descriptions,
-arguments, and types. This makes it possible to auto generate documentation and
+arguments, and types. This makes it possible to automatically generate documentation and
 provide better compilation diagnostics. It also has the potential to be used for
 editor tooling like completions and hover-over suggestions.
 
 ### Standard packages
 [label] subsec:stdpkg
-Users expect to have a sensible set of defaults that allow them to start writing
+Users expect to have a sensible set of default packages that allow them to start writing
 documents without having to configure everything themselves --- this is why ModMark
-comes bundled with a collection of //standard// packages that support both HTML
-and [latex](), output. They are ordinary packages that help with common writing
+comes bundled with a collection of //standard packages// that support both HTML
+and [latex]() output. They are ordinary packages that help with common writing
 tasks but can easily be replaced if a user has other needs.
 
 This includes features such as bibliography management, images, lists and tables.
 An exhaustive list can be found on the projects online documentation:
 
-See: [link]{https://modmark.org/#/package-docs}
+[link]{https://modmark.org/#/package-docs}
 
 [comment](// to fix syntax highligher for now heh)
 
 ### Native packages
 [label] subsec:natpkg
 These previously mentioned external WASM packages may do anything with the input
-they receive, but some features require more control. For this reason,
+they receive, but some features require access to the compiler itself. For this reason,
 //native packages// exist to provide functionality not accessible by external
 packages. They are native in the sense that they are built-in to the ModMark
 compiler itself and thus has access to the compilers internal data structures
 and lives outside the external sandboxed WASM environment.
-
 
 Native packages only declare module transformations, examples of such modules
 are ``\[block_content]`` and ``\[inline_content]`` which allows other modules

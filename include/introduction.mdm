@@ -39,7 +39,7 @@ A term that is often used when discussing typesetting is //markup//. A markup
 language is typically defined to be a language that is used to structure and
 describe the format of text. This definition includes the previously mentioned
 Troff and [tex]() but also languages such as HTML and XML. The aim of these
-languages was not necessarily to be easy to use but to be precise. Over time, popularity has
+languages is not necessarily to be easy to use but to be precise. Over time, popularity has
 shifted towards more lightweight markup languages, designed to increase
 readability and convenience rather than focusing on maximum control of output.
 
@@ -47,19 +47,18 @@ A selection of popular and relevant markup languages are presented below,
 ordered by date of release.
 
 ##### ==[latex]()==
-
 Leslie Lamport developed [latex]() (short for Lamport [tex]()) in the 1980s
-[cite]{Latex}. It includes many useful macros that allows users to easier create
-documents adding images, headings etc. without worrying about the low-level
+[cite]{Latex}. It includes many useful macros that ease the process of adding 
+images, headings, etc. to documents without worrying about the low-level
 typesetting primitives. While this added a layer of convenience, the language is
 still quite verbose in comparison to more recent markup languages.
 
 ##### ==reStructuredText==
-In 2001, the first version of reStructuredText, or reST for short, was released
-[cite](rest). Since its release it has been adopted by the Python community for
-language documentation. It features syntactic sugar for formatting such as bold
-and italic, lists and tables. Additionally it allows users to write custom
-blocks in Python to extend the functionality.
+The first version of reStructuredText, or reST for short, was released
+in 2001 [cite](rest). Since its release it has been adopted by the Python community for
+language documentation. It features syntactic sugar for formatting such as bold, italic, 
+lists and tables. Additionally it allows users to write custom blocks in Python to extend 
+the functionality.
 
 ##### ==AsciiDoc==
 AsciiDoc first arrived just a year after reST [cite]{AsciiDoc}, with a newer
@@ -77,7 +76,7 @@ use programming languages to generate output.
 
 [fancy-image
     alt="Code for producing some headings, paragraphs, and a link, in both reST and AsciiDoc"
-    caption="Source code for producing two headings, two paragraphs and a link in reStructuredText and AsciiDoc"
+    caption="Source code for producing two headings, two paragraphs and a link in reStructuredText and AsciiDoc."
     label=fig:asciidoc_rest_example
     width=.9
     ]
@@ -120,20 +119,20 @@ document converters have emerged. Tools like these are meant to provide yet
 another layer of convenience for the user, and in particular improve the
 accessibility of markup languages.
 
-One of the most popular tools in markup is Pandoc [cite]{pandoc}. Pandoc was
+One of the most popular document converters is Pandoc [cite]{pandoc}. Pandoc was
 released in 2006 and created by John MacFarlane. It allows users to write a
 document in one markup language and automatically convert it into other
 languages. In fact, all of the previously presented languages are (to some
-extent) supported by the tool [cite]{pandoc}, [cite]{djot}.
+extent) supported by the tool [cite]{djot}, [cite]{pandoc}.
 
 Another tool is Aurelio Jargas' txt2tag [cite]{txt2tags}, which was released in
 2001. It is described as a document generator and functions slightly differently
 from Pandoc. Unlike Pandoc it does not support other markup languages as input.
 Instead, it uses minimal markup that was designed to simplify both
 implementation and usage. The primary features of this minimal markup are
-headers, tags (such as bold and italic), lists, tables and images. From this
-point it works similarly to Pandoc; it can convert the input to a variety of
-markup languages.
+headers, tags (such as bold and italic), lists, tables and images. In terms of
+output, it works similarly to a document converter by converting the input to a 
+variety of markup languages.
 
 ### The current state of markup
 Among the languages presented in Section [reference]{sec:markup-languages},
@@ -148,7 +147,7 @@ common in Internet forums and in programming documentation to provide simple
 formatting. When comparing Markdown and [latex](), they quickly appear very
 different. A comparative example for [latex]() and Markdown can be found in
 Figure [reference]{fig:latexMarkdownExample}, which illustrates the difference
-in verbosity and capability.
+in verbosity.
 
 [fancy-image
     alt = "Code producing two headings and two paragraphs in LaTeX and Markdown"
@@ -174,7 +173,7 @@ compiler was written in.
 One can argue that these customisable markup languages would benefit from
 supporting more programming languages, as this would increase the reach and
 availability of their ecosystem. A recent technology that is capable of
-approaching this is WebAssembly, or WASM [cite] wasm for short. WASM is an
+approaching this is WebAssembly, or WASM for short [cite](wasm). WASM is an
 instruction format for a virtual machine that is embedded in all modern web
 browsers. Many programming languages support WASM as a compilation target,
 including C, C++, Swift and Rust. Using a virtual machine allows for
@@ -183,13 +182,13 @@ binaries that run close to native speed in all platforms supported by the
 browser.
 
 However, WASM has also shown to be useful outside of browsers. Running WASM
-without browsers can be achieved using runtimes such as Wasmer [cite] Wasmer and
+outside of browsers can be achieved using runtimes such as Wasmer [cite](Wasmer) and
 Wasmtime [cite]{Wasmtime}. These runtimes can be embedded in other applications
 to offer a portable way of running arbitrary code in a sandboxed environment.
 In addition to this, these runtimes implement WebAssembly System Interface
 (WASI) to provide an interface to the underlying system [cite]{WASI}. This
-enhances the capabilities of the program to allow for disk I/0, environment
-variables and more.
+enhances the capabilities of the program to allow for disk I/O, environment
+variables, and more.
 
 WebAssembly presents an opportunity for markup languages to support many
 programming languages while still being platform independent. This is crucial not only
@@ -205,7 +204,7 @@ language should be suited for both note-taking and academic writing.
 There is already a plethora of existing languages with the same goal in mind,
 but we explore a different set of trade-offs. The hope is to find a good middle
 ground between lightweight markup languages, such as Markdown, and more complex
-typesetting systems, such as [latex]().
+systems, such as [latex]().
 
 The following bullet points summarise the three main design goals of ModMark.
 
@@ -257,12 +256,12 @@ Section [reference]{sec:aim} as a part of A1, but in practise this means
 designing the bundled version of the final layer to target those formats. Given
 the modularity of ModMark, this can easily be extended to include other formats.
 
-There are also limitations in regards to the types of document that are possible
+There are also limitations in regards to the types of documents that are possible
 to produce. A main goal for the project was the ability to write this thesis in
 ModMark. This naturally drew focus towards elements such as figures and
 references. Overall the project has aimed to target web documentation and
 report-like documents, which covers only a fraction of the possible types of
-output. Although, the modularity of the language allows for more document types.
+documents. Although, the modularity of the language allows for more document types.
 
 During the course of the project there has also been a trade-off between
 developing the language itself and developing the surrounding tools. The tools are

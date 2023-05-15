@@ -9,17 +9,17 @@ written in the language into other more commonly used formats such as HTML or
 [latex](). This is what a compiler is used for.
 
 To translate ModMark into other formats, we implemented a compiler using the
-Rust programming language. We also utilised the Wasmer [cite] Wasmer WebAssembly
- runtime to run the previously mentioned external packages.
+Rust programming language. We also utilised the Wasmer WebAssembly
+runtime [cite](Wasmer) to run the previously mentioned external packages.
 
 This chapter presents the development process, technical details and relevant
- design considerations for the implementation of the compiler and other language
- related tooling. Figure [reference] fig:overview gives an overview of the
- compilation process which is explained in the rest of this chapter.
+design considerations for the implementation of the compiler and other language
+related tooling. Figure [reference] fig:overview gives an overview of the
+compilation process which is explained in the rest of this chapter.
 
 [fancy-image
     alt = "A block diagram describing how source text passes through the parser and then to the scheduler whereupon different packages iterate on the document until it is completed."
-    caption = "A high-level overview of the compilation pipeline showing how source text is transformed through multiple intermediate formats, iteratively evaluated in packages and then finally results in some output text in another other format (such as HTML or [latex]())."
+    caption = "A high-level overview of the compilation pipeline showing how source text is transformed through multiple intermediate formats, iteratively evaluated by packages which finally results in some output text in another other format (such as HTML or [latex]())."
     width = 1
     label = fig:overview
     ]
@@ -39,13 +39,13 @@ restrictive workflow.
 Our workflow was based on GitHub's [cite](github) issues and pull request system. We
 established a set of conventions for commit messages and branch
 naming to avoid confusion. Whenever a bug was encountered or a new feature was
-discussed an issue describing the bug or feature would be created so that there
+discussed, an issue describing the bug or feature would be created so that there
 is a clear list of tasks that are available.
 
 We held weekly meetings to prioritise and coordinate the workload, usually by
-assigning group members to certain issues. When an issue was completed a pull
+assigning group members to certain issues. When an issue was completed, a pull
 request was opened so that other members could review the code. After being
-approved the branch was rebased into the main branch. Rebasing was chosen
+approved, the branch was rebased into the main branch. Rebasing was chosen
 instead of merging to get a clean commit history without merge commits.
 
 Table [reference](tab:loc) lists all subsystems developed during the project along with
@@ -76,15 +76,15 @@ Website                 | TypeScript    | 10      | 1 757
                         | JavaScript    | 1       | 94
 Demo packages           | Zig           | 2       | 188
                         | Go            | 2       | 280
-                        | Swift         | 3       | 268
+                        | Swift         | 2       | 268
                         | AssemblyScript| 1       | 180
                         | C++           | 1       | 147
-**Total**               |               | **352** | **23 483**    
+**Total**               |               | **351** | **23 483**    
 
 ## Parsing
 [label] sec:parser
-The first step of a compilation is parsing. Parsing is the process of
-transforming the original source text into a so-called abstract syntax tree
+The first step of compiling a document is parsing. Parsing is the process of
+transforming the original source text into an //abstract syntax tree//
 (AST). In practise, this process means distinguishing different parts of the
 source text and storing them in data structures that contain relevant
 information. Structuring the information in such a tree makes it easier for the
@@ -105,7 +105,7 @@ The ModMark compiler uses a parsing technique called combinatory parsing. Parser
 combinator libraries use an embedded domain specific language approach and offer
 a small set of primitive parsers that can be combined into larger parsers, often
 in the form of ordinary functions that simply consume parts of the input
-[cite "p. 252--254"]{parsercombinator}. In this in this particular case the Rust
+[cite "p. 252--254"]{parsercombinator}. In this particular case the Rust
 library Nom [cite] nom was used.
 
 The parsing step in the ModMark compiler is performed by an isolated library
@@ -119,7 +119,7 @@ addition to this, the parser retrieves information from a document configuration
 module and passes this to the later stages of compilation.
 
 ## Element-tree conversion
-Once the parser has produced an abstract syntax tree the next step in the
+Once the parser has produced an abstract syntax tree, the next step in the
 compilation chain is translating it into a more useful intermediate
 representation --- what we call an //element tree//. Each constituent of the
 document, including paragraphs, headings, images, and other entities, is
@@ -178,7 +178,7 @@ enum Element {
 
 [fancy-image
     alt = "Text about a weather updated being parsed to an AST and converted to an element tree"
-    caption = "Some source text that has first been parsed into a AST and then converted into a element tree."
+    caption = "Some source text that has first been parsed into an AST and then converted into an element tree."
     width = 0.7
     label = fig:weather
     ]
@@ -208,15 +208,15 @@ elements, making it difficult to determine which elements should be included in
 the table of contents. This means that you can have a ``\[mystery]`` module that
 later, when being transformed, happens to contain yet another heading that the
 table of contents module must take into consideration. This issue is not unique
-to headings either, this same problem arises in other situations where shared
+to headings either, the same problem arises in other situations where shared
 state is needed e.g. figures, imports, references etc.
 
 There are multiple ways to address issue, [latex]() for example simply
 requires the document to be compiled multiple times to resolve these so-called
 cross-references [cite "p. 36"]{boblatex}. The ModMark compiler solves this
 issue using a different approach. The compiler includes a variable system that
-tracks which elements access what variables and the order dependencies between
-them. Packages define which variables each element needs to access. Variables
+tracks which element accesses what variables and the dependencies between
+them. Packages define which variables each element needs access to. Variables
 can then be read and written to using six modules that are native to the
 language; these modules are listed in Figure [reference]{fig:variables}. Because
 external packages are run using WASI in a similar fashion to command-line
@@ -240,7 +240,7 @@ sorted.
 
 [fancy-image
     alt = "A table of content followed by three headings, which are converted to one node for each, with dependencies drawn inbetween them"
-    caption = "A example of a DAG. Note that all dependencies (edges) in this example are caused by list push operations to a //headings// variable. Push operations are required to be performed in the same order as they appear in the source text and this is why the headings depend on each other too."
+    caption = "An example of a DAG generated by the scheduler. Note that all dependencies (edges) in this example are caused by list push operations to a //headings// variable. Push operations are required to be performed in the same order as they appear in the source text and this is why the headings depend on each other too."
     width = 0.8
     label = fig:dag
     ]
@@ -258,11 +258,10 @@ works by repeatedly removing vertices that have no incoming edges.
 [label] sec:transforming
 Transforming takes place during the evaluation process, where the parsed element
 is transformed into the chosen output format. When an element is to be
-transformed as determined by the scheduler, the name of the element is looked up
-in a map to find what packages is responsible for the transform and some other
-related information. As previously mentioned in Section [reference]{sec:packages},
-the package that transforms the element may either be a native package or a
-WebAssembly program.
+transformed, as determined by the scheduler, the name of the element is looked up
+in a map to find what package is responsible for the transform. As previously 
+mentioned in Section [reference]{sec:packages}, the package that transforms the 
+element may either be a native package or a WebAssembly program.
 
 If the transform is provided by a native package, it means that the
 implementation is written in Rust and is included in the compiler itself. If the
@@ -270,7 +269,7 @@ package instead is a WASM file, the compiler needs to run it in a WASM runtime.
 Since programs using the WebAssembly System Interface (WASI) behaves very much
 like command-line applications, ModMark supplies the element name and the target
 output format as arguments to the program, and passes the rest of the element
-serialised as a JSON string to ``stdin``.
+serialised as JSON to ``stdin``.
 
 Once the package has received information about the element, it executes the
 transform and generates a number of new elements as output. The elements are
@@ -283,10 +282,9 @@ exit code, very much like a conventional command-line program would.
 There is a multitude of WebAssembly runtimes available for use outside of the
 browser. The ModMark compiler uses Wasmer, which has its own interpreter which
 is used in combination with a compiler back-end, Cranelift and LLVM being the
-most note-worthy. Currently, our compiler uses Cranelift which is a Rust
-compiler framework often used in the WASM ecosystem, it is generally found to
-have faster compile-speeds than LLVM but less optimised output
-[cite]{cranelift_vs_llvm}.
+most note-worthy. The ModMark compiler uses Cranelift, a Rust compiler framework 
+often used in the WASM ecosystem, which is generally found to have faster 
+compile-speeds than LLVM but less optimised output [cite]{cranelift_vs_llvm}.
 
 An advantage of Wasmer over other options is that it also can use the browser's
 built-in runtime if targeting the web. This reduces the binary size for
@@ -331,10 +329,9 @@ Aside from the command-line interface there is also a web playground
 (seen in Figure [reference]{fig:playground}) that allows users to easily test
 ModMark without having to download anything. The playground uses the same
 compiler as the rest of the project but is built to WebAssembly and comes with
-accompanying auto generated JavaScript bindings. Two versions of the playground
-has been built during the project, one only using ordinary JavaScript and a
-later effort has been put in making a more full featured version using the
-popular React library.
+accompanying automatically generated JavaScript bindings. Two versions of the 
+playground has been built during the project, one only using ordinary JavaScript 
+and another more full-featured version using the JavaScript library React.
 
 [fancy-image
     alt = "A screenshot of the web playground with a reproduction of the Wikipedia article about Ada Lovelace."
@@ -348,10 +345,10 @@ The playground has many features that have been helpful when developing ModMark.
 The text written in the playground can of course be converted to any output
 like HTML and [latex](), but there is also an option to see the AST
 representation of the text which can be very helpful when debugging. The
-playground also has support for auto generating documentation for any package,
-a example of this can be found in Figure [reference]{fig:docs}. Finally, there
-is virtual file system with an accompanying file browser that allows users to
-upload files such as images to use in their document.
+playground also has support for displaying automatically generated documentation 
+for any package, an example of this can be found in Figure [reference]{fig:docs}. 
+Finally, there is virtual file system with an accompanying file browser that allows 
+users to upload files such as images to use in their document.
 
 [fancy-image
     alt = "A list of packages and transforms contained within, that is loaded in the playground"
@@ -382,16 +379,16 @@ achieve this, we have included a package resolution protocol in the compiler,
 allowing users to provide a path to the packages they want to use. An integrated
 proof of concept package manager (found in both the command-line tool and on the
 web) then communicates with the compiler and provides any missing packages by
-asynchronously downloading them from  the Internet and then caches them locally.
+asynchronously downloading them from the Internet and then caches them locally.
 
 Our protocol is inspired by the Deno JavaScript runtime [cite] denospecifier and
-uses a so-called //specifier// as prefix to the path in order to inform the
+uses a //specifier// as prefix to the path in order to inform the
 package manager where to find the desired packages. See Figure
 [reference] fig:imports for an example.
 
 [fancy-image
     alt = "Packages loaded firstly from a local file, then from an URL, then from the catalog, and lastly from the standard packages"
-    caption = "A config module with import statements with different paths. The specifier is highlighted in purple."
+    caption = "A configuration module with import statements with different paths. The specifier is highlighted in purple."
     width = 0.7
     label = fig:imports
     ]
@@ -431,9 +428,6 @@ project includes the following test suites:
     checked, ensuring that argument names, value types and default values are
     valid, and that variables and variables referencing arguments are valid.
 
-[comment]
-%There are tests for the parser which contain an example document and the expected parse output of that document. Running these tests passes the example documents to the parser one by one and the result retrieved from the parser is compared to the expected result, and if they match, the test passes. This ensures that the parser is working correctly for those test cases, and if changes are done to the parser, the tests may catch if something changes in a way that breaks functionality.
-%There are also tests for many of the included standard packages. The package tests contains example input to the package and the expected result of the package. When testing the packages, which are command-line programs written in Rust, the packages are compiled and all the test cases are passed to them one by one. The result of passing the test case to the package is compared to the expected result, and if they match, the test passes. This ensures that any changes to the packages does not break the intended functionality
 
 In addition to CI, a related term is continuous deployment (CD) which is the
 practise of continuously release deployments of code which is in development.
@@ -443,10 +437,9 @@ published version of the code are made, GitHub Actions compiles the code into a
 web page and publishes it online. When a pull request is made or is updated,
 the playground is also compiled with the code contained in the pull request,
 and the playground is published to be able to preview the changes. During the
-development of this project, there have been over 500 previews deployed and over
-100 deployments of the published version of the code.
+development of this project, there have been over 650 previews deployed and over
+120 deployments of the main branch.
 
-[comment]% Denna delen kanske passar bättre i diskussionen?%
 Both the continuous integration and continuous deployment has been central in
 the development of this project. When a pull request is made to propose code
 changes, the continuous integration procedures automatically ensure that none of
