@@ -11,7 +11,7 @@ and improve ModMark in the future.
 ModMark has been successfully implemented as evident by the fact that this
 document is written in ModMark. The aims set for the project in Section [reference](sec:aim) 
 have been reached as described in Chapter [reference](chp:evaluation). While the language is not perfect the flexible
-and expressive package system utilizing WebAssembly allows for many interesing possibilites.
+and expressive package system utilising WebAssembly allows for many interesing possibilites.
 
 The fact that the online playground and CLI run on exactly the same code
 demonstrates that WASM can be used to create complex portable applications. Embedding
@@ -29,7 +29,7 @@ be new approaches available.
 
 ## Future work
 ModMark will continue to be developed beyond the scope of this bachelor's thesis
-project. The compiler is released as free and open source software[note]{Licensed under the Apache License 2.0.}
+project. The compiler is released as free and open source software[note]{Licenced under the Apache Licence 2.0.}
 and we welcome new contributors. Due to the modular nature of the language most
 missing features can be implemented in the form of third-party packages. However,
 there are some noteworthy topics closely tied to the language design or compiler
