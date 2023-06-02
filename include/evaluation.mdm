@@ -54,7 +54,7 @@ Section [reference](sec:furtherreading).
 
 [fancy-image
     alt="Three example documents written in ModMark"
-    caption="Three example documents written in ModMark, the first one containing lecture notes, the second one being an article about the chess opening //Three Knights Game//, and the third one being this thesis."
+    caption="Three example documents written in ModMark, the first one containing lecture notes, the second one being an article about the chess opening //Three Knights Game//, and the third one being this thesis. The second article uses material from the Wikipedia article [link label=Three](https://en.wikipedia.org/wiki/Three_Knights_Game) [link label=Knights](https://en.wikipedia.org/wiki/Three_Knights_Game) [link label=Game](https://en.wikipedia.org/wiki/Three_Knights_Game), which is released under the [link label=Creative](https://creativecommons.org/licenses/by-sa/3.0/) [link label=Attribution-Share-Alike](https://creativecommons.org/licenses/by-sa/3.0/) [link label=License](https://creativecommons.org/licenses/by-sa/3.0/) [link label=3.0](https://creativecommons.org/licenses/by-sa/3.0/)."
     label="fig:threetests"
 ]
 ./figures/threetests.png

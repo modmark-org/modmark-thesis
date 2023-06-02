@@ -340,7 +340,7 @@ and another more full-featured version using the JavaScript library React.
 
 [fancy-image
     alt = "A screenshot of the web playground with a reproduction of the Wikipedia article about Ada Lovelace."
-    caption = "A screenshot of the web playground with a reproduction of the Wikipedia article about Ada Lovelace."
+    caption = "A screenshot of the web playground with a reproduction of the Wikipedia article about Ada Lovelace. This screenshot uses material from the Wikipedia article [link label=Ada](https://en.wikipedia.org/wiki/Ada_Lovelace) [link label=Lovelace](https://en.wikipedia.org/wiki/Ada_Lovelace), which is released under the [link label=Creative](https://creativecommons.org/licenses/by-sa/3.0/) [link label=Attribution-Share-Alike](https://creativecommons.org/licenses/by-sa/3.0/) [link label=License](https://creativecommons.org/licenses/by-sa/3.0/) [link label=3.0](https://creativecommons.org/licenses/by-sa/3.0/)."
     width = 1
     label = fig:playground
     ]
