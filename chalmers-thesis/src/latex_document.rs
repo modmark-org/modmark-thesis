@@ -292,10 +292,11 @@ fn create_imprint_page(settings: &DocSettings) -> String {
         &settings
             .authors
             .iter()
-            .map(|name| {
+            .enumerate()
+            .map(|(i, name)| {
                 format!(
                     r#"{name} \setlength{{\parskip}}{{1cm}}"#,
-                    name = name.replace(" ", "~")
+                    name = name.replace(" ", "~") + if i % 4 == 3 { r"\\" } else { "" }
                 )
             })
             .collect::<Vec<_>>()
