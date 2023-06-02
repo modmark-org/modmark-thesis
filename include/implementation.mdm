@@ -271,8 +271,8 @@ element may either be a native package or a WebAssembly program.
 If the transform is provided by a native package, it means that the
 implementation is written in Rust and is included in the compiler itself. If the
 package instead is a WASM file, the compiler needs to run it in a WASM runtime.
-Since programs using the WebAssembly System Interface (WASI) behaves very much
-like command-line applications, ModMark supplies the element name and the target
+Since programs using the WebAssembly System Interface (WASI) behaves much
+like command-line program, ModMark supplies the element name and the
 output format as arguments to the program, and passes the rest of the element
 serialised as JSON to ``stdin``.
 

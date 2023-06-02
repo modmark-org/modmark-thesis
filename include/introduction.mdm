@@ -205,9 +205,8 @@ language should be suited for both note-taking and academic writing.
 There is already a plethora of existing languages with the same goal in mind,
 but we explore a different set of trade-offs. The hope is to find a good middle
 ground between lightweight markup languages, such as Markdown, and more complex
-systems, such as [latex]().
-
-The following bullet points summarise the three main design goals of ModMark.
+systems, such as [latex](). The following bullet points
+summarise the three main design goals of ModMark.
 
 [list]----
 * **[target aim:A1]"A1". Expressive and modular** [newline]()
