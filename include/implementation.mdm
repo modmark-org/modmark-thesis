@@ -216,7 +216,7 @@ table of contents module must take into consideration. This issue is not unique
 to headings either, the same problem arises in other situations where shared
 state is needed e.g. figures, imports, references etc.
 
-There are multiple ways to address the issue, [latex]() for example simply
+There are multiple ways to address the issue, [latex]() for example
 requires the document to be compiled multiple times to resolve these so-called
 cross-references [cite "p. 36"]{boblatex}. The ModMark compiler solves this
 issue using a different approach. The compiler includes a variable system that
