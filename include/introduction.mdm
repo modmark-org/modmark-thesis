@@ -121,11 +121,11 @@ accessibility of markup languages.
 
 One of the most popular document converters is Pandoc [cite]{pandoc}. Pandoc was
 released in 2006 and created by John MacFarlane. It allows users to write a
-document in one markup language and automatically convert it into other
+document in one markup language and automatically convert it to other
 languages. In fact, all of the previously presented languages are (to some
 extent) supported by the tool [cite]{djot}, [cite]{pandoc}.
 
-Another tool is Aurelio Jargas' txt2tag [cite]{txt2tags}, which was released in
+Another tool is Aurelio Jargas' txt2tags [cite]{txt2tags}, which was released in
 2001. It is described as a document generator and functions slightly differently
 from Pandoc. Unlike Pandoc it does not support other markup languages as input.
 Instead, it uses minimal markup that was designed to simplify both
@@ -141,8 +141,7 @@ corporations and communities. For example, AsciiDoc was used to document Git
 [cite]{gitdocs}, and reST is still used for Python's documentation
 [cite]{sphinx}.
 
-However, when it comes to personal use, Markdown and [latex]() are very
-dominant. [latex]() sees wide usage in academic writing, while Markdown is
+However, when it comes to personal use, Markdown and [latex]() are more prominent. [latex]() sees wide usage in academic writing, while Markdown is
 common in Internet forums and in programming documentation to provide simple
 formatting. When comparing Markdown and [latex](), they quickly appear very
 different. A comparative example for [latex]() and Markdown can be found in
@@ -163,7 +162,7 @@ also makes editor integration and error handling less pleasant. On the other
 hand, Markdown's simplicity can be limiting for more demanding use cases.
 
 While customisation in [latex]() is more accessible than that of [tex](), it
-requires users to learn niche design patterns nonetheless. The newer languages
+requires users to learn niche design patterns nonetheless. Newer languages
 like AsciiDoc and Djot generally allow users to write extensions in programming
 languages instead. However, these are often limited to the language their
 compiler was written in.
@@ -254,7 +253,7 @@ Instead, source code is transcompiled into another popular format, similar to
 Markdown's approach. We chose to focus on HTML and [latex](), because they give
 ModMark ample control of the final output while also being widely used and
 supported. This may seem to contradict the output agnosticism mentioned in
-Section [reference]{sec:aim} as a part of A1, but in practise this means
+Section [reference]{sec:aim} as a part of [link "A1"](aim:A1), but in practise this means
 designing the bundled version of the final layer to target those formats. Given
 the modularity of ModMark, this can easily be extended to include other formats.
 
@@ -281,5 +280,5 @@ overview of the syntax and the ideas behind packages. Following that, Chapter
 method and implementation used to realise our prototyped language. An evaluation
 of the results can be found in Chapter [reference](chp:evaluation)
 //Evaluation//, where we discuss how well our aims were achieved. Lastly,
-Chapter [reference](chp:conclusion) discusses the current state of our language,
+Chapter [reference](chp:conclusion) //Conclusion// discusses the current state of our language,
 conclusions and potential improvements as well as further reading.

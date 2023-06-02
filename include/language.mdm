@@ -10,7 +10,7 @@ depending on the users needs.
 Packages are independent WebAssembly programs that, amongst other things, add
 support for additional //modules//. Modules are a way of using a general syntax
 to include other elements in a document, such as images and code. They can also
-be used for more complicated elements that required a nested structure, such as
+be used for more complicated elements that require a nested structure, such as
 tables and lists.
 
 ModMark is designed to be transcompiled into other, more common, formats such
@@ -51,10 +51,10 @@ The first line of a paragraph may be started
 by one or more number signs ...
 }}
 
-When evaluating the document, the content of the heading is delegated to a
+When compiling the document, the content of the heading is delegated to a
 package which declares that it may transform a heading to the desired output
 format. The headings will be transformed at the discretion of that package, and
-the limit of how many heading levels are allowed depends solely on that package.
+the limit of how many heading levels are allowed depends solely on the package.
 For example, the [latex]() package supports three levels of headings by outputting
 ``\\section{}``, ``\\subsection{}`` and ``\\subsubsection{}``, while the HTML
 package supports six levels by outputting ``<h1>`` to ``<h6>``.
@@ -233,7 +233,7 @@ It is worth noting that every package also includes a manifest that declares
 what transform it provides but also additional information such as descriptions,
 arguments, and types. This makes it possible to automatically generate documentation and
 provide better compilation diagnostics. It also has the potential to be used for
-editor tooling like completions and hover-over suggestions.
+editor tooling like completions and hover-over descriptions.
 
 ### Standard packages
 [label] subsec:stdpkg
@@ -259,7 +259,7 @@ packages. They are native in the sense that they are built-in to the ModMark
 compiler itself and thus has access to the compilers internal data structures
 and lives outside the external sandboxed WASM environment.
 
-Native packages only declare module transformations, examples of such modules
+Native packages only include module transformations, examples of such modules
 are ``\[block_content]`` and ``\[inline_content]`` which allows other modules
 to include nested structures by parsing a part of the document again. Two more
 examples are ``\[error]`` and ``\[warning]`` that are used to produce errors and

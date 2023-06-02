@@ -32,7 +32,7 @@ a balance between the simplicity of Markdown and the power of [latex]().
 It can be used in both a web playground and via the command-line.
 ModMark utilises the capabilities of WebAssembly and the WebAssembly System Interface,
 allowing for a extensible markup language that can be customised to fit the needs
-of specific use cases. ModMark allows users to easily create and manage custom packages
+of specific use cases. ModMark allows users to create and manage custom packages
 that can be added to their documents to enhance functionality, while still maintaining
 a straightforward and intuitive syntax. Furthermore, the modularity of ModMark also
 enables users to write packages that add support for any output format they desire.
@@ -43,7 +43,7 @@ to produce this bachelor's thesis.
 Vi presenterar ModMark -- ett nytt modulärt markup-språk vars mål är att ge en balans
 mellan enkelheten i Markdown och kraften av [latex](). Det kan användas både i en webb-miljö och via kommandotolken.
 ModMark nyttjar teknikerna WebAssembly och WebAssembly System Interface,
-vilket möjliggör för ett utökningsbart markup-språk som kan anpassas till specifika användningsfall.
+vilket möjliggör ett utökningsbart markup-språk som kan anpassas till specifika användningsfall.
 ModMark gör det möjligt för användare att enkelt skapa och hantera anpassade paket som kan läggas till i deras
 dokument för att förbättra funktionaliteten, samtidigt som man behåller en enkel och intuitiv syntax. Dessutom
 möjliggör ModMarks modularitet även användare att skriva paket som lägger till stöd för det utdataformat de vill ha.
