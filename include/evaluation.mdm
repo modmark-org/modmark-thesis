@@ -154,7 +154,7 @@ computer should still produce the same result if compiled on another computer,
 regardless of what packages are used. [link A3] aim:A3 formulates this as
 a concrete requirement, and the same aim also states that the solution should offer
 package developers a lot of flexibility. At the core of our solution for
-A3 is the Wasmer WebAssembly runtime. It supports the major
+[link A3](aim:A3) is the Wasmer WebAssembly runtime. It supports the major
 operating systems: Linux, Windows and macOS and also all common web browsers.
 There were also recent improvements to their chipset support. Version 3.2 of Wasmer
 added RISC-V to the list of chipsets that is supported by both Cranelift and LLVM,
